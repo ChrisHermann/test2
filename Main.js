@@ -1,6 +1,6 @@
 // Global constants:
-var PLAYGROUND_WIDTH    = 700;
-var PLAYGROUND_HEIGHT    = 250;
+var PLAYGROUND_WIDTH    = 1000;
+var PLAYGROUND_HEIGHT    = 1000;
 var REFRESH_RATE        = 30;
 
 //Constants for the gameplay
@@ -20,7 +20,6 @@ $(function(){
     // Animations declaration: 
     // The background:    
 	
-	
     var background1 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background1.png"});
     var background2 = new $.gameQuery.Animation({
@@ -33,14 +32,24 @@ $(function(){
         imageURL: "http://gamequeryjs.com/demos/3/background5.png"});
     var background6 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background6.png"});
-    var Card = new $.gameQuery.Animation({
+		
+		var Face = new Array();
+		Face[0] = new $.gameQuery.Animation({
         imageURL: "http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png"});
-
+		Face[1] = new $.gameQuery.Animation({
+        imageURL: "http://www.madore.org/~david/images/cards/english/king-hearts.png"});
+		Face[2] = new $.gameQuery.Animation({
+        imageURL: "http://www.madore.org/~david/images/cards/english/jack-hearts.png"});
+		Face[3] = new $.gameQuery.Animation({
+        imageURL: "http://us.123rf.com/400wm/400/400/rbwinston/rbwinston1203/rbwinston120300001/12586605-king-of-spades-individual-playing-card--an-isolated-vector-illustration-of-a-classic-face-card.jpg"});
+		
+		
     // Initialize the game:
     $("#playground").playground({
         height: PLAYGROUND_HEIGHT, 
         width: PLAYGROUND_WIDTH, 
-        keyTracker: true});
+        keyTracker: true,
+		mouseTracker: true});
 
     // Initialize the background
     $.playground()
@@ -67,24 +76,102 @@ $(function(){
                                    width: PLAYGROUND_WIDTH, 
                                    height: PLAYGROUND_HEIGHT, 
                                    posx: PLAYGROUND_WIDTH})
-    
-    
+								   
+    //Setup Card data so they can be reached randomly
+	var Vals = new Array();
+	var Turned = 0;
+	var TurnedMax = 2;
 	
-	for (var i = 0; i < 10; ++i)
+    for (var i = 0; i < 6; ++i)
 	{
-		var name = "Card_"+i;
+		Vals[i] = Math.floor(i/2) + 1;
+	}
+	
+	//Generate the actual Cards
+	
 		$.playground()
 		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
-		.addSprite(name, {animation: Card, width: 208, height: 303, posx:i*5, posy:5});
+	
+	for (var i = 0; i < 6; ++i)
+	{
+		var name = "Card_"+i;
+		var r = Math.floor(Math.random()*(Vals.length));
+		var val = Vals[r];
+		//Used for counting
+		var l = Vals.length;
+		for (var ii = 0; ii < l; ++ii)
+		{
+			if (ii==l - 1)
+			{
+				Vals.splice(l - 1,1);
+			}
+			else
+			if (ii>=r)
+			{
+				Vals[ii] = Vals[ii + 1];
+			}
+		}
+		console.log((i*240)%(PLAYGROUND_WIDTH) );
+		$("#Cards").addSprite(name, {animation: Face[0], width: 208, height: 303, posx: (i*240)%(PLAYGROUND_WIDTH-239) , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
 		
 		$("#"+name).addClass("Cards");
 		$("#"+name)[0].Cards = new Cards($("#"+name));
+		$("#"+name)[0].Cards.Create(val, Face[val], Face[0], i);
+		
+		$("#"+name).mousedown(function(e)
+		{
+			$(".Cards").each(function()
+			{
+				if (e.pageX - $("#playground").position().left >= this.Cards.node.x() &&
+				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.node.w() &&
+				e.pageY - $("#playground").position().top >= this.Cards.node.y()&&
+				e.pageY - $("#playground").position().top < this.Cards.node.y() + this.Cards.node.h()&&
+				this.Cards.visible==true)
+				{
+					this.Cards.Clicked();
+					Turned++;
+					if (Turned==TurnedMax)
+					{
+						//We have turned the amount of cards needed
+						
+						var Correct = this.Cards.value;
+						var CorrectAmount = 0;
+						$(".Cards").each(function()
+						{
+							if (this.Cards.Flipped == true && this.Cards.value == Correct)
+								CorrectAmount++;
+							
+						});
+						
+						
+						if (CorrectAmount==TurnedMax)
+						{
+							$(".Cards").each(function()
+							{
+								if (this.Cards.Flipped==true)
+									this.Cards.SetVisible(false);
+							});
+							console.log("YAY");
+						}
+						
+							console.log(CorrectAmount + " - " + TurnedMax);
+						$(".Cards").each(function()
+						{
+							if (this.Cards.Flipped==true)
+							this.Cards.Hide();
+						});
+						
+						Turned=0;
+					}
+				}
+			});
+		});
+		
 								 
 	}
 	
     // this sets the id of the loading bar:
-    //$().setLoadBar("loadingBar", 400);
 	$.loadCallback(function(percent){
             $("#loadingBar").width(400*percent);
       });
@@ -97,27 +184,7 @@ $(function(){
     
     
     //This is for the background animation
-    $.playground().registerCallback(function(){
-    //Offset all the pane:
-	/*
-    var newPos = (  parseInt($("#background1").css("left")) - smallStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background1").css("left", newPos);
-
-    newPos = (parseInt($("#background2").css("left")) - smallStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background2").css("left", newPos);
-
-    newPos = (parseInt($("#background3").css("left")) - mediumStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background3").css("left", newPos);
-
-    newPos = (parseInt($("#background4").css("left")) - mediumStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background4").css("left", newPos);
-
-    newPos = (parseInt($("#background5").css("left")) - bigStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background5").css("left", newPos);
-
-    newPos = (parseInt($("#background6").css("left")) - bigStarSpeed - PLAYGROUND_WIDTH) % (-2 * PLAYGROUND_WIDTH) + PLAYGROUND_WIDTH;
-    $("#background6").css("left", newPos);*/
-	
+    $("#playground").registerCallback(function(){
 	
 	$("#background1").x(($("#background1").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	$("#background2").x(($("#background2").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
@@ -138,4 +205,3 @@ $(function(){
 	
     }, REFRESH_RATE);
 });
-

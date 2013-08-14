@@ -3,8 +3,8 @@ Cards = new function(Size)
 	this.WIDTH;
 	this.HEIGHT;
 
-	this.IMAGES[];
-	this.UNDRAWN[];
+	this.IMAGES = new Array();
+	this.UNDRAWN  = new Array();
 	this.BACKIMAGE;
 	
 	this.pool = new Array();

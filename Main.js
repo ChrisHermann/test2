@@ -11,6 +11,8 @@ var mediumStarSpeed       = 3; //pixels per frame
 var bigStarSpeed          = 5; //pixels per frame
 
 var percent = 1;
+
+this.Cards = new Cards(4);
     
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
@@ -109,7 +111,12 @@ $(function(){
 	
 	$("#background5").x(($("#background5").x() + bigStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	$("#background6").x(($("#background6").x() + bigStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
-
+	
+	
+	//Basic Game Engine!!
+	this.Cards.Step;
+	
+	this.Cards.Draw;
     }, REFRESH_RATE);
 });
 

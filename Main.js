@@ -11,8 +11,6 @@ var mediumStarSpeed       = 3; //pixels per frame
 var bigStarSpeed          = 5; //pixels per frame
 
 var percent = 1;
-
-this.Cards = new Cards(4);
     
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
@@ -21,6 +19,8 @@ this.Cards = new Cards(4);
 $(function(){
     // Animations declaration: 
     // The background:    
+	
+	
     var background1 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background1.png"});
     var background2 = new $.gameQuery.Animation({
@@ -33,6 +33,8 @@ $(function(){
         imageURL: "http://gamequeryjs.com/demos/3/background5.png"});
     var background6 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background6.png"});
+    var Card = new $.gameQuery.Animation({
+        imageURL: "http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png"});
 
     // Initialize the game:
     $("#playground").playground({
@@ -67,6 +69,20 @@ $(function(){
                                    posx: PLAYGROUND_WIDTH})
     
     
+	
+	for (var i = 0; i < 10; ++i)
+	{
+		var name = "Card_"+i;
+		$.playground()
+		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
+                                 height: PLAYGROUND_HEIGHT})
+		.addSprite(name, {animation: Card, width: 208, height: 303, posx:i*5, posy:5});
+		
+		$("#"+name).addClass("Cards");
+		$("#"+name)[0].Cards = new Cards($("#"+name));
+								 
+	}
+	
     // this sets the id of the loading bar:
     //$().setLoadBar("loadingBar", 400);
 	$.loadCallback(function(percent){
@@ -114,9 +130,12 @@ $(function(){
 	
 	
 	//Basic Game Engine!!
-	this.Cards.Step;
 	
-	this.Cards.Draw;
+	$(".Cards").each(function()
+	{
+		this.Cards.Step();
+	});
+	
     }, REFRESH_RATE);
 });
 

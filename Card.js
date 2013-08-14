@@ -1,38 +1,33 @@
-Cards = new function(Size)
+function Cards(node)
 {
-	this.WIDTH;
-	this.HEIGHT;
-
-	this.IMAGES = new Array();
-	this.UNDRAWN  = new Array();
-	this.BACKIMAGE;
+	this.WIDTH = 208;
+	this.HEIGHT = 303;
 	
-	this.pool = new Array();
-	for (var i = 0; i < Size; ++i)
-		this.pool.push({ value:0 });
-}
+	this.node = $(node);
+	
+	this.Create = function()
+	{
+		//Create all cards
+	}
 
-Cards.prototype.Create = function()
-{
-	//Create all cards
-}
+	this.CreateOne = function()
+	{
+		//Create one card
+	}
 
-Cards.prototype.CreateOne = function()
-{
-	//Create one card
-}
+	this.Step = function()
+	{
+		//The step event for cards, probably won't be used.
+		this.node.x(10,true);
+	}
 
-Cards.prototype.Step = function()
-{
-	//The step event for cards, probably won't be used.
-}
+	this.Draw = function()
+	{
+		//Draws the card.
+	}
 
-Cards.prototype.Draw = function()
-{
-	//Draws the card.
-}
-
-Cards.prototype.Turn = function()
-{
-	//Turns the Card around.
+	this.Turn = function()
+	{
+		//Turns the Card around.
+	}
 }

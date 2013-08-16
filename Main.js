@@ -139,7 +139,7 @@ $(function(){
 						var CorrectAmount = 0;
 						$(".Cards").each(function()
 						{
-							if (this.Cards.Flipped == true && this.Cards.value == Correct)
+							if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
 								CorrectAmount++;
 							
 						});
@@ -158,7 +158,7 @@ $(function(){
 							console.log(CorrectAmount + " - " + TurnedMax);
 						$(".Cards").each(function()
 						{
-							if (this.Cards.Flipped==true)
+							if (this.Cards.Flipped==true && this.Cards.Hiding==0)
 							this.Cards.Hide();
 						});
 						

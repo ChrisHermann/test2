@@ -113,7 +113,8 @@ $(function(){
 			}
 		}
 		console.log((i*240)%(PLAYGROUND_WIDTH) );
-		$("#Cards").addSprite(name, {animation: Face[0], width: 208, height: 303, posx: (i*240)%(PLAYGROUND_WIDTH-239) , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
+		
+		$("#Cards").addSprite(name, {animation: Face[0], width: 208, height: 303, posx: (i%(Math.floor(PLAYGROUND_WIDTH/240))) *240 , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
 		
 		$("#"+name).addClass("Cards");
 		$("#"+name)[0].Cards = new Cards($("#"+name));
@@ -149,7 +150,7 @@ $(function(){
 						{
 							$(".Cards").each(function()
 							{
-								if (this.Cards.Flipped==true)
+								if (this.Cards.Flipped==true && this.Cards.Hiding==0)
 									this.Cards.SetVisible(false);
 							});
 							console.log("YAY");

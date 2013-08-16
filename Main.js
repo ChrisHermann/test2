@@ -128,7 +128,7 @@ $(function(){
 				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.node.w() &&
 				e.pageY - $("#playground").position().top >= this.Cards.node.y()&&
 				e.pageY - $("#playground").position().top < this.Cards.node.y() + this.Cards.node.h()&&
-				this.Cards.visible==true)
+				this.Cards.visible==true && this.Cards.Flipped == false)
 				{
 					this.Cards.Clicked();
 					Turned++;

@@ -140,6 +140,14 @@ $(function(){
 		//to all the data we need access to.
 		$("#"+name).mousedown(function(e)
 		{
+			var Ready = 0;
+			$(".Cards").each(function()
+			{
+				if (this.Cards.visible && (this.Cards.Turning==true || this.Cards.FlippedV==true))
+				{
+					Ready++;
+				}
+			});
 			//Find all the objects with the tag/class card.
 			$(".Cards").each(function()
 			{
@@ -148,7 +156,8 @@ $(function(){
 				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.node.w() &&
 				e.pageY - $("#playground").position().top >= this.Cards.node.y()&&
 				e.pageY - $("#playground").position().top < this.Cards.node.y() + this.Cards.node.h()&&
-				this.Cards.visible==true && this.Cards.Flipped == false)
+				this.Cards.visible==true && this.Cards.Flipped == false  && this.Cards.Turning == false
+				&& Ready<TurnedMax)
 				{
 					//Run the clicked event for the card, this will start events etc.
 					this.Cards.Clicked();

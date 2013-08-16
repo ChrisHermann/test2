@@ -14,6 +14,7 @@ function Cards(node)
 	this.visible=true;
 	
 	this.Flipped=false;
+	this.FlippedV=false;
 	
 	this.Turning=false;
 	this.changed = false;
@@ -40,13 +41,14 @@ function Cards(node)
 		//The step event for cards, this wil be performed each frame.
 		//Timers, used to create a delay before hiding/unflipping a card.
 		this.Timer+=1;
-		if (this.Timer>30 && this.Hiding==1)
+		if (this.Timer>80 && this.Hiding==1)
 			this.TrueHide();
 		else
-		if (this.Timer>30 && this.Hiding==2)
+		if (this.Timer>80 && this.Hiding==2)
 		{
 			node.w(0);
 			node.h(0);
+			this.visible=false;
 		}
 		
 		if(this.Turning == true)
@@ -54,11 +56,13 @@ function Cards(node)
 		
 		var spriteDOMObject = this.node[0];
 		this.Dir += 0.05;
-		console.log(this.Dir);
 		
 		if(this.Dir>=3.14 && this.changed==false){
 			this.changed=true;
+			if(this.FlippedV==false)
 			this.ChangeFace(this.FaceF);
+			else
+			this.ChangeFace(this.FaceB);
 		}
 		if (this.changed==true)
 		this.factor=-Math.sin(this.Dir);
@@ -75,6 +79,8 @@ function Cards(node)
 		
 		if(this.Dir>=3.14*1.5){
 			this.Turning = false;
+			this.Dir=3.14/2;
+			if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
 		}
 		
 		}		
@@ -122,7 +128,7 @@ function Cards(node)
 	{
 		this.Hiding = 0;
 		this.Flipped=false;
-		this.ChangeFace(this.FaceB);
+		this.Turn();
 	}
 	
 	//Effectively deletes the card by making it invisible.
@@ -133,7 +139,6 @@ function Cards(node)
 		{
 			this.Hiding=2;
 			this.Timer=0;
-			this.visible=false;
 		}
 		else
 		{

@@ -1,5 +1,6 @@
 function Cards(node)
 {
+	//The card class, and it's attributes.
 	this.WIDTH = 208;
 	this.HEIGHT = 303;
 	
@@ -21,7 +22,7 @@ function Cards(node)
 	
 	this.Create = function(Value, FaceF, FaceB, DEBUG)
 	{
-		//Create all cards
+		//Used to set up the necessary attributes of a card.
 		this.value = Value;
 		this.FaceB = FaceB;
 		this.FaceF = FaceF;
@@ -30,7 +31,8 @@ function Cards(node)
 
 	this.Step = function()
 	{
-		//The step event for cards, probably won't be used.
+		//The step event for cards, this wil be performed each frame.
+		//Timers, used to create a delay before hiding/unflipping a card.
 		this.Timer+=1;
 		if (this.Timer>30 && this.Hiding==1)
 			this.TrueHide();
@@ -45,7 +47,7 @@ function Cards(node)
 
 	this.ChangeFace = function(face)
 	{
-		//Changes the face.
+		//Changes the face of the card.
 		this.node.setAnimation(face, null);
 	}
 
@@ -56,7 +58,7 @@ function Cards(node)
 	
 	this.Clicked = function()
 	{
-		console.log(this.DEBUG);
+		//This will be run whenever the card is clicked.
 		if (this.Flipped==false)
 		{
 			this.Flipped=true;
@@ -71,13 +73,15 @@ function Cards(node)
 	
 	this.Hide = function()
 	{
-	if (this.Hiding!=2)
+		//Used to make the card unflip (Hide is not a very good name for the function :( ).
+		if (this.Hiding!=2)
 		{	
 			this.Timer = 0;
 			this.Hiding = 1;
 		}
 	}
 	
+	//Used to make the card instantly hide rather than with a delay.
 	this.TrueHide = function()
 	{
 		this.Hiding = 0;
@@ -85,6 +89,8 @@ function Cards(node)
 		this.ChangeFace(this.FaceB);
 	}
 	
+	//Effectively deletes the card by making it invisible.
+	//We possibly need to find a better way to do this.
 	this.SetVisible = function(Visible)
 	{
 		if (Visible == false)

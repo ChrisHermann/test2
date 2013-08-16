@@ -20,6 +20,7 @@ $(function(){
     // Animations declaration: 
     // The background:    
 	
+	//DEBUG: Loading images for demo, this should be done using the image manager in the actual game.
     var background1 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background1.png"});
     var background2 = new $.gameQuery.Animation({
@@ -82,6 +83,8 @@ $(function(){
 	var Turned = 0;
 	var TurnedMax = 2;
 	
+	//This will ensure that two cards of each are added to the deck
+	//This function will be handled by the imagemanager at later stages.
     for (var i = 0; i < 6; ++i)
 	{
 		Vals[i] = Math.floor(i/2) + 1;
@@ -92,73 +95,98 @@ $(function(){
 		$.playground()
 		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
-	
+	//In this stage we spawn the actual cards, right now this is a huge function.
+	//Imagemanager and deckmanager will make this function a lot smaller.
 	for (var i = 0; i < 6; ++i)
 	{
+		//Generate unique ID for the card
 		var name = "Card_"+i;
+		
+		//Draw a random card from the deck
 		var r = Math.floor(Math.random()*(Vals.length));
 		var val = Vals[r];
 		//Used for counting
 		var l = Vals.length;
+		
+		//Then we need to remove the drawn card from the deck.
 		for (var ii = 0; ii < l; ++ii)
 		{
 			if (ii==l - 1)
 			{
+				//Splice the last card to avoid dupes and to decrease the array length/RAM usage.
 				Vals.splice(l - 1,1);
 			}
 			else
 			if (ii>=r)
 			{
+				//Move all cards that are above the drawn card to one lesser index.
 				Vals[ii] = Vals[ii + 1];
 			}
 		}
-		console.log((i*240)%(PLAYGROUND_WIDTH) );
 		
+		//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
 		$("#Cards").addSprite(name, {animation: Face[0], width: 208, height: 303, posx: (i%(Math.floor(PLAYGROUND_WIDTH/240))) *240 , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
 		
+		//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 		$("#"+name).addClass("Cards");
+		
+		//Create the actual class for the card, this will add logic to the object.
 		$("#"+name)[0].Cards = new Cards($("#"+name));
 		$("#"+name)[0].Cards.Create(val, Face[val], Face[0], i);
 		
+		
+		//Add a mousedown event for the card, this mousedown will be run in the main
+		//environment rather than the class environment to make sure that we have access
+		//to all the data we need access to.
 		$("#"+name).mousedown(function(e)
 		{
+			//Find all the objects with the tag/class card.
 			$(".Cards").each(function()
 			{
+				//Check if the mouse clicked the card, if it's still part of the game, and if it has not been flipped.
 				if (e.pageX - $("#playground").position().left >= this.Cards.node.x() &&
 				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.node.w() &&
 				e.pageY - $("#playground").position().top >= this.Cards.node.y()&&
 				e.pageY - $("#playground").position().top < this.Cards.node.y() + this.Cards.node.h()&&
 				this.Cards.visible==true && this.Cards.Flipped == false)
 				{
+					//Run the clicked event for the card, this will start events etc.
 					this.Cards.Clicked();
+					//Increase the turned counter, if we have turned the correct amount of cards to be compared
+					//then compare them.
 					Turned++;
 					if (Turned==TurnedMax)
 					{
 						//We have turned the amount of cards needed
-						
+						//Find out which value the first card has, and use this as a base to compare if cards match.
+						//Also instantiate a counter for the amount of cards actually matching.
+						//It's done this way if you want a variable number of cards needed for a match.
 						var Correct = this.Cards.value;
 						var CorrectAmount = 0;
 						$(".Cards").each(function()
 						{
+							//For each card, if they are flipped, are not going into hiding/deletion, and has the
+							//Correct value, increase the counter for the number of cards matching.
 							if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
 								CorrectAmount++;
 							
 						});
 						
-						
+						//If we have a correct match
 						if (CorrectAmount==TurnedMax)
 						{
 							$(".Cards").each(function()
 							{
+								//Foreach card that is flipped and not in hiding, delete them (aka. yay, you got a match).
 								if (this.Cards.Flipped==true && this.Cards.Hiding==0)
 									this.Cards.SetVisible(false);
 							});
 							console.log("YAY");
 						}
 						
-							console.log(CorrectAmount + " - " + TurnedMax);
 						$(".Cards").each(function()
 						{
+							//Foreach card that was not in hiding and was not part of the match, unflip them again.
 							if (this.Cards.Flipped==true && this.Cards.Hiding==0)
 							this.Cards.Hide();
 						});
@@ -172,7 +200,7 @@ $(function(){
 								 
 	}
 	
-    // this sets the id of the loading bar:
+    // this sets the id of the loading bar (NOT USED YET):
 	$.loadCallback(function(percent){
             $("#loadingBar").width(400*percent);
       });
@@ -184,7 +212,7 @@ $(function(){
     })
     
     
-    //This is for the background animation
+    //This is for the background animation (DEBUG)
     $("#playground").registerCallback(function(){
 	
 	$("#background1").x(($("#background1").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
@@ -201,6 +229,7 @@ $(function(){
 	
 	$(".Cards").each(function()
 	{
+		//For each card, perform their step event.
 		this.Cards.Step();
 	});
 	

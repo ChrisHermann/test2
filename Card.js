@@ -15,7 +15,13 @@ function Cards(node)
 	
 	this.Flipped=false;
 	
+	this.Turning=false;
+	this.changed = false;
+	
 	this.node = $(node);
+	
+	this.factor = 1;
+	this.Dir = 3.14/2;
 	
 	this.Timer = 0;
 	this.Hiding = 0;
@@ -42,7 +48,36 @@ function Cards(node)
 			node.w(0);
 			node.h(0);
 		}
+		
+		if(this.Turning == true)
+		{
+		
+		var spriteDOMObject = this.node[0];
+		this.Dir += 0.05;
+		console.log(this.Dir);
+		
+		if(this.Dir>=3.14 && this.changed==false){
+			this.changed=true;
+			this.ChangeFace(this.FaceF);
+		}
+		if (this.changed==true)
+		this.factor=-Math.sin(this.Dir);
+		else
+		this.factor=Math.sin(this.Dir);
+		
+		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor});
 			
+		if(spriteDOMObject != undefined){
+			spriteDOMObject.gameQuery = options;
+		}
+		
+		this.node.transform();
+		
+		if(this.Dir>=3.14*1.5){
+			this.Turning = false;
+		}
+		
+		}		
 	}
 
 	this.ChangeFace = function(face)
@@ -54,6 +89,8 @@ function Cards(node)
 	this.Turn = function()
 	{
 		//Turns the Card around.
+		this.Turning = true;
+		this.changed = false;
 	}
 	
 	this.Clicked = function()
@@ -62,12 +99,11 @@ function Cards(node)
 		if (this.Flipped==false)
 		{
 			this.Flipped=true;
-			this.ChangeFace(this.FaceF);
+			this.Turn();
 		}
 		else
 		{
 			this.Flipped=false;
-			this.ChangeFace(this.FaceB);
 		}
 	}
 	

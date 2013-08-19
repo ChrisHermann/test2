@@ -1,39 +1,30 @@
-function DeckManager()
+function ImageManager()
 {
 	//This class will manage Images
 	//This will make it easier to change the images for future games.
 	this.Faces = new Array();
 	this.BFace;
-	this.BonusFaces = new Array();
 	
 	
-	this.Create = function(CardPool, BonusCardPool, NumberOfCards, NumberOfBonusCards)
+	this.Create = function(BackFaceURL)
 	{
-		
+		this.BFace = new $.gameQuery.Animation({
+        imageURL: BackFaceURL});
 	}
 
-	this.Step = function()
+	this.Load = function(URL)
 	{
-			
+		this.Faces[this.Faces.length] = new $.gameQuery.Animation({
+        imageURL: URL});
 	}
 	
-	this.SetupPool = function()
+	this.GetImage = function(Number)
 	{
-	
+		return(this.Faces[Number]);
 	}
 	
-	this.PushCard = function()
+	this.GetBack = function()
 	{
-	
-	}
-	
-	this.PeekCard = function()
-	{
-	
-	}
-	
-	this.GetNumberOfCards = function()
-	{
-	
+		return(this.BFace);
 	}
 }

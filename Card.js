@@ -8,8 +8,11 @@ function Cards(node)
 	
 	this.FaceF;
 	this.FaceB;
+	this.FaceS;
 	
-	this.DEBUG;
+	this.Swartzed = false;
+	
+	this.Bonus;
 	
 	this.visible=true;
 	
@@ -29,62 +32,95 @@ function Cards(node)
 	this.Timer = 0;
 	this.Hiding = 0;
 	
-	this.Create = function(Value, FaceF, FaceB, DEBUG)
+	this.Create = function(Value, FaceF, FaceS, FaceB, Bonus)
 	{
 		//Used to set up the necessary attributes of a card.
 		this.value = Value;
 		this.FaceB = FaceB;
 		this.FaceF = FaceF;
-		this.DEBUG = DEBUG;
+		this.FaceS = FaceS;
+		this.Bonus = Bonus;
 	}
-
-	this.Step = function()
+	
+	
+	this.RunBonus = function()
 	{
-		//The step event for cards, this wil be performed each frame.
-		//Timers, used to create a delay before hiding/unflipping a card.
-		this.Timer+=1;
-		if (this.Timer>this.TurnSteps && this.Hiding==1)
-			this.TrueHide();
-		else
-		if (this.Timer>this.TurnSteps && this.Hiding==2)
+		if (this.value == 3)
 		{
+			$(".Cards").each(function()
+			{
+				this.Cards.Swartzed = true;
+				
+				if (this.Cards.Flipped==true && this.Cards.changed==true)
+					this.Cards.ChangeFace(this.Cards.FaceS);
+			});
+		
 			node.fadeOut();
 			this.visible=false;
 		}
-		
-		if(this.Turning == true)
+	}
+	
+
+	this.Step = function()
+	{
+		if (this.visible == true)
 		{
-		
-		var spriteDOMObject = this.node[0];
-		this.Dir += 3.14/this.TurnSteps;
-		
-		if(this.Dir>=3.14 && this.changed==false){
-			this.changed=true;
-			if(this.FlippedV==false)
-			this.ChangeFace(this.FaceF);
+			//The step event for cards, this will be performed each frame.
+			//Timers, used to create a delay before hiding/unflipping a card.
+			this.Timer+=1;
+			if (this.Timer>this.TurnSteps && this.Hiding==1)
+				this.TrueHide();
 			else
-			this.ChangeFace(this.FaceB);
-		}
-		if (this.changed==true)
-		this.factor=-Math.sin(this.Dir);
-		else
-		this.factor=Math.sin(this.Dir);
-		
-		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor});
+			if (this.Timer>this.TurnSteps && this.Hiding==2)
+			{
+				this.ResetBonus();
+				node.fadeOut();
+				this.visible=false;
+			}
 			
-		if(spriteDOMObject != undefined){
-			spriteDOMObject.gameQuery = options;
+			
+			
+			if(this.Turning == true)
+			{
+			
+				var spriteDOMObject = this.node[0];
+				this.Dir += 3.14/this.TurnSteps;
+				
+				if(this.Dir>=3.14 && this.changed==false){
+					this.changed=true;
+					if(this.FlippedV==false)
+					{
+						if (this.Swartzed)
+							this.ChangeFace(this.FaceS);
+						else
+							this.ChangeFace(this.FaceF);
+					}
+					else
+					this.ChangeFace(this.FaceB);
+				}
+				if (this.changed==true)
+				this.factor=-Math.sin(this.Dir);
+				else
+				this.factor=Math.sin(this.Dir);
+				
+				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor});
+					
+				if(spriteDOMObject != undefined){
+					spriteDOMObject.gameQuery = options;
+			}
+			
+			this.node.transform();
+			
+			if(this.Dir>=3.14*1.5){
+				if (this.Bonus==true)
+					this.RunBonus();
+				this.Turning = false;
+				this.Dir=3.14/2;
+				if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
+			}
+			
+			}		
 		}
-		
-		this.node.transform();
-		
-		if(this.Dir>=3.14*1.5){
-			this.Turning = false;
-			this.Dir=3.14/2;
-			if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
-		}
-		
-		}		
 	}
 
 	this.ChangeFace = function(face)
@@ -127,6 +163,7 @@ function Cards(node)
 	//Used to make the card instantly hide rather than with a delay.
 	this.TrueHide = function()
 	{
+		this.ResetBonus();
 		this.Hiding = 0;
 		this.Flipped=false;
 		this.Turn();
@@ -147,5 +184,13 @@ function Cards(node)
 			node.h(HEIGHT);
 			this.visible=true;
 		}
+	}
+	
+	this.ResetBonus = function()
+	{
+		$(".Cards").each(function()
+		{
+			this.Cards.Swartzed = false;
+		});
 	}
 }

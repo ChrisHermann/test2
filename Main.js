@@ -20,6 +20,12 @@ $(function(){
     // Animations declaration: 
     // The background:    
 	
+	var DM = new DeckManager;
+	var IM = new ImageManager;
+	
+	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
+	
+	
 	//DEBUG: Loading images for demo, this should be done using the image manager in the actual game.
     var background1 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background1.png"});
@@ -35,14 +41,12 @@ $(function(){
         imageURL: "http://gamequeryjs.com/demos/3/background6.png"});
 		
 		var Face = new Array();
-		Face[0] = new $.gameQuery.Animation({
-        imageURL: "http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png"});
-		Face[1] = new $.gameQuery.Animation({
-        imageURL: "http://www.madore.org/~david/images/cards/english/king-hearts.png"});
-		Face[2] = new $.gameQuery.Animation({
-        imageURL: "http://www.madore.org/~david/images/cards/english/jack-hearts.png"});
-		Face[3] = new $.gameQuery.Animation({
-        imageURL: "http://us.123rf.com/400wm/400/400/rbwinston/rbwinston1203/rbwinston120300001/12586605-king-of-spades-individual-playing-card--an-isolated-vector-illustration-of-a-classic-face-card.jpg"});
+		IM.Load("http://www.madore.org/~david/images/cards/english/king-hearts.png");
+		IM.Load("http://www.madore.org/~david/images/cards/english/jack-hearts.png");
+		IM.Load("http://us.123rf.com/400wm/400/400/rbwinston/rbwinston1203/rbwinston120300001/12586605-king-of-spades-individual-playing-card--an-isolated-vector-illustration-of-a-classic-face-card.jpg");
+
+		//Important Card ID: 3 - Swartz
+		IM.Load("http://fc02.deviantart.net/fs71/i/2010/344/e/6/mr_pale_face_evil_man_by_totmoartsstudio2-d34mvci.jpg");
 		
 		
     // Initialize the game:
@@ -80,6 +84,7 @@ $(function(){
 								   
     //Setup Card data so they can be reached randomly
 	var Vals = new Array();
+	var Vals2 = new Array();
 	var Turned = 0;
 	var TurnedMax = 2;
 	
@@ -87,8 +92,12 @@ $(function(){
 	//This function will be handled by the imagemanager at later stages.
     for (var i = 0; i < 6; ++i)
 	{
-		Vals[i] = Math.floor(i/2) + 1;
+		Vals[i] = Math.floor(i/2);
 	}
+	
+	Vals2[0]=3;
+	
+	DM.Create(Vals, Vals2, 6, 1);
 	
 	//Generate the actual Cards
 	
@@ -97,42 +106,22 @@ $(function(){
                                  height: PLAYGROUND_HEIGHT})
 	//In this stage we spawn the actual cards, right now this is a huge function.
 	//Imagemanager and deckmanager will make this function a lot smaller.
-	for (var i = 0; i < 6; ++i)
+	for (var i = 0; i < 7; ++i)
 	{
 		//Generate unique ID for the card
 		var name = "Card_"+i;
 		
-		//Draw a random card from the deck
-		var r = Math.floor(Math.random()*(Vals.length));
-		var val = Vals[r];
-		//Used for counting
-		var l = Vals.length;
-		
-		//Then we need to remove the drawn card from the deck.
-		for (var ii = 0; ii < l; ++ii)
-		{
-			if (ii==l - 1)
-			{
-				//Splice the last card to avoid dupes and to decrease the array length/RAM usage.
-				Vals.splice(l - 1,1);
-			}
-			else
-			if (ii>=r)
-			{
-				//Move all cards that are above the drawn card to one lesser index.
-				Vals[ii] = Vals[ii + 1];
-			}
-		}
+		val = DM.PushCard();
 		
 		//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-		$("#Cards").addSprite(name, {animation: Face[0], width: 208, height: 303, posx: (i%(Math.floor(PLAYGROUND_WIDTH/240))) *240 , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
+		$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.floor(PLAYGROUND_WIDTH/240))) *240 , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
 		
 		//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 		$("#"+name).addClass("Cards");
 		
 		//Create the actual class for the card, this will add logic to the object.
 		$("#"+name)[0].Cards = new Cards($("#"+name));
-		$("#"+name)[0].Cards.Create(val, Face[val], Face[0], i);
+		$("#"+name)[0].Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus());
 		
 		
 		//Add a mousedown event for the card, this mousedown will be run in the main
@@ -163,44 +152,46 @@ $(function(){
 					this.Cards.Clicked();
 					//Increase the turned counter, if we have turned the correct amount of cards to be compared
 					//then compare them.
-					Turned++;
-					if (Turned==TurnedMax)
+					if (this.Cards.Bonus == false)
 					{
-						//We have turned the amount of cards needed
-						//Find out which value the first card has, and use this as a base to compare if cards match.
-						//Also instantiate a counter for the amount of cards actually matching.
-						//It's done this way if you want a variable number of cards needed for a match.
-						var Correct = this.Cards.value;
-						var CorrectAmount = 0;
-						$(".Cards").each(function()
+						Turned++;
+						if (Turned==TurnedMax)
 						{
-							//For each card, if they are flipped, are not going into hiding/deletion, and has the
-							//Correct value, increase the counter for the number of cards matching.
-							if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
-								CorrectAmount++;
-							
-						});
-						
-						//If we have a correct match
-						if (CorrectAmount==TurnedMax)
-						{
+							//We have turned the amount of cards needed
+							//Find out which value the first card has, and use this as a base to compare if cards match.
+							//Also instantiate a counter for the amount of cards actually matching.
+							//It's done this way if you want a variable number of cards needed for a match.
+							var Correct = this.Cards.value;
+							var CorrectAmount = 0;
 							$(".Cards").each(function()
 							{
-								//Foreach card that is flipped and not in hiding, delete them (aka. yay, you got a match).
-								if (this.Cards.Flipped==true && this.Cards.Hiding==0)
-									this.Cards.SetVisible(false);
+								//For each card, if they are flipped, are not going into hiding/deletion, and has the
+								//Correct value, increase the counter for the number of cards matching.
+								if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
+									CorrectAmount++;
+								
 							});
-							console.log("YAY");
+							
+							//If we have a correct match
+							if (CorrectAmount==TurnedMax)
+							{
+								$(".Cards").each(function()
+								{
+									//Foreach card that is flipped and not in hiding, delete them (aka. yay, you got a match).
+									if (this.Cards.Flipped==true && this.Cards.Hiding==0)
+										this.Cards.SetVisible(false);
+								});
+							}
+							
+							$(".Cards").each(function()
+							{
+								//Foreach card that was not in hiding and was not part of the match, unflip them again.
+								if (this.Cards.Flipped==true && this.Cards.Hiding==0)
+								this.Cards.Hide();
+							});
+							
+							Turned=0;
 						}
-						
-						$(".Cards").each(function()
-						{
-							//Foreach card that was not in hiding and was not part of the match, unflip them again.
-							if (this.Cards.Flipped==true && this.Cards.Hiding==0)
-							this.Cards.Hide();
-						});
-						
-						Turned=0;
 					}
 				}
 			});

@@ -24,6 +24,8 @@ function Cards(node)
 	this.factor = 1;
 	this.Dir = 3.14/2;
 	
+	this.TurnSteps = 30;
+	
 	this.Timer = 0;
 	this.Hiding = 0;
 	
@@ -41,13 +43,12 @@ function Cards(node)
 		//The step event for cards, this wil be performed each frame.
 		//Timers, used to create a delay before hiding/unflipping a card.
 		this.Timer+=1;
-		if (this.Timer>80 && this.Hiding==1)
+		if (this.Timer>this.TurnSteps && this.Hiding==1)
 			this.TrueHide();
 		else
-		if (this.Timer>80 && this.Hiding==2)
+		if (this.Timer>this.TurnSteps && this.Hiding==2)
 		{
-			node.w(0);
-			node.h(0);
+			node.fadeOut();
 			this.visible=false;
 		}
 		
@@ -55,7 +56,7 @@ function Cards(node)
 		{
 		
 		var spriteDOMObject = this.node[0];
-		this.Dir += 0.05;
+		this.Dir += 3.14/this.TurnSteps;
 		
 		if(this.Dir>=3.14 && this.changed==false){
 			this.changed=true;

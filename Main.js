@@ -61,7 +61,6 @@ $(function(){
 	
 	var Scale = Math.min(Scale1, Scale2);
 
-
     // Animations declaration: 
     // The background:    
 	
@@ -84,6 +83,12 @@ $(function(){
         imageURL: "http://gamequeryjs.com/demos/3/background5.png"});
     var background6 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background6.png"});
+		
+				//Sounds
+		var bgmusic = new $.gameQuery.SoundWrapper("./music.mp3", true);
+		//var flipSound = new $.gQ.SoundWrapper("./flipcard.wav", false);
+		//var bgmusic = document.getElementById('music'.mp3);
+		
 		
 		var Face = new Array();
 		IM.Load("http://www.madore.org/~david/images/cards/english/king-hearts.png");
@@ -126,7 +131,7 @@ $(function(){
                                    width: PLAYGROUND_WIDTH, 
                                    height: PLAYGROUND_HEIGHT, 
                                    posx: PLAYGROUND_WIDTH})
-								   
+		$("#background").addSound(bgmusic);
     //Setup Card data so they can be reached randomly
 	var Vals = new Array();
 	var Vals2 = new Array();
@@ -159,7 +164,7 @@ $(function(){
 		val = DM.PushCard();
 		
 		//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-		$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });
+		$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });//.addSound(flipSound);;
 		
 		//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 		$("#"+name).addClass("Cards");
@@ -253,6 +258,7 @@ $(function(){
     $("#startbutton").click(function(){
         $.playground().startGame(function(){
             $("#welcomeScreen").remove();
+			$("#background").playSound();
         });
     })
     

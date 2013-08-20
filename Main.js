@@ -17,6 +17,10 @@ var percent = 1;
 // --------------------------------------------------------------------
 
 $(function(){
+	//Calculate playground width and height:
+	PLAYGROUND_WIDTH = $(window).width() - 20;
+	PLAYGROUND_HEIGHT = $(window).height() - 20;
+
 	//Calculate Layour for responsive Design.
 	//Calculate Area:
 	var CARDSIZEX = 208;
@@ -98,7 +102,91 @@ $(function(){
 		//Important Card ID: 3 - Swartz
 		IM.Load("http://fc02.deviantart.net/fs71/i/2010/344/e/6/mr_pale_face_evil_man_by_totmoartsstudio2-d34mvci.jpg");
 		
+	
+	var resizeTimer;
+
+    //Event to handle resizing
+	//This event should fire under any circimstance, except when safari is NOT maximized, and windows resolution is changed (WTF?)
+    $(window).resize(function () 
+    {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(Resized, 100);
+    });
+
+    //Actual Resizing Event
+    function Resized() 
+    {
+        //Your function goes here
 		
+		
+		//Calculate playground width and height:
+		PLAYGROUND_WIDTH = $(window).width() - 20;
+		PLAYGROUND_HEIGHT = $(window).height() - 20;
+
+		//Calculate Layour for responsive Design.
+		//Calculate Area:
+		var CARDSIZEX = 208;
+		var CARDSIZEY = 208;
+		var EMPTYSPACE = 5;
+		var NumberOfCards = 6;
+		var NumberOfCardsBonus = 1;
+		
+		
+		var Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
+		Ratio =  (Ratio+1)/2;
+		
+		var noc = Math.sqrt(NumberOfCards + NumberOfCardsBonus);
+		
+		var SpaceX = PLAYGROUND_WIDTH/ Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1));
+		var SpaceY = PLAYGROUND_HEIGHT/(  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
+		
+		var LastYOff = 0;
+		
+		if (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) !=  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))
+		{
+			LastYOff = (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) -  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))/2 * SpaceX;
+		}
+		
+		if (SpaceX >= CARDSIZEX+EMPTYSPACE)
+		{
+			var Scale1 = 1;
+		}
+		else
+		{
+			var Scale1 = SpaceX/(CARDSIZEX+EMPTYSPACE);
+		}
+		
+		if (SpaceY >= CARDSIZEY+EMPTYSPACE)
+		{
+			var Scale2 = 1;
+		}
+		else
+		{
+			var Scale2 = SpaceY/(CARDSIZEY+EMPTYSPACE);
+		}
+		
+		var Scale = Math.min(Scale1, Scale2);
+		
+		
+		
+		$("#playground").playground({
+        height: PLAYGROUND_HEIGHT, 
+        width: PLAYGROUND_WIDTH});
+		
+		var i=0;
+		$(".Cards").each(function()
+		{
+			//For each card, perform their step event.
+			this.Cards.scale = Scale;
+			
+			this.Cards.Update({posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });
+			i++;
+		});
+		
+		
+    };
+	
+	
     // Initialize the game:
     $("#playground").playground({
         height: PLAYGROUND_HEIGHT, 

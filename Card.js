@@ -206,4 +206,19 @@ function Cards(node)
 			this.Cards.Swartzed = false;
 		});
 	}
+	
+	this.Update = function( options2)
+	{
+		var spriteDOMObject = this.node[0];
+				
+		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+		options = $.extend(spriteDOMObject.gameQuery, options2);
+		
+		
+		if(spriteDOMObject != undefined){
+			spriteDOMObject.gameQuery = options;
+			}
+			
+		this.node.transform();
+	}
 }

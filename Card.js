@@ -25,6 +25,7 @@ function Cards(node)
 	this.node = $(node);
 	
 	this.factor = 1;
+	this.scale  = 1;
 	this.Dir = 3.14/2;
 	
 	this.TurnSteps = 30;
@@ -32,14 +33,26 @@ function Cards(node)
 	this.Timer = 0;
 	this.Hiding = 0;
 	
-	this.Create = function(Value, FaceF, FaceS, FaceB, Bonus)
+	this.Create = function(Value, FaceF, FaceS, FaceB, Bonus, scale)
 	{
 		//Used to set up the necessary attributes of a card.
 		this.value = Value;
 		this.FaceB = FaceB;
 		this.FaceF = FaceF;
 		this.FaceS = FaceS;
+		this.scale = scale;
 		this.Bonus = Bonus;
+		
+		
+		var spriteDOMObject = this.node[0];
+				
+		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.scale, factorv: (208/303) * this.scale});
+			
+		if(spriteDOMObject != undefined){
+			spriteDOMObject.gameQuery = options;
+			}
+			
+		this.node.transform();
 	}
 	
 	
@@ -103,7 +116,7 @@ function Cards(node)
 				else
 				this.factor=Math.sin(this.Dir);
 				
-				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor});
+				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});
 					
 				if(spriteDOMObject != undefined){
 					spriteDOMObject.gameQuery = options;

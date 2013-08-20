@@ -1,6 +1,6 @@
 // Global constants:
-var PLAYGROUND_WIDTH    = 1000;
-var PLAYGROUND_HEIGHT    = 1000;
+var PLAYGROUND_WIDTH    = 300;
+var PLAYGROUND_HEIGHT    = 300;
 var REFRESH_RATE        = 30;
 
 //Constants for the gameplay
@@ -17,6 +17,51 @@ var percent = 1;
 // --------------------------------------------------------------------
 
 $(function(){
+	//Calculate Layour for responsive Design.
+	//Calculate Area:
+	var CARDSIZEX = 208;
+	var CARDSIZEY = 208;
+	var EMPTYSPACE = 5;
+	var NumberOfCards = 6;
+	var NumberOfCardsBonus = 1;
+	
+	
+	var Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
+	Ratio =  (Ratio+1)/2;
+	
+	var noc = Math.sqrt(NumberOfCards + NumberOfCardsBonus);
+	
+	var SpaceX = PLAYGROUND_WIDTH/ Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1));
+	var SpaceY = PLAYGROUND_HEIGHT/(  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
+	
+	var LastYOff = 0;
+	
+	if (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) !=  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))
+	{
+		LastYOff = (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) -  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))/2 * SpaceX;
+	}
+	
+	if (SpaceX >= CARDSIZEX+EMPTYSPACE)
+	{
+		var Scale1 = 1;
+	}
+	else
+	{
+		var Scale1 = SpaceX/(CARDSIZEX+EMPTYSPACE);
+	}
+	
+	if (SpaceY >= CARDSIZEY+EMPTYSPACE)
+	{
+		var Scale2 = 1;
+	}
+	else
+	{
+		var Scale2 = SpaceY/(CARDSIZEY+EMPTYSPACE);
+	}
+	
+	var Scale = Math.min(Scale1, Scale2);
+
+
     // Animations declaration: 
     // The background:    
 	
@@ -90,14 +135,14 @@ $(function(){
 	
 	//This will ensure that two cards of each are added to the deck
 	//This function will be handled by the imagemanager at later stages.
-    for (var i = 0; i < 6; ++i)
+    for (var i = 0; i < NumberOfCards; ++i)
 	{
 		Vals[i] = Math.floor(i/2);
 	}
 	
 	Vals2[0]=3;
 	
-	DM.Create(Vals, Vals2, 6, 1);
+	DM.Create(Vals, Vals2, NumberOfCards, 1);
 	
 	//Generate the actual Cards
 	
@@ -106,7 +151,7 @@ $(function(){
                                  height: PLAYGROUND_HEIGHT})
 	//In this stage we spawn the actual cards, right now this is a huge function.
 	//Imagemanager and deckmanager will make this function a lot smaller.
-	for (var i = 0; i < 7; ++i)
+	for (var i = 0; i < NumberOfCards+1; ++i)
 	{
 		//Generate unique ID for the card
 		var name = "Card_"+i;
@@ -114,14 +159,14 @@ $(function(){
 		val = DM.PushCard();
 		
 		//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-		$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.floor(PLAYGROUND_WIDTH/240))) *240 , posy:5 + Math.floor( i / Math.floor(PLAYGROUND_WIDTH/240)  ) * 340 });
+		$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });
 		
 		//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 		$("#"+name).addClass("Cards");
 		
 		//Create the actual class for the card, this will add logic to the object.
 		$("#"+name)[0].Cards = new Cards($("#"+name));
-		$("#"+name)[0].Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus());
+		$("#"+name)[0].Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
 		
 		
 		//Add a mousedown event for the card, this mousedown will be run in the main
@@ -141,10 +186,10 @@ $(function(){
 			$(".Cards").each(function()
 			{
 				//Check if the mouse clicked the card, if it's still part of the game, and if it has not been flipped.
-				if (e.pageX - $("#playground").position().left >= this.Cards.node.x() &&
-				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.node.w() &&
-				e.pageY - $("#playground").position().top >= this.Cards.node.y()&&
-				e.pageY - $("#playground").position().top < this.Cards.node.y() + this.Cards.node.h()&&
+				if (e.pageX - $("#playground").position().left >= this.Cards.node.x() + this.Cards.WIDTH/2 -  this.Cards.WIDTH/2*this.Cards.scale &&
+				e.pageX - $("#playground").position().left < this.Cards.node.x() + this.Cards.WIDTH/2 -  this.Cards.WIDTH/2*this.Cards.scale + this.Cards.node.w()*this.Cards.scale &&
+				e.pageY - $("#playground").position().top >= this.Cards.node.y()  + this.Cards.HEIGHT/2 -  this.Cards.HEIGHT/2*this.Cards.scale &&
+				e.pageY - $("#playground").position().top < this.Cards.node.y()  + this.Cards.HEIGHT/2 -  this.Cards.HEIGHT/2*this.Cards.scale + this.Cards.node.h()*this.Cards.scale &&
 				this.Cards.visible==true && this.Cards.Flipped == false  && this.Cards.Turning == false
 				&& Ready<TurnedMax)
 				{

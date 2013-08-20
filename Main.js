@@ -1,6 +1,6 @@
 // Global constants:
-var PLAYGROUND_WIDTH    = 300;
-var PLAYGROUND_HEIGHT    = 300;
+var PLAYGROUND_WIDTH    = 1000;
+var PLAYGROUND_HEIGHT    = 1000;
 var REFRESH_RATE        = 30;
 
 //Constants for the gameplay

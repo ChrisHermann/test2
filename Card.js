@@ -116,7 +116,7 @@ function Cards(node)
 				else
 				this.factor=Math.sin(this.Dir);
 				
-				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});
+				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
 					
 				if(spriteDOMObject != undefined){
 					spriteDOMObject.gameQuery = options;

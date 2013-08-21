@@ -4,11 +4,11 @@ var PLAYGROUND_HEIGHT    = 1000;
 var REFRESH_RATE        = 30;
 
 //Constants for the gameplay
-var smallStarSpeed        = 1; //pixels per frame
+/*var smallStarSpeed        = 1; //pixels per frame
     
 var mediumStarSpeed       = 3; //pixels per frame
     
-var bigStarSpeed          = 5; //pixels per frame
+var bigStarSpeed          = 5; //pixels per frame*/
 
 var percent = 1;
     
@@ -77,7 +77,7 @@ $(function(){
 	
 	
 	//DEBUG: Loading images for demo, this should be done using the image manager in the actual game.
-    var background1 = new $.gameQuery.Animation({
+    /*var background1 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background1.png"});
     var background2 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background2.png"}); 
@@ -88,7 +88,7 @@ $(function(){
     var background5 = new $.gameQuery.Animation({
         imageURL: "http://gamequeryjs.com/demos/3/background5.png"});
     var background6 = new $.gameQuery.Animation({
-        imageURL: "http://gamequeryjs.com/demos/3/background6.png"});
+        imageURL: "http://gamequeryjs.com/demos/3/background6.png"});*/
 		
 				//Sounds
 		var bgmusic = new $.gameQuery.SoundWrapper("./music.mp3", true);
@@ -97,12 +97,17 @@ $(function(){
 		
 		
 		var Face = new Array();
-		IM.Load("http://www.madore.org/~david/images/cards/english/king-hearts.png");
-		IM.Load("http://www.madore.org/~david/images/cards/english/jack-hearts.png");
-		IM.Load("http://us.123rf.com/400wm/400/400/rbwinston/rbwinston1203/rbwinston120300001/12586605-king-of-spades-individual-playing-card--an-isolated-vector-illustration-of-a-classic-face-card.jpg");
-
+		//IM.Load("http://www.madore.org/~david/images/cards/english/king-hearts.png");
+		//IM.Load("http://www.madore.org/~david/images/cards/english/jack-hearts.png");
+		//IM.Load("http://us.123rf.com/400wm/400/400/rbwinston/rbwinston1203/rbwinston120300001/12586605-king-of-spades-individual-playing-card--an-isolated-vector-illustration-of-a-classic-face-card.jpg");
+		
+		IM.Load("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
+		IM.Load("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
+		IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+		
 		//Important Card ID: 3 - Swartz
-		IM.Load("http://fc02.deviantart.net/fs71/i/2010/344/e/6/mr_pale_face_evil_man_by_totmoartsstudio2-d34mvci.jpg");
+		//IM.Load("http://fc02.deviantart.net/fs71/i/2010/344/e/6/mr_pale_face_evil_man_by_totmoartsstudio2-d34mvci.jpg");
+		IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
 		
 	
 	var resizeTimer;
@@ -112,7 +117,7 @@ $(function(){
     $(window).resize(function () 
     {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(Resized, 100);
+        resizeTimer = setTimeout(Resized, 1);
     });
 
     //Actual Resizing Event
@@ -199,7 +204,7 @@ $(function(){
     // Initialize the background
     $.playground()
         .addGroup("background", {width: PLAYGROUND_WIDTH, 
-                                 height: PLAYGROUND_HEIGHT})
+                                 height: PLAYGROUND_HEIGHT})/*
         .addSprite("background1", {animation: background1, 
                                    width: PLAYGROUND_WIDTH, 
                                    height: PLAYGROUND_HEIGHT})	
@@ -220,7 +225,7 @@ $(function(){
         .addSprite("background6", {animation: background6, 
                                    width: PLAYGROUND_WIDTH, 
                                    height: PLAYGROUND_HEIGHT, 
-                                   posx: PLAYGROUND_WIDTH})
+                                   posx: PLAYGROUND_WIDTH})*/
 		$("#background").addSound(bgmusic);
     //Setup Card data so they can be reached randomly
 	var Vals = new Array();
@@ -365,14 +370,14 @@ $(function(){
     //This is for the background animation (DEBUG)
     $("#playground").registerCallback(function(){
 	
-	$("#background1").x(($("#background1").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
+	/*$("#background1").x(($("#background1").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	$("#background2").x(($("#background2").x() + smallStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	
 	$("#background3").x(($("#background3").x() + mediumStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	$("#background4").x(($("#background4").x() + mediumStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
 	
 	$("#background5").x(($("#background5").x() + bigStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
-	$("#background6").x(($("#background6").x() + bigStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);
+	$("#background6").x(($("#background6").x() + bigStarSpeed +PLAYGROUND_WIDTH) % (2 * PLAYGROUND_WIDTH) - PLAYGROUND_WIDTH);*/
 	
 	
 	//Basic Game Engine!!

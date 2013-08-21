@@ -28,6 +28,8 @@ $(function(){
 	var EMPTYSPACE = 5;
 	var NumberOfCards = 6;
 	var NumberOfCardsBonus = 1;
+	var Points = 0;
+	
 	
 	
 	var Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
@@ -68,8 +70,8 @@ $(function(){
     // Animations declaration: 
     // The background:    
 	
-	var DM = new DeckManager;
-	var IM = new ImageManager;
+	var DM = new DeckManager();
+	var IM = new ImageManager();
 	
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
 	
@@ -242,6 +244,12 @@ $(function(){
 		$.playground()
 		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
+		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
+                                 height: PLAYGROUND_HEIGHT})
+								 
+								 
+	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
+								 
 	//In this stage we spawn the actual cards, right now this is a huge function.
 	//Imagemanager and deckmanager will make this function a lot smaller.
 	for (var i = 0; i < NumberOfCards+1; ++i)
@@ -317,7 +325,11 @@ $(function(){
 								{
 									//Foreach card that is flipped and not in hiding, delete them (aka. yay, you got a match).
 									if (this.Cards.Flipped==true && this.Cards.Hiding==0)
+									{
+										//This is per card in the matched stack.
+										Points+=100;
 										this.Cards.SetVisible(false);
+									}
 								});
 							}
 							
@@ -334,8 +346,7 @@ $(function(){
 				}
 			});
 		});
-		
-								 
+							 
 	}
 	
     // this sets the id of the loading bar (NOT USED YET):
@@ -371,6 +382,9 @@ $(function(){
 		//For each card, perform their step event.
 		this.Cards.Step();
 	});
+	
+	
+	$("#PointHUD").html("Points: "+Points);	
 	
     }, REFRESH_RATE);
 });

@@ -85,11 +85,10 @@ $(function(){
 		IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
 		
 		//Important Card ID: 3 - Swartz
-		//IM.Load("http://fc02.deviantart.net/fs71/i/2010/344/e/6/mr_pale_face_evil_man_by_totmoartsstudio2-d34mvci.jpg");
 		IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
 		IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
 		IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
-		
+		IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
 		
 		
 	
@@ -202,8 +201,8 @@ $(function(){
 		Vals[i] = Math.floor(i/2);
 	}
 	
-	Vals2[0]=5;
-	Vals2[1]=5;
+	Vals2[0]=3;
+	Vals2[1]=4;
 	Vals2[2]=5;
 	
 	DM.Create(Vals, Vals2, NumberOfCards, 1);

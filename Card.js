@@ -33,6 +33,13 @@ function Cards(node)
 	this.Timer = 0;
 	this.Hiding = 0;
 	
+	this.ChangeFace = function(face)
+	{
+		//Changes the face of the card.
+		this.node.setAnimation(face, null);
+	}
+	
+	
 	this.Create = function(Value, FaceF, FaceS, FaceB, Bonus, scale)
 	{
 		//Used to set up the necessary attributes of a card.
@@ -84,7 +91,7 @@ function Cards(node)
 				var Card;
 				$(".Cards").each(function()
 				{
-					if (this.Cards.Flipped==true && this.Cards.Bonus==false)
+					if (this.Cards.Flipped==true && this.Cards.Bonus==false && this.Cards.visible == true)
 					{
 						Card = this.Cards;
 						
@@ -93,11 +100,11 @@ function Cards(node)
 				
 				this.visible=false;
 				var Someflip=false;
+				
 				$(".Cards").each(function()
 				{
-					if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value)
+					if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true)
 					{
-						console.log(this.Cards.value);
 						this.Cards.node.mousedown();
 						Someflip = true;
 					}
@@ -174,12 +181,6 @@ function Cards(node)
 			
 			}		
 		}
-	}
-
-	this.ChangeFace = function(face)
-	{
-		//Changes the face of the card.
-		this.node.setAnimation(face, null);
 	}
 
 	this.Turn = function()

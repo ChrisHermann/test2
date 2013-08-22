@@ -1,4 +1,4 @@
-function DeckManager()
+	function DeckManager()
 {
 	//This class will manage the deck
 	//It will be used to set up the current levels and
@@ -41,7 +41,7 @@ function DeckManager()
 					this.BonusCardPool.splice(l - 1,1);
 				}
 				else
-				if (ii>=this.NextVal - this.BonusCardPool.length)
+				if (ii>=this.NextVal - this.CardPool.length)
 				{
 					//Move all cards that are above the drawn card to one lesser index.
 					this.BonusCardPool[ii] = this.BonusCardPool[ii + 1];

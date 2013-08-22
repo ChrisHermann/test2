@@ -71,8 +71,48 @@ function Cards(node)
 			node.fadeOut();
 			this.visible=false;
 		}
+		if (this.value == 4)
+		{
+			Points+=500;
+			node.fadeOut();
+			this.visible=false;
+		}
+		if (this.value == 5)
+		{
+			if (Turned > 0)
+			{
+				var Card;
+				$(".Cards").each(function()
+				{
+					if (this.Cards.Flipped==true && this.Cards.Bonus==false)
+					{
+						Card = this.Cards;
+						
+					}
+				});
+				
+				this.visible=false;
+				var Someflip=false;
+				$(".Cards").each(function()
+				{
+					if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value)
+					{
+						console.log(this.Cards.value);
+						this.Cards.node.mousedown();
+						Someflip = true;
+					}
+				});
+				
+			}
+			else
+				Autocomplete = true;
+			
+			
+			node.fadeOut();
+			this.visible=false;
+		}
 	}
-	
+	//sander er dum
 
 	this.Step = function()
 	{
@@ -125,11 +165,11 @@ function Cards(node)
 			this.node.transform();
 			
 			if(this.Dir>=3.14*1.5){
-				if (this.Bonus==true)
-					this.RunBonus();
 				this.Turning = false;
 				this.Dir=3.14/2;
 				if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
+				if (this.Bonus==true)
+					this.RunBonus();
 			}
 			
 			}		

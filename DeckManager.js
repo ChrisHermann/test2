@@ -14,7 +14,7 @@
 	this.LastB;
 	
 	
-	this.Create = function(CardPool, BonusCardPool, NumberOfCards, NumberOfBonusCards)
+	this.Create = function(CardPool, BonusCardPool)
 	{
 		this.CardPool = CardPool;
 		this.BonusCardPool = BonusCardPool;

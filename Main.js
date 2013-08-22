@@ -21,7 +21,7 @@ $(function(){
 	var CARDSIZEY = 208;
 	var EMPTYSPACE = 5;
 	var NumberOfCards = 6;
-	var NumberOfCardsBonus = 3;
+	var NumberOfCardsBonus = 4;
 	Points = 0;
 	Autocomplete = false;
 	
@@ -88,7 +88,7 @@ $(function(){
 		IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
 		IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
 		IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
-		IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
+		IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
 		
 	
@@ -204,6 +204,7 @@ $(function(){
 	Vals2[0]=3;
 	Vals2[1]=4;
 	Vals2[2]=5;
+	Vals2[3]=6;
 	
 	DM.Create(Vals, Vals2, NumberOfCards, 1);
 	

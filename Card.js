@@ -118,8 +118,43 @@ function Cards(node)
 			node.fadeOut();
 			this.visible=false;
 		}
+		if (this.value == 6)
+		{
+			var PCards = new Array();
+			var n = 0;
+			
+			$(".Cards").each(function()
+			{
+				if (this.Cards.visible == true && this.Cards.value != 6 && this.Cards.Flipped==false)
+				{
+					PCards[n] = this.Cards;
+					n++;
+				}
+			});
+			
+			if (this.FlippedV)
+			{
+				this.Turn();
+				this.Flipped=false;
+			}
+			else
+			{
+				var val = Math.floor(Math.random()*(PCards.length));
+				
+				var Container =  this.value;
+				this.value = PCards[val].value;
+				PCards[val].value = Container;
+				
+				this.Bonus = PCards[val].Bonus;
+				PCards[val].Bonus = true;
+				
+				
+				var Container =  this.FaceF;
+				this.FaceF = PCards[val].FaceF;
+				PCards[val].FaceF = Container;
+			}
+		}
 	}
-	//sander er dum
 
 	this.Step = function()
 	{
@@ -146,38 +181,38 @@ function Cards(node)
 				var spriteDOMObject = this.node[0];
 				this.Dir += 3.14/this.TurnSteps;
 				
-				if(this.Dir>=3.14 && this.changed==false){
-					this.changed=true;
-					if(this.FlippedV==false)
-					{
-						if (this.Swartzed)
-							this.ChangeFace(this.FaceS);
+					if(this.Dir>=3.14 && this.changed==false){
+						this.changed=true;
+						if(this.FlippedV==false)
+						{
+							if (this.Swartzed && this.Bonus==false)
+								this.ChangeFace(this.FaceS);
+							else
+								this.ChangeFace(this.FaceF);
+						}
 						else
-							this.ChangeFace(this.FaceF);
+						this.ChangeFace(this.FaceB);
 					}
+					if (this.changed==true)
+					this.factor=-Math.sin(this.Dir);
 					else
-					this.ChangeFace(this.FaceB);
-				}
-				if (this.changed==true)
-				this.factor=-Math.sin(this.Dir);
-				else
-				this.factor=Math.sin(this.Dir);
-				
-				var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+					this.factor=Math.sin(this.Dir);
 					
-				if(spriteDOMObject != undefined){
-					spriteDOMObject.gameQuery = options;
-			}
-			
-			this.node.transform();
-			
-			if(this.Dir>=3.14*1.5){
-				this.Turning = false;
-				this.Dir=3.14/2;
-				if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
-				if (this.Bonus==true)
-					this.RunBonus();
-			}
+					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+						
+					if(spriteDOMObject != undefined){
+						spriteDOMObject.gameQuery = options;
+				}
+				
+				this.node.transform();
+				
+				if(this.Dir>=3.14*1.5){
+					this.Turning = false;
+					this.Dir=3.14/2;
+					if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
+					if (this.Bonus==true)
+						this.RunBonus();
+				}
 			
 			}		
 		}

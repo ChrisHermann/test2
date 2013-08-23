@@ -127,8 +127,6 @@ $(function(){
 		var CARDSIZEX = 208;
 		var CARDSIZEY = 208;
 		var EMPTYSPACE = 5;
-		var NumberOfCards = 6;
-		var NumberOfCardsBonus = 1;
 		
 		
 		var Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;

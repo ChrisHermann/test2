@@ -4,6 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
 	<script type="text/javascript" src="http://gamequeryjs.com/wp-content/uploads/jquery.gamequery-0.7.1.js"></script>
 	<script type="text/javascript" src="SoundManager.js"></script>
 	<script type="text/javascript" src="Card.js"></script>
@@ -17,8 +18,8 @@
 <div id="playground" style="width: 700px; height: 250px; background: black;">
     <div id="welcomeScreen" style="width: 700px; height: 250px; position: absolute; z-index: 100;">
         <div style="position: absolute; top: 120px; width: 700px; color: white;">
-            <div id="loadingBar" style="position: relative; left: 100px; height: 15px; width: 0px; background: red;"></div><br />
-            <a style="cursor: pointer;" id="startbutton">click here to show the demo</a>
+            <a style="cursor: pointer;" class="spinner-link" id="startbutton">click here to show the demo</a>
+			<div id="spin" style="display:none;"></div>
         </div>
     </div>
 </div>

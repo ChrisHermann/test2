@@ -5,6 +5,18 @@ var REFRESH_RATE        = 30;
 
 
 var percent = 1;
+
+
+	
+var NumberOfCards = 6;
+var NumberOfCardsBonus = 4;
+function ForEachCard(Function)
+{
+	for (var i = 0; i < NumberOfCards+NumberOfCardsBonus; ++i)
+	{
+		Function.apply($("#Card_"+i)[0]);
+	}
+}
     
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
@@ -20,8 +32,6 @@ $(function(){
 	var CARDSIZEX = 208;
 	var CARDSIZEY = 208;
 	var EMPTYSPACE = 5;
-	var NumberOfCards = 6;
-	var NumberOfCardsBonus = 4;
 	Points = 0;
 	Autocomplete = false;
 	
@@ -199,12 +209,16 @@ $(function(){
     for (var i = 0; i < NumberOfCards; ++i)
 	{
 		Vals[i] = Math.floor(i/2);
-	}
+	};
 	
 	Vals2[0]=3;
 	Vals2[1]=4;
 	Vals2[2]=5;
 	Vals2[3]=6;
+	
+	
+	
+	
 	
 	DM.Create(Vals, Vals2, NumberOfCards, 1);
 	
@@ -245,7 +259,7 @@ $(function(){
 		$("#"+name).mousedown(function(e)
 		{
 			var Ready = 0;
-			$(".Cards").each(function()
+			ForEachCard(function()
 			{
 				if (this.Cards.visible && (this.Cards.Turning==true || this.Cards.FlippedV==true))
 				{
@@ -272,7 +286,7 @@ $(function(){
 						var Card = this.Cards;
 						
 						var Someflip=false;
-						$(".Cards").each(function()
+						ForEachCard(function()
 						{
 							if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value)
 							{
@@ -290,7 +304,7 @@ $(function(){
 						//It's done this way if you want a variable number of cards needed for a match.
 						var Correct = this.Cards.value;
 						var CorrectAmount = 0;
-						$(".Cards").each(function()
+						ForEachCard(function()
 						{
 							//For each card, if they are flipped, are not going into hiding/deletion, and has the
 							//Correct value, increase the counter for the number of cards matching.
@@ -302,7 +316,7 @@ $(function(){
 						//If we have a correct match
 						if (CorrectAmount==TurnedMax)
 						{
-							$(".Cards").each(function()
+							ForEachCard(function()
 							{
 								//Foreach card that is flipped and not in hiding, delete them (aka. yay, you got a match).
 								if (this.Cards.Flipped==true && this.Cards.Hiding==0)
@@ -315,7 +329,7 @@ $(function(){
 							});
 						}
 						
-						$(".Cards").each(function()
+						ForEachCard(function()
 						{
 							//Foreach card that was not in hiding and was not part of the match, unflip them again.
 							if (this.Cards.Flipped==true && this.Cards.Hiding==0)
@@ -350,7 +364,8 @@ $(function(){
 	
 	//Basic Game Engine!!
 	
-	$(".Cards").each(function()
+	
+	ForEachCard(function()
 	{
 		//For each card, perform their step event.
 		this.Cards.Step();

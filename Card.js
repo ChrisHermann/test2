@@ -33,6 +33,7 @@ function Cards(node)
 	this.Timer = 0;
 	this.Hiding = 0;
 	
+	
 	this.ChangeFace = function(face)
 	{
 		//Changes the face of the card.
@@ -62,12 +63,11 @@ function Cards(node)
 		this.node.transform();
 	}
 	
-	
 	this.RunBonus = function()
 	{
 		if (this.value == 3)
 		{
-			$(".Cards").each(function()
+			ForEachCard(function()
 			{
 				this.Cards.Swartzed = true;
 				
@@ -89,7 +89,7 @@ function Cards(node)
 			if (Turned > 0)
 			{
 				var Card;
-				$(".Cards").each(function()
+				ForEachCard(function()
 				{
 					if (this.Cards.Flipped==true && this.Cards.Bonus==false && this.Cards.visible == true)
 					{
@@ -101,7 +101,7 @@ function Cards(node)
 				this.visible=false;
 				var Someflip=false;
 				
-				$(".Cards").each(function()
+				ForEachCard(function()
 				{
 					if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true)
 					{
@@ -123,7 +123,7 @@ function Cards(node)
 			var PCards = new Array();
 			var n = 0;
 			
-			$(".Cards").each(function()
+			ForEachCard(function()
 			{
 				if (this.Cards.visible == true && this.Cards.value != 6 && this.Cards.Flipped==false)
 				{
@@ -277,7 +277,7 @@ function Cards(node)
 	
 	this.ResetBonus = function()
 	{
-		$(".Cards").each(function()
+		ForEachCard(function()
 		{
 			this.Cards.Swartzed = false;
 		});

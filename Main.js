@@ -115,9 +115,6 @@ $(function(){
     //Actual Resizing Event
     function Resized() 
     {
-        //Your function goes here
-		
-		
 		//Calculate playground width and height:
 		PLAYGROUND_WIDTH = $(window).width() - 20;
 		PLAYGROUND_HEIGHT = $(window).height() - 20;
@@ -135,13 +132,17 @@ $(function(){
 		var noc = Math.sqrt(NumberOfCards + NumberOfCardsBonus);
 		
 		var SpaceX = PLAYGROUND_WIDTH/ Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1));
-		var SpaceY = PLAYGROUND_HEIGHT/(  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
+		var SpaceY = PLAYGROUND_HEIGHT/(Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
+		
+		
+		noc = (NumberOfCards + NumberOfCardsBonus)/(Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    ) ));
+		SpaceX = PLAYGROUND_WIDTH/ Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc + 1));
 		
 		var LastYOff = 0;
 		
-		if (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) !=  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))
+		if (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) !=  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))
 		{
-			LastYOff = (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1)) -  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc*Ratio )))    )  + 1))/2 * SpaceX;
+			LastYOff = (Math.min((NumberOfCards + NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) -  Math.min((NumberOfCards + NumberOfCardsBonus + 1) , Math.ceil( (NumberOfCards + NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))/2 * SpaceX;
 		}
 		
 		if (SpaceX >= CARDSIZEX+EMPTYSPACE)
@@ -176,11 +177,9 @@ $(function(){
 			//For each card, perform their step event.
 			this.Cards.scale = Scale;
 			
-			this.Cards.Update({posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });
+			this.Cards.Update({posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (NumberOfCards + NumberOfCardsBonus) - ((NumberOfCards + NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
 			i++;
 		});
-		
-		
     };
 	
 	

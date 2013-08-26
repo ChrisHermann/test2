@@ -62,6 +62,7 @@
 				if (ii==l - 1)
 				{
 					//Splice the last card to avoid dupes and to decrease the array length/RAM usage.
+					//PLEASE SANDER, IMPROVE THIS TO JUST SPLICE WHERE NECESSARY.
 					this.CardPool.splice(l - 1,1);
 				}
 				else
@@ -114,5 +115,10 @@
 		{
 			return(false);
 		}
+	}
+	
+	this.GetRandomBonus = function()
+	{
+		return(3+Math.floor(Math.random()*4));
 	}
 }

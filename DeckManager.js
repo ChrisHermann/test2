@@ -13,7 +13,7 @@
 	this.NextVal;
 	this.LastB;
 	
-	
+	//Sets hte class up properly.
 	this.Create = function(CardPool, BonusCardPool)
 	{
 		this.CardPool = CardPool;
@@ -22,31 +22,20 @@
 		this.NextVal=Math.floor(Math.random()*(CardPool.length + BonusCardPool.length));
 	}
 	
+	//Gets the next card and removes it from the deck. 
+	//Next val is determined beforehand so we can also peek at it without removing it from the deck.
 	this.PushCard = function()
 	{
 		var val;
+		//Calculates which of the pools the card is from, and assigns the result to val, which is then returned.
 		if (this.NextVal>=this.CardPool.length)
 		{
 			val = this.BonusCardPool[this.NextVal - this.CardPool.length];
 			this.LastB = true;
-			
-			var l =  this.BonusCardPool.length;
 		
 			//Then we need to remove the drawn card from the deck.
-			for (var ii = 0; ii < l; ++ii)
-			{
-				if (ii==l - 1)
-				{
-					//Splice the last card to avoid dupes and to decrease the array length/RAM usage.
-					this.BonusCardPool.splice(l - 1,1);
-				}
-				else
-				if (ii>=this.NextVal - this.CardPool.length)
-				{
-					//Move all cards that are above the drawn card to one lesser index.
-					this.BonusCardPool[ii] = this.BonusCardPool[ii + 1];
-				}
-			}
+			
+			this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
 		}
 		else
 		{
@@ -54,34 +43,20 @@
 			this.LastB = false;
 			
 			
-		
-			var l =  this.CardPool.length;
 			//Then we need to remove the drawn card from the deck.
-			for (var ii = 0; ii < l; ++ii)
-			{
-				if (ii==l - 1)
-				{
-					//Splice the last card to avoid dupes and to decrease the array length/RAM usage.
-					//PLEASE SANDER, IMPROVE THIS TO JUST SPLICE WHERE NECESSARY.
-					this.CardPool.splice(l - 1,1);
-				}
-				else
-				if (ii>=this.NextVal)
-				{
-					//Move all cards that are above the drawn card to one lesser index.
-					this.CardPool[ii] = this.CardPool[ii + 1];
-				}
-			}
+			
+			this.CardPool.splice(this.NextVal,1);
 		}
 		
 		
-			
+		//Determine the next card to be drawn.
 		this.NextVal=Math.floor(Math.random()*(this.CardPool.length + this.BonusCardPool.length));
 		
 		
 		return (val);
 	}
 	
+	//Peeks at the next card, without removing it from the deck.
 	this.PeekCard = function()
 	{
 		var val;
@@ -95,16 +70,19 @@
 		}
 	}
 	
+	//Returns the size of hte deck for this level.
 	this.GetNumberOfCards = function()
 	{
 		return(CardPool.length + BonusCardPool.length);
 	}
 	
+	//Returns wether the last card drawn was a bonus card or not.
 	this.LastBonus = function()
 	{
 		return(this.LastB);
 	}
 	
+	//Returns wether the next card to be drawn will be a bonus card or not.
 	this.NextBonus = function()
 	{
 		if (NextVal>CardPool.length)
@@ -117,6 +95,7 @@
 		}
 	}
 	
+	//Returns a random bonus card, within the appropriate range.
 	this.GetRandomBonus = function()
 	{
 		return(3+Math.floor(Math.random()*4));

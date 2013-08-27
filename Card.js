@@ -1,6 +1,7 @@
 function Cards(node)
 {
 	//The card class, and it's attributes.
+	//These attributes may be obsolete atm.
 	this.WIDTH = 208;
 	this.HEIGHT = 303;
 	
@@ -37,6 +38,7 @@ function Cards(node)
 	this.ChangeFace = function(face)
 	{
 		//Changes the face of the card.
+		//The face needs to be preloaded.
 		this.node.setAnimation(face, null);
 	}
 	
@@ -44,6 +46,13 @@ function Cards(node)
 	this.Create = function(Value, FaceF, FaceS, FaceB, Bonus, scale)
 	{
 		//Used to set up the necessary attributes of a card.
+		//Value is the value of the card.
+		//FaceF is the image for the front-side of the card.
+		//FaceS is the image that is used for
+		//FaceB is the image that will make up the back-side of the card.
+		//Bonus is if the card is a bonus card or not.
+		//Scale is the overall scale of the card. All other scalings will take base in this one.
+		//This should mainly be changed for resizing, if not, it should be left unchanged.
 		this.value = Value;
 		this.FaceB = FaceB;
 		this.FaceF = FaceF;
@@ -51,7 +60,7 @@ function Cards(node)
 		this.scale = scale;
 		this.Bonus = Bonus;
 		
-		
+		//Applies the correct scale to the card. The code seems messy, but that's how game engine does it.
 		var spriteDOMObject = this.node[0];
 				
 		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.scale, factorv: (208/303) * this.scale});
@@ -65,8 +74,11 @@ function Cards(node)
 	
 	this.RunBonus = function()
 	{
+		//Runs the bonus effect of the card (If there is one).
 		if (this.value == 3)
 		{
+			//Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
+			//Swarts face. If they are already flipped, change their face to swartzs immediately.
 			ForEachCard(function()
 			{
 				this.Cards.Swartzed = true;
@@ -80,12 +92,16 @@ function Cards(node)
 		}
 		if (this.value == 4)
 		{
+			//Simple add 500 points to the players score.
 			Points+=500;
 			node.fadeOut();
 			this.visible=false;
 		}
 		if (this.value == 5)
 		{
+			//This card will find a pair for you. If you already have a card flipped, it will find the matching card and
+			//Flip that one, if not, it will set autocomplete to true, telling the main class that hte next time a card
+			//Is turned, it should find a pair for that card.
 			if (Turned > 0)
 			{
 				var Card;
@@ -120,18 +136,10 @@ function Cards(node)
 		}
 		if (this.value == 6)
 		{
-			var PCards = new Array();
-			var n = 0;
-			
-			ForEachCard(function()
-			{
-				if (this.Cards.visible == true && this.Cards.value != 6 && this.Cards.Flipped==false)
-				{
-					PCards[n] = this.Cards;
-					n++;
-				}
-			});
-			
+			//Search through eligible cards. Cannot chose cards of hte same type.
+			//This code will actually run twice, the first time is when the card is first flipped
+			//it will then be told to flip back. The second time is when the card flips back, it will then
+			//be told to execute the actual effect.
 			if (this.FlippedV)
 			{
 				this.Turn();
@@ -139,6 +147,21 @@ function Cards(node)
 			}
 			else
 			{
+				var PCards = new Array();
+				var n = 0;
+				
+				ForEachCard(function()
+				{
+					//Search through eligible cards. Cannot chose cards of the same type.
+					if (this.Cards.visible == true && this.Cards.value != 6 && this.Cards.Flipped==false)
+					{
+						PCards[n] = this.Cards;
+						n++;
+					}
+				});
+				
+				
+				//Here it exchanges the necessary variables to make the cards actually change place.
 				var val = Math.floor(Math.random()*(PCards.length));
 				
 				var Container =  this.value;
@@ -155,7 +178,7 @@ function Cards(node)
 			}
 		}
 	}
-
+	
 	this.Step = function()
 	{
 		if (this.visible == true)
@@ -172,7 +195,6 @@ function Cards(node)
 				node.fadeOut();
 				this.visible=false;
 			}
-			
 			
 			
 			if(this.Turning == true)
@@ -223,12 +245,12 @@ function Cards(node)
 		//Turns the Card around.
 		this.Turning = true;
 		this.changed = false;
+		createjs.Sound.play("sound");
 	}
 	
 	this.Clicked = function()
 	{
 		//This will be run whenever the card is clicked.
-		createjs.Sound.play("sound");
 		if (this.Flipped==false)
 		{
 			this.Flipped=true;
@@ -260,7 +282,6 @@ function Cards(node)
 	}
 	
 	//Effectively deletes the card by making it invisible.
-	//We possibly need to find a better way to do this.
 	this.SetVisible = function(Visible)
 	{
 		if (Visible == false)
@@ -275,17 +296,20 @@ function Cards(node)
 			this.visible=true;
 		}
 	}
-	
+	//Makes the card not swartzed any longer. It will again show it's true face.
 	this.ResetBonus = function()
 	{
+		
 		ForEachCard(function()
 		{
 			this.Cards.Swartzed = false;
 		});
 	}
 	
+	//Updates the card visually, and applies whatever options you want to it.
 	this.Update = function(options2)
 	{
+		//Again, ugly code, this is how gamequery does it though.
 		var spriteDOMObject = this.node[0];
 				
 		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});

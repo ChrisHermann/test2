@@ -19,8 +19,15 @@ function GFX(node)
 	this.StepAlpha;
 	this.StepPosition;
 	
+	//Sets up the functions.
 	this.Create = function(SS, ES, SA, EA, SP, EP, steps)
 	{
+		//the three first arguments has a starting value and an end value.
+		//They will transition from the first value to the second one over time.
+		//Size is the size of the object.
+		//Alpha is the opacity
+		//Position is an object given as: {x: , y:} with coordinates.
+		//Steps is the amount of time the transition should take.
 		this.Steps = steps;
 		
 		this.StartSize = SS;
@@ -36,6 +43,10 @@ function GFX(node)
 		this.StepPosition = {x: (EP.x-SP.x)/steps, y: (EP.y-SP.y)/steps};
 	}
 	
+	//The step function that transitions stuff.
+	//It all does the same, just with different variables.
+	//take the base amount, and increase it by the step amount.
+	//If hte base amount is greater htan the end-amount, then hard-set the step amount to the end-amount.
 	this.Step = function()
 	{
 		this.StartSize+=this.StepSize;
@@ -53,6 +64,9 @@ function GFX(node)
 		if ((this.StartPosition.y>this.EndPosition.y && this.StepPosition.y>0) || (this.StartPosition.y<this.EndPosition.y && this.StepPosition.y<0)) this.StartPosition.y=this.EndPosition.y;
 		
 		this.node.scale(this.StartSize).xy(this.StartPosition.x, this.StartPosition.y).css({opacity: this.StartAlpha});
+		
+		
+		//NEEDS TO BE ABLE TO DELETE ITSELF
 	}
 	
 }

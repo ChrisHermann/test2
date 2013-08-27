@@ -66,6 +66,21 @@ $(function(){
 	var Name = "";
 	Points = 0;
 	Autocomplete = false;
+
+	Now = 0;
+	
+	Delta = 0;
+	
+	var Then = new Date().getTime();
+	
+	var GameTime = 30;
+	
+	var interstart = true;
+	
+	function subSec()
+	{
+		GameTime--;
+	}
 	
 	var LastA=false;
 	
@@ -466,6 +481,9 @@ $(function(){
 	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
 	
 	//Create the first level.
+	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
+
+	//Create the first level.
 	CreateLevel();
 					
     // this sets the id of the loading bar (NOT USED YET):
@@ -508,7 +526,19 @@ $(function(){
 	else
 	{
 		//Basic Game Engine!!
+		
+		Now = new Date().getTime();
+		Delta = Now - Then;	
+		
+		if(interstart == true)
+		{
+		setInterval(subSec,1000);
+		interstart = false;
+		}
+		
 		$("#PointHUD").html("Points: "+Points);	
+		
+		$("#TimeHUD").html("Time: "+GameTime);
 		
 		
 		ForEachCard(function()
@@ -557,10 +587,13 @@ $(function(){
 				CreateLevel();
 			}
 		}
+	
+	Then = Now;
+		
 	}
 	EndedL=Ended;
 	//Loop
-    }, REFRESH_RATE);
+    }, Math.min(0,REFRESH_RATE-Delta));
 	
 	//This function is used for the loading spinnner.
 	//We have little idea how it works.

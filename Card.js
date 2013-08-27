@@ -283,7 +283,7 @@ function Cards(node)
 		});
 	}
 	
-	this.Update = function( options2)
+	this.Update = function(options2)
 	{
 		var spriteDOMObject = this.node[0];
 				

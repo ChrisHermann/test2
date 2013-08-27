@@ -18,7 +18,7 @@ function LevelManager(node)
 	
 	this.Create = function(MaxCards, ActualyMaxCards)
 	{
-		this.Difficulty = 0.4;
+		this.Difficulty = 0.6;
 		this.Increment = 0.1;
 		this.BonusCardsB = 0.0;
 		this.BonusCardsR = 0.2;

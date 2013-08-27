@@ -20,6 +20,30 @@ function ForEachCard(Function)
 // --------------------------------------------------------------------
 
 $(function(){
+	function CustomSort(a,b)
+	{
+		return(b.score-a.score);
+	}
+	
+	//TEST HIGHSCORE
+	//TODO: DELETE!!!
+	Scores = new Array();
+	Scores[0]={score: 100, name: "SSH"};
+	Scores[1]={score: 200, name: "SSH"};
+	Scores[2]={score: 500, name: "SSH"};
+	Scores[3]={score: 300, name: "SSH"};
+	Scores[4]={score: 400, name: "SSH"};
+	Scores[5]={score: 450, name: "SSH"};
+	Scores[6]={score: 10000, name: "SSH"};
+	Scores[7]={score: 20, name: "SSH"};
+	Scores[8]={score: 150, name: "SSH"};
+	Scores[9]={score: 160, name: "SSH"};
+	Scores[10]={score: 170, name: "SSH"};
+	
+	Scores.sort(CustomSort);
+	
+	
+
 	//Calculate playground width and height:
 	PLAYGROUND_WIDTH = $(window).width() - 20;
 	PLAYGROUND_HEIGHT = $(window).height() - 20;
@@ -31,6 +55,9 @@ $(function(){
 	var EMPTYSPACE = 5;
 	var DoneTimer = 0;
 	var Done = false;
+	var Ended = 0;
+	var EndedL = 0;
+	var Name = "";
 	Points = 0;
 	Autocomplete = false;
 	
@@ -68,16 +95,6 @@ $(function(){
 	IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
 		
-	
-	var resizeTimer;
-
-    //Event to handle resizing
-	//This event should fire under any circimstance, except when safari is NOT maximized, and windows resolution is changed (WTF?)
-    $(window).resize(function () 
-    {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(Resized, 1);
-    });
 	
     
 
@@ -118,8 +135,8 @@ $(function(){
 			val = DM.PushCard();
 			
 			//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc*Ratio))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc*Ratio))) ) , posy: Math.floor( i / (Math.ceil(noc*Ratio))  ) * SpaceY + SpaceY - 152 });//.addSound(flipSound);;
-			
+			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });//.addSound(flipSound);;
+																	 
 			//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 			$("#"+name).addClass("Cards");
 			
@@ -220,6 +237,20 @@ $(function(){
 		}
 	}
 	
+	
+	
+	var resizeTimer;
+
+    //Event to handle resizing
+	//This event should fire under any circimstance, except when safari is NOT maximized, and windows resolution is changed (WTF?)
+    $(window).resize(function () 
+    {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(Resized, 1);
+    });
+	
+	
+	
     //Actual Resizing Event
     function Resized() 
     {
@@ -273,7 +304,78 @@ $(function(){
         height: PLAYGROUND_HEIGHT, 
         width: PLAYGROUND_WIDTH});
 		
+		
+		//Could possibly use foreach, it's hard to handle uninitialized varables in foreach though.
+		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+		{
+			var Card = $("#Card_"+i)
+			
+			if (Card.length>0)
+			{
+				Card[0].Cards.scale = Scale;
+				Card[0].Cards.Update({posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
+		   }
+		
+		}
     };
+	
+	function EndGame()
+	{
+		Ended = 1;
+		Name = "";
+		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
+	
+		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+		{
+			$("#Card_"+i).remove();
+		}
+	}
+	
+	function RestartGame()
+	{
+		$("#HighscoreHUD").remove();
+	
+		Ended = 0;
+		LM.Create(6,10);
+		CreateLevel();
+	}
+	
+	
+	document.onkeypress = function(event)
+	{
+		var key_press = String.fromCharCode(event.keyCode);
+		
+		if (event.keyCode!=13 && key_press != " " && EndedL==1)
+		Name += key_press;
+	}
+	
+	$(document).keydown(function (e) {
+	    if (e.which === 8)
+	    {
+			//your custom action here
+		
+			Name = Name.substring(0, Name.length - 1);
+			return false;
+ 	    }
+		if (event.keyCode==13)
+		{
+			if (Ended == 1)
+				Ended=2;
+			else
+				RestartGame();
+			
+			ApplyHighscore( {name: Name, score: Points} );
+			
+			return false;
+		}
+	});
+	
+	
+	function ApplyHighscore(object)
+	{
+		Scores[Scores.length] = object;
+		Scores.sort(CustomSort);
+	}
 	
 	
     // Initialize the game:
@@ -300,7 +402,6 @@ $(function(){
 								 
 	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
 								 
-								 
 	CreateLevel();
 					
     // this sets the id of the loading bar (NOT USED YET):
@@ -319,62 +420,77 @@ $(function(){
     })
     
     
-    //This is for the background animation (DEBUG)
+    //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function(){
-	
-	
-	
-	//Basic Game Engine!!
-	
-	ForEachCard(function()
+	if (Ended == 2)
 	{
-		//For each card, perform their step event.
-		this.Cards.Step();
-	});
-	
-	
-	if ($.gQ.keyTracker[65])
-	{
-		if (LastA==false)
+		var Line = "<br>";
+		for(i=0; i<10; i++)
 		{
-			LastA=true;
-			LM.NextLevel();
+			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
 		}
+		$("#HighscoreHUD").html(Line+"<br>Tryk Enter for at starte et nyt spil");
+		$("#HighscoreHUD").css({left: (PLAYGROUND_WIDTH - $("#HighscoreHUD").width())/2, top:  (PLAYGROUND_HEIGHT - $("#HighscoreHUD").height())/2});
 	}
 	else
-		LastA=false;
-	
-	$("#PointHUD").html("Points: "+Points);	
-	
-	
-	var Turned = 0;
-	ForEachCard(function()
+	if (Ended == 1)
 	{
-		if (this.Cards.visible == false && this.Cards.Bonus==false)
-		Turned++;
-	});
-	
-	if (Turned >= LM.NumberOfCards)
+		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+		$("#HighscoreHUD").html(string);
+		$("#HighscoreHUD").css({left: (PLAYGROUND_WIDTH - $("#HighscoreHUD").width())/2, top:  (PLAYGROUND_HEIGHT - $("#HighscoreHUD").height())/2});
+	}
+	else
 	{
-		DoneTimer++;
-		Done = true;
-		if (DoneTimer>30)
+		//Basic Game Engine!!
+		
+		$("#PointHUD").html("Points: "+Points);	
+		
+		
+		ForEachCard(function()
 		{
-			DoneTimer=0;
-			Done = false;
-			ForEachCard(function()
+			//For each card, perform their step event.
+			this.Cards.Step();
+		});
+		
+		
+		if ($.gQ.keyTracker[65])
+		{
+			if (LastA==false)
 			{
+				LastA=true;
+				EndGame();
+			}
+		}
+		else
+			LastA=false;
+		
+		
+		var Turned = 0;
+		ForEachCard(function()
+		{
+			if (this.Cards.visible == false && this.Cards.Bonus==false)
+			Turned++;
+		});
+		
+		if (Turned >= LM.NumberOfCards)
+		{
+			DoneTimer++;
+			Done = true;
+			if (DoneTimer>30)
+			{
+				DoneTimer=0;
+				Done = false;
 				for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 				{
-					Function.apply($("#Card_"+i).remove());
+					$("#Card_"+i).remove();
 				}
-			});
-			
-			
-			CreateLevel();
+				
+				
+				CreateLevel();
+			}
 		}
 	}
-	
+	EndedL=Ended;
     }, REFRESH_RATE);
 	
 	

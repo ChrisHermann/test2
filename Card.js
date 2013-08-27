@@ -28,9 +28,13 @@ function Cards(node)
 	this.scale  = 1;
 	this.Dir = 3.14/2;
 	
-	this.TurnSteps = 30;
+	//Seconds times 1000
+	this.TurnSteps = 0.7*1000;
+	
+	//this.TempDelta = 30;
 	
 	this.Timer = 0;
+	
 	this.Hiding = 0;
 	
 	
@@ -162,7 +166,6 @@ function Cards(node)
 		{
 			//The step event for cards, this will be performed each frame.
 			//Timers, used to create a delay before hiding/unflipping a card.
-			this.Timer+=1;
 			if (this.Timer>this.TurnSteps && this.Hiding==1)
 				this.TrueHide();
 			else
@@ -177,9 +180,8 @@ function Cards(node)
 			
 			if(this.Turning == true)
 			{
-			
 				var spriteDOMObject = this.node[0];
-				this.Dir += 3.14/this.TurnSteps;
+				this.Dir += 3.14*(Delta/this.TurnSteps);
 				
 					if(this.Dir>=3.14 && this.changed==false){
 						this.changed=true;
@@ -207,6 +209,18 @@ function Cards(node)
 				this.node.transform();
 				
 				if(this.Dir>=3.14*1.5){
+					this.factor=1;
+					
+					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});
+						
+					if(spriteDOMObject != undefined){
+						spriteDOMObject.gameQuery = options;
+					}
+					
+					this.node.transform();
+					
+					
+					
 					this.Turning = false;
 					this.Dir=3.14/2;
 					if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
@@ -214,8 +228,14 @@ function Cards(node)
 						this.RunBonus();
 				}
 			
-			}		
+			}
+
+
+			this.Timer+=Delta;
 		}
+		
+		
+		this.n2 = new Date().getTime();
 	}
 
 	this.Turn = function()

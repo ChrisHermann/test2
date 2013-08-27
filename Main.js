@@ -78,9 +78,9 @@ $(function(){
 	
 		
 	//Sounds
-	var bgmusic = new $.gameQuery.SoundWrapper("./music.mp3", true);
-	//var flipSound = new $.gQ.SoundWrapper("./flipcard.wav", false);
-	//var bgmusic = document.getElementById('music'.mp3);
+	 createjs.Sound.registerSound("./flipcard.wav", "sound");
+	 createjs.Sound.registerSound("./music.mp3", "bgmusic");
+
 	
 	
 	var Face = new Array();
@@ -135,7 +135,7 @@ $(function(){
 			val = DM.PushCard();
 			
 			//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });//.addSound(flipSound);;
+			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
 																	 
 			//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
 			$("#"+name).addClass("Cards");
@@ -305,7 +305,7 @@ $(function(){
         width: PLAYGROUND_WIDTH});
 		
 		
-		//Could possibly use foreach, it's hard to handle uninitialized varables in foreach though.
+		//Could possibly use foreach, it's hard to handle uninitialized variables in foreach though.
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 		{
 			var Card = $("#Card_"+i)
@@ -389,7 +389,6 @@ $(function(){
     $.playground()
         .addGroup("background", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT});
-		$("#background").addSound(bgmusic);
 	
 	//Generate the actual Cards
 	
@@ -413,7 +412,8 @@ $(function(){
         $.playground().startGame(function(){
 			var spinner = new Spinner().spin();
 				  background.appendChild(spinner.el);
-
+			
+			createjs.Sound.play("bgmusic");
             $("#welcomeScreen").remove();
 			$("#background").playSound();
         });

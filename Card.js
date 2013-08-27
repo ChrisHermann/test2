@@ -228,6 +228,7 @@ function Cards(node)
 	this.Clicked = function()
 	{
 		//This will be run whenever the card is clicked.
+		createjs.Sound.play("sound");
 		if (this.Flipped==false)
 		{
 			this.Flipped=true;

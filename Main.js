@@ -64,6 +64,7 @@ $(function(){
 	var Ended = 0;
 	var EndedL = 0;
 	var Name = "";
+	var Line;
 	Points = 0;
 	Autocomplete = false;
 
@@ -73,13 +74,13 @@ $(function(){
 	
 	var Then = new Date().getTime();
 	
-	var CoreGameTime = 300;
+	var CoreGameTime = 50;
 	
 	var CurGameTime = CoreGameTime;
 	
 	function subSec()
 	{
-		CurGameTime--;
+		GameTime--;
 	}
 	
 	var LastA=false;
@@ -123,11 +124,11 @@ $(function(){
 	POINTID = IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
 	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
 	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
-	
+		
 	//Sets the amountn of bonus cards loaded.
-	BONUSES = 4;
-		
-		
+	BONUSES = 4;	
+	
+	
 	
     
 
@@ -184,7 +185,7 @@ $(function(){
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];
 			Current.Cards = new Cards($("#"+name));
-			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
+			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main
@@ -397,7 +398,7 @@ $(function(){
 	
 		Ended = 0;
 		//This is the easiest way to reset the levelmanager.
-		LM.Create(20,25);
+		LM.Create(6,10);
 		CreateLevel();
 	}
 	
@@ -454,7 +455,7 @@ $(function(){
 		Ended=2;
 		
 		//Create a line containing the 10 best scores, and apply them to the div.
-		var Line = "<br>";
+		Line = "<br>";
 		for(i=0; i<10; i++)
 		{
 			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
@@ -498,9 +499,9 @@ $(function(){
 	//Create a div for the Point UI.
 	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
 	
-	//Create a div for the time UI.
-	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif;'></div>");
-		
+	//Create the first level.
+	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
+	
 	//Create a div for the Level UI.
 	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 400px; font-family: verdana, sans-serif;'></div>");
 
@@ -526,98 +527,101 @@ $(function(){
     
     
     //THIS IS THE MAIN LOOP
-    $("#playground").registerCallback(function(){
-	if (Ended == 2)
+    $("#playground").registerCallback(function()
 	{
-		//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	if (Ended == 1)
-	{
-		//If we are entering our name:
-		//Generate a string based on the name varaible, which is changed in onkeypress
-		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-		
-		
-		var Current = $("#HighscoreHUD");
-		//Apply the string to the div, and recenter it.
-		Current.html(string);
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	{
-		//Basic Game Engine!!
-		
-		//Use this to get delta (The amout of milliseconds since last frame).
-		Now = new Date().getTime();
-		Delta = Now - Then;	
-		
-		
-		$("#PointHUD").html("Points: "+Points);	
-		
-		$("#TimeHUD").html("Time: "+CurGameTime);
-		
-		$("#LevelHUD").html("Level: "+CurLevel);
-		
-		
-		ForEachCard(function()
+		if (Ended == 2)
 		{
-			//For each card, perform their step event.
-			this.Cards.Step();
-		});
-		
-		//DEBUG DEBUG DEBUG
-		if ($.gQ.keyTracker[65])
-		{
-			if (LastA==false)
-			{
-				LastA=true;
-				EndGame();
-			}
+			var Current = $("#HighscoreHUD");
+			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+			Current.html(Line);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
-			LastA=false;
-		
-		//Ends game if GameTime hits 0
-		if(CurGameTime <= 0)
+		if (Ended == 1)
 		{
-			EndGame();
+			//If we are entering our name:
+			//Generate a string based on the name varaible, which is changed in onkeypress
+			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+			
+			
+			var Current = $("#HighscoreHUD");
+			//Apply the string to the div, and recenter it.
+			Current.html(string);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
-		
-		//Calculate how many cards has been matched.
-		var Turned = 0;
-		ForEachCard(function()
+		else
 		{
-			if (this.Cards.visible == false && this.Cards.Bonus==false)
-			Turned++;
-		});
+			//Basic Game Engine!!
+			
+			//Use this to get delta (The amout of milliseconds since last frame).
+			Now = new Date().getTime();
+			Delta = Now - Then;	
+			
+			
+			$("#PointHUD").html("Points: "+Points);	
+			
+			$("#TimeHUD").html("Time: "+CurGameTime);
 		
-		//If we have matched all the cards.
-		if (Turned >= LM.NumberOfCards)
-		{
-			DoneTimer++;
-			Done = true;
-			//If done, count the timer up to create a delay before next level.
-			if (DoneTimer>30)
+			$("#LevelHUD").html("Level: "+CurLevel);
+			
+			
+			ForEachCard(function()
 			{
-				DoneTimer=0;
-				Done = false;
-				//Once done, reset the control variables, and remove all cards.
-				for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+				//For each card, perform their step event.
+				this.Cards.Step();
+			});
+			
+			//DEBUG DEBUG DEBUG
+			if ($.gQ.keyTracker[65])
+			{
+				if (LastA==false)
 				{
-					$("#Card_"+i).remove();
+					LastA=true;
+					EndGame();
 				}
-				
-				//Then create next level.
-				CreateLevel();
 			}
-		}
-	
-	Then = Now;
+			else
+				LastA=false;
+				
+			//Ends game if GameTime hits 0
+			if(CurGameTime <= 0)
+			{
+				EndGame();
+			}
+			
+			//Calculate how many cards has been matched.
+			var Turned = 0;
+			ForEachCard(function()
+			{
+				if (this.Cards.visible == false && this.Cards.Bonus==false)
+				Turned++;
+			});
+			
+			//If we have matched all the cards.
+			if (Turned >= LM.NumberOfCards)
+			{
+				DoneTimer++;
+				Done = true;
+				//If done, count the timer up to create a delay before next level.
+				if (DoneTimer>30)
+				{
+					DoneTimer=0;
+					Done = false;
+					//Once done, reset the control variables, and remove all cards.
+					for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+					{
+						$("#Card_"+i).remove();
+					}
+					
+					//Then create next level.
+					CreateLevel();
+				}
+			}
 		
-	}
-	EndedL=Ended;
+		Then = Now;
+			
+		}
+		EndedL=Ended;
 	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));
 	

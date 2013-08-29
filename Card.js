@@ -168,9 +168,11 @@ function Cards(node)
 				//Here it exchanges the necessary variables to make the cards actually change place.
 				var val = Math.floor(Math.random()*(PCards.length));
 				
+				
 				var Container =  this.value;
 				this.value = PCards[val].value;
 				PCards[val].value = Container;
+				
 				
 				this.Bonus = PCards[val].Bonus;
 				PCards[val].Bonus = true;
@@ -199,12 +201,14 @@ function Cards(node)
 				this.visible=false;
 			}
 			
-			
+			//This code is run while the card is tuning, essentially it is the code that visually tuns it
+			//Since JS uses radians for sinus, we use pi, we just use 3.14, rather than Math.PI, for performance increase.
 			if(this.Turning == true)
 			{
-				var spriteDOMObject = this.node[0];
+				//This adds to the direction of the card, based on the time that passed by.
 				this.Dir += 3.14*(Delta/this.TurnSteps);
 				
+					//This code fires if it's over halfway, and changes the face of the card at that point.
 					if(this.Dir>=3.14 && this.changed==false){
 						this.changed=true;
 						if(this.FlippedV==false)
@@ -217,10 +221,16 @@ function Cards(node)
 						else
 						this.ChangeFace(this.FaceB);
 					}
+					//this calculates the factor of the card, based on direction and sin. If the face has changed though
+					//and it needs to be flipped back, we "reverse" the calculation, to avoid pictuers being drawn in
+					//reverse.
 					if (this.changed==true)
-					this.factor=-Math.sin(this.Dir);
+						this.factor=-Math.sin(this.Dir);
 					else
-					this.factor=Math.sin(this.Dir);
+						this.factor=Math.sin(this.Dir);
+					
+					//This applies to factor to the width of the gamequery sprite.
+					var spriteDOMObject = this.node[0];
 					
 					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
 						
@@ -228,22 +238,27 @@ function Cards(node)
 						spriteDOMObject.gameQuery = options;
 				}
 				
+				//This updates the applied changes visually.
 				this.node.transform();
 				
-				if(this.Dir>=3.14*1.5)
-				{
+				//This code runs when the card is done turning.
+				if(this.Dir>=3.14*1.5){
+					//Reset the factor.
 					this.factor=1;
 					
+					//This applies to factor to the width of the gamequery sprite.
 					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});
 						
 					if(spriteDOMObject != undefined){
 						spriteDOMObject.gameQuery = options;
 					}
 					
+					//This updates the applied changes visually.
 					this.node.transform();
 					
 					
 					
+					//Resets all the variables, and sets VFlipped, which keeps track of what state the card is visually in.
 					this.Turning = false;
 					this.Dir=3.14/2;
 					if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
@@ -253,12 +268,9 @@ function Cards(node)
 			
 			}
 
-
+			//Updates the internal timer.
 			this.Timer+=Delta;
 		}
-		
-		
-		this.n2 = new Date().getTime();
 	}
 
 	this.Turn = function()

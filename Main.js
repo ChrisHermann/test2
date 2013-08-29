@@ -74,14 +74,18 @@ $(function(){
 	
 	var Then = new Date().getTime();
 	
-	var GameTime = 30;
+	var CoreGameTime = 50;
+	
+	var CurGameTime = CoreGameTime;
 	
 	function subSec()
 	{
-		GameTime--;
+		CurGameTime--;
 	}
 	
 	var LastA=false;
+	
+	var CurLevel = 0;
 	
 	
     // Animations declaration: 
@@ -90,7 +94,7 @@ $(function(){
 	var DM = new DeckManager();
 	var IM = new ImageManager();
 	LM = new LevelManager();
-	LM.Create(6,10);
+	LM.Create(20,25);
 	
 	
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
@@ -107,6 +111,13 @@ $(function(){
 	IM.Load("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
 	IM.Load("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
 	IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
+	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
+	IM.Load("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+	IM.Load("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
+	IM.Load("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
+	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
 	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
 	SWARTZID = IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
@@ -114,7 +125,10 @@ $(function(){
 	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
 	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
-		
+	//Sets the amountn of bonus cards loaded.
+	BONUSES = 4;	
+	
+	
 	
     
 
@@ -125,6 +139,12 @@ $(function(){
 		//First go to next level to increase the difficulty.
 		LM.NextLevel();
 		Resized();
+		
+		// Resets clock.
+		CurGameTime = CoreGameTime;
+		
+		// Level goes up
+		CurLevel++;
 		
 		//Setup Card data so they can be reached randomly
 		var Vals = new Array();
@@ -165,7 +185,7 @@ $(function(){
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];
 			Current.Cards = new Cards($("#"+name));
-			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
+			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main
@@ -505,6 +525,9 @@ $(function(){
 	
 	//Create the first level.
 	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
+	
+	//Create a div for the Level UI.
+	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 400px; font-family: verdana, sans-serif;'></div>");
 
 	//Create the first level.
 	CreateLevel();
@@ -560,7 +583,9 @@ $(function(){
 			
 			$("#PointHUD").html("Points: "+Points);	
 			
-			$("#TimeHUD").html("Time: "+GameTime);
+			$("#TimeHUD").html("Time: "+CurGameTime);
+		
+			$("#LevelHUD").html("Level: "+CurLevel);
 			
 			
 			ForEachCard(function()
@@ -580,6 +605,12 @@ $(function(){
 			}
 			else
 				LastA=false;
+				
+			//Ends game if GameTime hits 0
+			if(CurGameTime <= 0)
+			{
+				EndGame();
+			}
 			
 			//Calculate how many cards has been matched.
 			var Turned = 0;

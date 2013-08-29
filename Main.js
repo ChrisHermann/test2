@@ -7,7 +7,8 @@ var REFRESH_RATE        = 30;
 var percent = 1;
 
 
-	
+//Global function that applies a function to all cards.
+//We avoid $("#Card").each because it's very slow in ie8.
 function ForEachCard(Function)
 {
 	for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
@@ -19,7 +20,12 @@ function ForEachCard(Function)
 // --                      the main declaration:                     --
 // --------------------------------------------------------------------
 
+//This game uses gamequery. The documentation for this can be found at:
+//http://gamequeryjs.com/documentation/
+//It is purely made in the DOM and as such does not use canvas at all.
+
 $(function(){
+	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
 	{
 		return(b.score-a.score);
@@ -69,8 +75,6 @@ $(function(){
 	
 	var GameTime = 30;
 	
-	var interstart = true;
-	
 	function subSec()
 	{
 		GameTime--;
@@ -97,25 +101,27 @@ $(function(){
 	 createjs.Sound.registerSound("./music.mp3", "bgmusic");
 
 	
-	
+	//Loads the normal card faces
 	var Face = new Array();
 	IM.Load("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
 	IM.Load("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
 	IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
 	
-	//Important Card ID: 3 - Swartz
-	IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
-	IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-	IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
-	IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
+	SWARTZID = IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+	POINTID = IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
+	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
+	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
 		
 	
     
 
-	
+	//This functions "creates a level" this function is run when there is an empty screen to set up
+	//everything for the next level.
 	function CreateLevel()
 	{
+		//First go to next level to increase the difficulty.
 		LM.NextLevel();
 		Resized();
 		
@@ -126,12 +132,15 @@ $(function(){
 		var TurnedMax = 2;
 		
 		//This will ensure that two cards of each are added to the deck
-		//This function will be handled by the imagemanager at later stages.
+		//This will then be fed to the Deckmanager.
 		for (var i = 0; i < LM.NumberOfCards; ++i)
 		{
 			Vals[i] = Math.floor(i/2);
 		};
 		
+		
+		//This will ensure that bonus cards are added to the stage.
+		//This will then be fed to the Deckmanager.
 		for (var i = 0; i < LM.NumberOfCardsBonus; ++i)
 		{
 			Vals2[i] = DM.GetRandomBonus();
@@ -151,13 +160,11 @@ $(function(){
 			
 			//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
 			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
-																	 
-			//Add a class to the card, this, does nothing except make us able to search for objects with the same class later in the code.
-			$("#"+name).addClass("Cards");
 			
 			//Create the actual class for the card, this will add logic to the object.
-			$("#"+name)[0].Cards = new Cards($("#"+name));
-			$("#"+name)[0].Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
+			var Current = $("#"+name)[0];
+			Current.Cards = new Cards($("#"+name));
+			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main
@@ -273,26 +280,37 @@ $(function(){
 		PLAYGROUND_WIDTH = $(window).width() - 20;
 		PLAYGROUND_HEIGHT = $(window).height() - 20;
 		
-		
+		//Calculates the screen ratio, so we can organize the deck in a manner that makes sense to the ratio.
 		Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
 		Ratio =  (Ratio+1)/2;
 		
+		//Gets the square root of the number of cards. This is because we would attempt to make a square, should the
+		//ratio be 1:1
 		noc = Math.sqrt(LM.NumberOfCards + LM.NumberOfCardsBonus);
 		
-		SpaceX = PLAYGROUND_WIDTH/ Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc*Ratio + 1));
+		//Calculates how much space there needs to be in between each card to make a proper layout.
+		//It will add to extra empty rows, to make room for UI.
+		//Calulate number of rows based on ratio.
 		SpaceY = PLAYGROUND_HEIGHT/(Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
 		
-		
+		//Now recalulate noc, so it will make a more even distribution of the cards, based on the amount of rows it has.
 		noc = (LM.NumberOfCards + LM.NumberOfCardsBonus)/(Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    ) ));
+		
+		//Calculate the number of columns based on the new even distribution.
 		SpaceX = PLAYGROUND_WIDTH/ Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1));
+		
 		
 		LastYOff = 0;
 		
+		//If there is an uneven amount of cards at the last column, it will calculate the offset to center that column
+		//Specifically
 		if (Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) !=  Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))
 		{
 			LastYOff = (Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) -  Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))/2 * SpaceX;
 		}
 		
+		//Now, if check if the calculated spacing on X is large enough so that hte card can be drawn, if not, calculate
+		//How much the card needs to be scaled down.
 		if (SpaceX >= CARDSIZEX+EMPTYSPACE)
 		{
 			Scale1 = 1;
@@ -302,6 +320,7 @@ $(function(){
 			Scale1 = SpaceX/(CARDSIZEX+EMPTYSPACE);
 		}
 		
+		//Do the same for Y
 		if (SpaceY >= CARDSIZEY+EMPTYSPACE)
 		{
 			Scale2 = 1;
@@ -311,16 +330,18 @@ $(function(){
 			Scale2 = SpaceY/(CARDSIZEY+EMPTYSPACE);
 		}
 		
+		//Now choose the lesser of hte scalings, because this one will be the one to actually be applied.
 		Scale = Math.min(Scale1, Scale2);
 		
 		
-		
+		//Set the width and height of the div.
 		$("#playground").playground({
         height: PLAYGROUND_HEIGHT, 
         width: PLAYGROUND_WIDTH});
 		
 		
-		//Could possibly use foreach, it's hard to handle uninitialized variables in foreach though.
+		//Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
+		//Finds all cards, if they exist, updates their position and scaling. 
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 		{
 			var Card = $("#Card_"+i)
@@ -334,28 +355,33 @@ $(function(){
 		}
     };
 	
+	//Function to end the game
 	function EndGame()
 	{
+		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
 		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
 	
+		//Delete all cards currently on the field.
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 		{
 			$("#Card_"+i).remove();
 		}
 	}
 	
+	//Remove the highscore screen, and start the game from scratch.
 	function RestartGame()
 	{
 		$("#HighscoreHUD").remove();
 	
 		Ended = 0;
+		//This is the easiest way to reset the levelmanager.
 		LM.Create(6,10);
 		CreateLevel();
 	}
 	
-	
+	//Used only when entering your name for the highscore.
 	document.onkeypress = function(event)
 	{
 		var key_press = String.fromCharCode(event.keyCode);
@@ -364,7 +390,9 @@ $(function(){
 		Name += key_press;
 	}
 	
+	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
+		//Delete chars when entering name
 	    if (e.which === 8)
 	    {
 			//your custom action here
@@ -372,20 +400,54 @@ $(function(){
 			Name = Name.substring(0, Name.length - 1);
 			return false;
  	    }
+		//Press enter to go to next screen.
 		if (event.keyCode==13)
 		{
 			if (Ended == 1)
-				Ended=2;
+			{
+				//If we are entering our name show the highscore
+				$("#HighscoreHUD").remove();
+				ShowHighscore();
+			}
 			else
+				//Else, restart the game.
 				RestartGame();
 			
+			//Send the highscore to the database.
 			ApplyHighscore( {name: Name, score: Points} );
 			
 			return false;
 		}
 	});
 	
+	function ShowHighscore()
+	{
+		if (Ended!=1)
+		{
+			//If we were not send from name entering screen, delete all objects first
+			//Delete all cards currently on the field.
+			for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+			{
+				$("#Card_"+i).remove();
+			}
+		}
+		Ended=2;
+		
+		//Create a line containing the 10 best scores, and apply them to the div.
+		var Line = "<br>";
+		for(i=0; i<10; i++)
+		{
+			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
+		}
+		var Current = $("#HighscoreHUD");
+		Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
+		
+		//Create new div for high score.
+		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
 	
+	}
+	
+	//This is called with an object containing name and score, can be used to send to the database.
 	function ApplyHighscore(object)
 	{
 		Scores[Scores.length] = object;
@@ -413,11 +475,13 @@ $(function(){
 		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 								 
-								 
+	//Create a div for the Point UI.
 	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
 	
+	//Create the first level.
 	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
 
+	//Create the first level.
 	CreateLevel();
 					
     // this sets the id of the loading bar (NOT USED YET):
@@ -431,6 +495,7 @@ $(function(){
 				  background.appendChild(spinner.el);
 			
 			createjs.Sound.play("bgmusic");
+			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
 			$("#background").playSound();
         });
@@ -441,33 +506,30 @@ $(function(){
     $("#playground").registerCallback(function(){
 	if (Ended == 2)
 	{
-		var Line = "<br>";
-		for(i=0; i<10; i++)
-		{
-			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
-		}
-		$("#HighscoreHUD").html(Line+"<br>Tryk Enter for at starte et nyt spil");
-		$("#HighscoreHUD").css({left: (PLAYGROUND_WIDTH - $("#HighscoreHUD").width())/2, top:  (PLAYGROUND_HEIGHT - $("#HighscoreHUD").height())/2});
+		//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 	}
 	else
 	if (Ended == 1)
 	{
+		//If we are entering our name:
+		//Generate a string based on the name varaible, which is changed in onkeypress
 		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-		$("#HighscoreHUD").html(string);
-		$("#HighscoreHUD").css({left: (PLAYGROUND_WIDTH - $("#HighscoreHUD").width())/2, top:  (PLAYGROUND_HEIGHT - $("#HighscoreHUD").height())/2});
+		
+		
+		var Current = $("#HighscoreHUD");
+		//Apply the string to the div, and recenter it.
+		Current.html(string);
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 	}
 	else
 	{
 		//Basic Game Engine!!
 		
+		//Use this to get delta (The amout of milliseconds since last frame).
 		Now = new Date().getTime();
 		Delta = Now - Then;	
 		
-		if(interstart == true)
-		{
-		setInterval(subSec,1000);
-		interstart = false;
-		}
 		
 		$("#PointHUD").html("Points: "+Points);	
 		
@@ -480,7 +542,7 @@ $(function(){
 			this.Cards.Step();
 		});
 		
-		
+		//DEBUG DEBUG DEBUG
 		if ($.gQ.keyTracker[65])
 		{
 			if (LastA==false)
@@ -492,7 +554,7 @@ $(function(){
 		else
 			LastA=false;
 		
-		
+		//Calculate how many cards has been matched.
 		var Turned = 0;
 		ForEachCard(function()
 		{
@@ -500,20 +562,23 @@ $(function(){
 			Turned++;
 		});
 		
+		//If we have matched all the cards.
 		if (Turned >= LM.NumberOfCards)
 		{
 			DoneTimer++;
 			Done = true;
+			//If done, count the timer up to create a delay before next level.
 			if (DoneTimer>30)
 			{
 				DoneTimer=0;
 				Done = false;
+				//Once done, reset the control variables, and remove all cards.
 				for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 				{
 					$("#Card_"+i).remove();
 				}
 				
-				
+				//Then create next level.
 				CreateLevel();
 			}
 		}
@@ -522,9 +587,11 @@ $(function(){
 		
 	}
 	EndedL=Ended;
+	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));
 	
-	
+	//This function is used for the loading spinnner.
+	//We have little idea how it works.
 	$.fn.spin = function(opts) {
 		this.each(function() {
 			var $this = $(this),

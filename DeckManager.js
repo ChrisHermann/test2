@@ -70,7 +70,7 @@
 		}
 	}
 	
-	//Returns the size of hte deck for this level.
+	//Returns the size of the deck for this level.
 	this.GetNumberOfCards = function()
 	{
 		return(CardPool.length + BonusCardPool.length);

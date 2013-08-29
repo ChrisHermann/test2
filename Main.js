@@ -64,6 +64,7 @@ $(function(){
 	var Ended = 0;
 	var EndedL = 0;
 	var Name = "";
+	var Line;
 	Points = 0;
 	Autocomplete = false;
 
@@ -434,7 +435,7 @@ $(function(){
 		Ended=2;
 		
 		//Create a line containing the 10 best scores, and apply them to the div.
-		var Line = "<br>";
+		Line = "<br>";
 		for(i=0; i<10; i++)
 		{
 			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
@@ -507,7 +508,9 @@ $(function(){
 	{
 		if (Ended == 2)
 		{
+			var Current = $("#HighscoreHUD");
 			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+			Current.html(Line);
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else

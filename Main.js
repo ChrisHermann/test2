@@ -75,8 +75,6 @@ $(function(){
 	
 	var GameTime = 30;
 	
-	var interstart = true;
-	
 	function subSec()
 	{
 		GameTime--;
@@ -110,10 +108,10 @@ $(function(){
 	IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
 	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-	IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
-	IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-	IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
-	IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+	SWARTZID = IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+	POINTID = IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
+	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
+	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
 		
 	
@@ -497,6 +495,7 @@ $(function(){
 				  background.appendChild(spinner.el);
 			
 			createjs.Sound.play("bgmusic");
+			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
 			$("#background").playSound();
         });
@@ -527,14 +526,10 @@ $(function(){
 	{
 		//Basic Game Engine!!
 		
+		//Use this to get delta (The amout of milliseconds since last frame).
 		Now = new Date().getTime();
 		Delta = Now - Then;	
 		
-		if(interstart == true)
-		{
-		setInterval(subSec,1000);
-		interstart = false;
-		}
 		
 		$("#PointHUD").html("Points: "+Points);	
 		

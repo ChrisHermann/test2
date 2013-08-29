@@ -79,7 +79,7 @@ function Cards(node)
 	this.RunBonus = function()
 	{
 		//Runs the bonus effect of the card (If there is one).
-		if (this.value == 3)
+		if (this.value == SWARTZID)
 		{
 			//Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
 			//Swarts face. If they are already flipped, change their face to swartzs immediately.
@@ -94,14 +94,14 @@ function Cards(node)
 			node.fadeOut();
 			this.visible=false;
 		}
-		if (this.value == 4)
+		if (this.value == POINTID)
 		{
 			//Simple add 500 points to the players score.
 			Points+=500;
 			node.fadeOut();
 			this.visible=false;
 		}
-		if (this.value == 5)
+		if (this.value == PAIRID)
 		{
 			//This card will find a pair for you. If you already have a card flipped, it will find the matching card and
 			//Flip that one, if not, it will set autocomplete to true, telling the main class that hte next time a card
@@ -138,7 +138,7 @@ function Cards(node)
 			node.fadeOut();
 			this.visible=false;
 		}
-		if (this.value == 6)
+		if (this.value == CONFUSEID)
 		{
 			//Search through eligible cards. Cannot chose cards of hte same type.
 			//This code will actually run twice, the first time is when the card is first flipped

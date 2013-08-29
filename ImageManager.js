@@ -33,4 +33,9 @@ function ImageManager()
 	{
 		return(this.BFace);
 	}
+	
+	this.GetTotal = function()
+	{
+		return(this.Faces.length-BONUSES);
+	}
 }

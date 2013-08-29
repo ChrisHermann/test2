@@ -230,7 +230,8 @@ function Cards(node)
 				
 				this.node.transform();
 				
-				if(this.Dir>=3.14*1.5){
+				if(this.Dir>=3.14*1.5)
+				{
 					this.factor=1;
 					
 					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});

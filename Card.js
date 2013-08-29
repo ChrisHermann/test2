@@ -243,12 +243,13 @@ function Cards(node)
 		//Turns the Card around.
 		this.Turning = true;
 		this.changed = false;
+		createjs.Sound.play("sound");
 	}
 	
 	this.Clicked = function()
 	{
 		//This will be run whenever the card is clicked.
-		createjs.Sound.play("sound");
+		
 		if (this.Flipped==false)
 		{
 			this.Flipped=true;

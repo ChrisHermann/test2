@@ -503,90 +503,91 @@ $(function(){
     
     
     //THIS IS THE MAIN LOOP
-    $("#playground").registerCallback(function(){
-	if (Ended == 2)
+    $("#playground").registerCallback(function()
 	{
-		//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	if (Ended == 1)
-	{
-		//If we are entering our name:
-		//Generate a string based on the name varaible, which is changed in onkeypress
-		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-		
-		
-		var Current = $("#HighscoreHUD");
-		//Apply the string to the div, and recenter it.
-		Current.html(string);
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	{
-		//Basic Game Engine!!
-		
-		//Use this to get delta (The amout of milliseconds since last frame).
-		Now = new Date().getTime();
-		Delta = Now - Then;	
-		
-		
-		$("#PointHUD").html("Points: "+Points);	
-		
-		$("#TimeHUD").html("Time: "+GameTime);
-		
-		
-		ForEachCard(function()
+		if (Ended == 2)
 		{
-			//For each card, perform their step event.
-			this.Cards.Step();
-		});
-		
-		//DEBUG DEBUG DEBUG
-		if ($.gQ.keyTracker[65])
-		{
-			if (LastA==false)
-			{
-				LastA=true;
-				EndGame();
-			}
+			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
-			LastA=false;
-		
-		//Calculate how many cards has been matched.
-		var Turned = 0;
-		ForEachCard(function()
+		if (Ended == 1)
 		{
-			if (this.Cards.visible == false && this.Cards.Bonus==false)
-			Turned++;
-		});
-		
-		//If we have matched all the cards.
-		if (Turned >= LM.NumberOfCards)
-		{
-			DoneTimer++;
-			Done = true;
-			//If done, count the timer up to create a delay before next level.
-			if (DoneTimer>30)
-			{
-				DoneTimer=0;
-				Done = false;
-				//Once done, reset the control variables, and remove all cards.
-				for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
-				{
-					$("#Card_"+i).remove();
-				}
-				
-				//Then create next level.
-				CreateLevel();
-			}
+			//If we are entering our name:
+			//Generate a string based on the name varaible, which is changed in onkeypress
+			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+			
+			
+			var Current = $("#HighscoreHUD");
+			//Apply the string to the div, and recenter it.
+			Current.html(string);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
-	
-	Then = Now;
+		else
+		{
+			//Basic Game Engine!!
+			
+			//Use this to get delta (The amout of milliseconds since last frame).
+			Now = new Date().getTime();
+			Delta = Now - Then;	
+			
+			
+			$("#PointHUD").html("Points: "+Points);	
+			
+			$("#TimeHUD").html("Time: "+GameTime);
+			
+			
+			ForEachCard(function()
+			{
+				//For each card, perform their step event.
+				this.Cards.Step();
+			});
+			
+			//DEBUG DEBUG DEBUG
+			if ($.gQ.keyTracker[65])
+			{
+				if (LastA==false)
+				{
+					LastA=true;
+					EndGame();
+				}
+			}
+			else
+				LastA=false;
+			
+			//Calculate how many cards has been matched.
+			var Turned = 0;
+			ForEachCard(function()
+			{
+				if (this.Cards.visible == false && this.Cards.Bonus==false)
+				Turned++;
+			});
+			
+			//If we have matched all the cards.
+			if (Turned >= LM.NumberOfCards)
+			{
+				DoneTimer++;
+				Done = true;
+				//If done, count the timer up to create a delay before next level.
+				if (DoneTimer>30)
+				{
+					DoneTimer=0;
+					Done = false;
+					//Once done, reset the control variables, and remove all cards.
+					for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+					{
+						$("#Card_"+i).remove();
+					}
+					
+					//Then create next level.
+					CreateLevel();
+				}
+			}
 		
-	}
-	EndedL=Ended;
+		Then = Now;
+			
+		}
+		EndedL=Ended;
 	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));
 	

@@ -18,6 +18,8 @@ function ImageManager()
 	{
 		this.Faces[this.Faces.length] = new $.gameQuery.Animation({
         imageURL: URL});
+		
+		return(this.Faces.length-1);
 	}
 	
 	//Gets the image with a given index.

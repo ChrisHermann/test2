@@ -80,7 +80,7 @@ $(function(){
 	
 	function subSec()
 	{
-		GameTime--;
+		CurGameTime--;
 	}
 	
 	var LastA=false;
@@ -185,7 +185,7 @@ $(function(){
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];
 			Current.Cards = new Cards($("#"+name));
-			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
+			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main

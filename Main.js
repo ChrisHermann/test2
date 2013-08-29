@@ -375,7 +375,7 @@ $(function(){
 	function RestartGame()
 	{
 		$("#HighscoreHUD").remove();
-	
+		
 		Ended = 0;
 		//This is the easiest way to reset the levelmanager.
 		LM.Create(6,10);
@@ -408,6 +408,20 @@ $(function(){
 			{
 				//If we are entering our name show the highscore
 				$("#HighscoreHUD").remove();
+				
+				//Consider loading this earlier, possibly whwn starting the game, and than manually inserting hte player score
+				//both off.line and online.
+				$.ajax
+				({
+					data: "Name=" + Name + "&Score=" + Points,
+					type: "POST",
+					url: "http://www.starship-games.com/PostHighscore.php",
+					complete: function (data) {
+						console.log(data);
+					}
+				});
+				
+				
 				ShowHighscore();
 			}
 			else
@@ -434,12 +448,22 @@ $(function(){
 		}
 		Ended=2;
 		
-		//Create a line containing the 10 best scores, and apply them to the div.
+		
 		Line = "<br>";
-		for(i=0; i<10; i++)
-		{
-			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
-		}
+		
+		//Create a line containing the 10 best scores, and apply them to the div.
+		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
+			for (i=0; i<data.length/2; i++)
+			{
+				Line+=(i+1)+". "+data[i*2]+" - "+data[i*2+1]+"<br>";
+			}
+				//$.each(data, function(key, val) {
+				//console.log('index ' + key + ' points to file ' + val);
+				//Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
+				//alert('index ' + key + ' points to file ' + val);
+				//});
+		}, 'json');
+		
 		var Current = $("#HighscoreHUD");
 		Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
 		
@@ -498,7 +522,6 @@ $(function(){
 			createjs.Sound.play("bgmusic");
 			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
-			$("#background").playSound();
         });
     })
     
@@ -530,7 +553,7 @@ $(function(){
 		{
 			//Basic Game Engine!!
 			
-			//Use this to get delta (The amout of milliseconds since last frame).
+			//Use this to get delta (The amount of milliseconds since last frame).
 			Now = new Date().getTime();
 			Delta = Now - Then;	
 			

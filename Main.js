@@ -81,7 +81,9 @@ $(function(){
 	}
 	
 	var LastA=false;
-	
+	var LastP=false;
+	var LastO=false;
+	var Paused = false;
 	
     // Animations declaration: 
     // The background:    
@@ -390,6 +392,24 @@ $(function(){
 		Name += key_press;
 	}
 	
+	function PauseGame()
+	{
+		$.playground().pauseGame();
+		soundBG.pause();
+		Paused = true;
+		//$("#overlay").append("<div id='pausecreenHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");	
+		//$("#overlay").append("<div id='pauseScreen' style='width: 700px; height: 250px; position: absolute; z-index: 100;'><div 'style='position: absolute; top: 140px; width: 700px; color: white;'><a style='cursor: pointer;' id='resumebutton'>click here to resume the game</a></div></div>")
+		console.log(Paused);
+	}
+	
+	function ResumeGame()
+	{
+		
+		//$.playground().resumeGame();
+		soundBG.resume();
+		Paused = false;
+	}
+	
 	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
 		//Delete chars when entering name
@@ -493,11 +513,11 @@ $(function(){
         $.playground().startGame(function(){
 			var spinner = new Spinner().spin();
 				  background.appendChild(spinner.el);
-			
-			createjs.Sound.play("bgmusic");
+				  
+			soundBG = createjs.Sound.play("bgmusic");
 			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
-			$("#background").playSound();
+			$("#spin").remove();
         });
     })
     
@@ -553,6 +573,31 @@ $(function(){
 		}
 		else
 			LastA=false;
+			
+			//DEBUG DEBUG DEBUG
+		if ($.gQ.keyTracker[80])
+		{
+			if (LastP==false)
+			{
+				LastP=true;
+				PauseGame();
+	
+			}
+		}
+		else
+			LastP=false;
+			
+			if ($.gQ.keyTracker[79])
+		{
+			if (LastO==false)
+			{
+				LastO=true;
+	
+				ResumeGame();
+			}
+		}
+		else
+			LastO=false;
 		
 		//Calculate how many cards has been matched.
 		var Turned = 0;
@@ -626,3 +671,5 @@ $(function(){
 	});
 
 });
+
+	

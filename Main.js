@@ -64,6 +64,7 @@ $(function(){
 	var Ended = 0;
 	var EndedL = 0;
 	var Name = "";
+	var Line;
 	Points = 0;
 	Autocomplete = false;
 
@@ -73,17 +74,25 @@ $(function(){
 	
 	var Then = new Date().getTime();
 	
-	var GameTime = 30;
+	var CoreGameTime = 50;
+	
+	var CurGameTime = CoreGameTime;
 	
 	function subSec()
 	{
-		GameTime--;
+		CurGameTime--;
 	}
 	
 	var LastA=false;
+<<<<<<< HEAD
 	var LastP=false;
 	var LastO=false;
 	var Paused = false;
+=======
+	
+	var CurLevel = 0;
+	
+>>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
 	
     // Animations declaration: 
     // The background:    
@@ -91,7 +100,7 @@ $(function(){
 	var DM = new DeckManager();
 	var IM = new ImageManager();
 	LM = new LevelManager();
-	LM.Create(6,10);
+	LM.Create(20,25);
 	
 	
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
@@ -108,6 +117,13 @@ $(function(){
 	IM.Load("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
 	IM.Load("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
 	IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
+	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
+	IM.Load("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+	IM.Load("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
+	IM.Load("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
+	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
 	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
 	SWARTZID = IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
@@ -115,7 +131,10 @@ $(function(){
 	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
 	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 		
-		
+	//Sets the amountn of bonus cards loaded.
+	BONUSES = 4;	
+	
+	
 	
     
 
@@ -126,6 +145,12 @@ $(function(){
 		//First go to next level to increase the difficulty.
 		LM.NextLevel();
 		Resized();
+		
+		// Resets clock.
+		CurGameTime = CoreGameTime;
+		
+		// Level goes up
+		CurLevel++;
 		
 		//Setup Card data so they can be reached randomly
 		var Vals = new Array();
@@ -166,7 +191,7 @@ $(function(){
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];
 			Current.Cards = new Cards($("#"+name));
-			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(3), IM.GetBack(), DM.LastBonus(), Scale);
+			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main
@@ -376,7 +401,7 @@ $(function(){
 	function RestartGame()
 	{
 		$("#HighscoreHUD").remove();
-	
+		
 		Ended = 0;
 		//This is the easiest way to reset the levelmanager.
 		LM.Create(6,10);
@@ -427,6 +452,20 @@ $(function(){
 			{
 				//If we are entering our name show the highscore
 				$("#HighscoreHUD").remove();
+				
+				//Consider loading this earlier, possibly whwn starting the game, and than manually inserting hte player score
+				//both off.line and online.
+				$.ajax
+				({
+					data: "Name=" + Name + "&Score=" + Points,
+					type: "POST",
+					url: "http://www.starship-games.com/PostHighscore.php",
+					complete: function (data) {
+						console.log(data);
+					}
+				});
+				
+				
 				ShowHighscore();
 			}
 			else
@@ -453,12 +492,22 @@ $(function(){
 		}
 		Ended=2;
 		
+		
+		Line = "<br>";
+		
 		//Create a line containing the 10 best scores, and apply them to the div.
-		var Line = "<br>";
-		for(i=0; i<10; i++)
-		{
-			Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
-		}
+		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
+			for (i=0; i<data.length/2; i++)
+			{
+				Line+=(i+1)+". "+data[i*2]+" - "+data[i*2+1]+"<br>";
+			}
+				//$.each(data, function(key, val) {
+				//console.log('index ' + key + ' points to file ' + val);
+				//Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
+				//alert('index ' + key + ' points to file ' + val);
+				//});
+		}, 'json');
+		
 		var Current = $("#HighscoreHUD");
 		Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
 		
@@ -500,6 +549,9 @@ $(function(){
 	
 	//Create the first level.
 	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
+	
+	//Create a div for the Level UI.
+	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 400px; font-family: verdana, sans-serif;'></div>");
 
 	//Create the first level.
 	CreateLevel();
@@ -517,61 +569,39 @@ $(function(){
 			soundBG = createjs.Sound.play("bgmusic");
 			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
+<<<<<<< HEAD
 			$("#spin").remove();
+=======
+>>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
         });
     })
     
     
     //THIS IS THE MAIN LOOP
-    $("#playground").registerCallback(function(){
-	if (Ended == 2)
+    $("#playground").registerCallback(function()
 	{
-		//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	if (Ended == 1)
-	{
-		//If we are entering our name:
-		//Generate a string based on the name varaible, which is changed in onkeypress
-		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-		
-		
-		var Current = $("#HighscoreHUD");
-		//Apply the string to the div, and recenter it.
-		Current.html(string);
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-	}
-	else
-	{
-		//Basic Game Engine!!
-		
-		//Use this to get delta (The amout of milliseconds since last frame).
-		Now = new Date().getTime();
-		Delta = Now - Then;	
-		
-		
-		$("#PointHUD").html("Points: "+Points);	
-		
-		$("#TimeHUD").html("Time: "+GameTime);
-		
-		
-		ForEachCard(function()
+		if (Ended == 2)
 		{
-			//For each card, perform their step event.
-			this.Cards.Step();
-		});
-		
-		//DEBUG DEBUG DEBUG
-		if ($.gQ.keyTracker[65])
-		{
-			if (LastA==false)
-			{
-				LastA=true;
-				EndGame();
-			}
+			var Current = $("#HighscoreHUD");
+			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+			Current.html(Line);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
+		if (Ended == 1)
+		{
+			//If we are entering our name:
+			//Generate a string based on the name varaible, which is changed in onkeypress
+			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+			
+			
+			var Current = $("#HighscoreHUD");
+			//Apply the string to the div, and recenter it.
+			Current.html(string);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+		}
+		else
+<<<<<<< HEAD
 			LastA=false;
 			
 			//DEBUG DEBUG DEBUG
@@ -602,36 +632,80 @@ $(function(){
 		//Calculate how many cards has been matched.
 		var Turned = 0;
 		ForEachCard(function()
+=======
+>>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
 		{
-			if (this.Cards.visible == false && this.Cards.Bonus==false)
-			Turned++;
-		});
+			//Basic Game Engine!!
+			
+			//Use this to get delta (The amount of milliseconds since last frame).
+			Now = new Date().getTime();
+			Delta = Now - Then;	
+			
+			
+			$("#PointHUD").html("Points: "+Points);	
+			
+			$("#TimeHUD").html("Time: "+CurGameTime);
 		
-		//If we have matched all the cards.
-		if (Turned >= LM.NumberOfCards)
-		{
-			DoneTimer++;
-			Done = true;
-			//If done, count the timer up to create a delay before next level.
-			if (DoneTimer>30)
+			$("#LevelHUD").html("Level: "+CurLevel);
+			
+			
+			ForEachCard(function()
 			{
-				DoneTimer=0;
-				Done = false;
-				//Once done, reset the control variables, and remove all cards.
-				for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+				//For each card, perform their step event.
+				this.Cards.Step();
+			});
+			
+			//DEBUG DEBUG DEBUG
+			if ($.gQ.keyTracker[65])
+			{
+				if (LastA==false)
 				{
-					$("#Card_"+i).remove();
+					LastA=true;
+					EndGame();
 				}
-				
-				//Then create next level.
-				CreateLevel();
 			}
-		}
-	
-	Then = Now;
+			else
+				LastA=false;
+				
+			//Ends game if GameTime hits 0
+			if(CurGameTime <= 0)
+			{
+				EndGame();
+			}
+			
+			//Calculate how many cards has been matched.
+			var Turned = 0;
+			ForEachCard(function()
+			{
+				if (this.Cards.visible == false && this.Cards.Bonus==false)
+				Turned++;
+			});
+			
+			//If we have matched all the cards.
+			if (Turned >= LM.NumberOfCards)
+			{
+				DoneTimer++;
+				Done = true;
+				//If done, count the timer up to create a delay before next level.
+				if (DoneTimer>30)
+				{
+					DoneTimer=0;
+					Done = false;
+					//Once done, reset the control variables, and remove all cards.
+					for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+					{
+						$("#Card_"+i).remove();
+					}
+					
+					//Then create next level.
+					CreateLevel();
+				}
+			}
 		
-	}
-	EndedL=Ended;
+		Then = Now;
+			
+		}
+		EndedL=Ended;
 	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));
 	

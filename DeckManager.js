@@ -52,7 +52,6 @@
 		//Determine the next card to be drawn.
 		this.NextVal=Math.floor(Math.random()*(this.CardPool.length + this.BonusCardPool.length));
 		
-		
 		return (val);
 	}
 	
@@ -70,7 +69,7 @@
 		}
 	}
 	
-	//Returns the size of hte deck for this level.
+	//Returns the size of the deck for this level.
 	this.GetNumberOfCards = function()
 	{
 		return(CardPool.length + BonusCardPool.length);
@@ -98,6 +97,7 @@
 	//Returns a random bonus card, within the appropriate range.
 	this.GetRandomBonus = function()
 	{
-		return(3+Math.floor(Math.random()*4));
+		//return(POINTID);
+		return(SWARTZID+Math.floor(Math.random()*BONUSES));
 	}
 }

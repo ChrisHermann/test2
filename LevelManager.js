@@ -21,8 +21,8 @@ function LevelManager(node)
 	{
 		//Max cards are the maximum amount of cards used for pairing.
 		//ActualMaxCards are the maximum amount of cards to be shown on the screen.
-		this.Difficulty = 0.6;
-		this.Increment = 0.1;
+		this.Difficulty = 0.1;
+		this.Increment = 0.05;
 		this.BonusCardsB = 0.0;
 		this.BonusCardsR = 0.2;
 		

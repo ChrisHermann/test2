@@ -16,6 +16,15 @@ function ForEachCard(Function)
 		Function.apply($("#Card_"+i)[0]);
 	}
 }
+
+function ResumeGame()
+	{
+		Then = new Date().getTime();
+		$.playground().resumeGame();
+		soundBG.resume();
+		Paused = false;
+		GameStart = true;
+	}
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
 // --------------------------------------------------------------------
@@ -24,7 +33,7 @@ function ForEachCard(Function)
 //http://gamequeryjs.com/documentation/
 //It is purely made in the DOM and as such does not use canvas at all.
 
-$(function(){
+ $(function(){
 	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
 	{
@@ -72,21 +81,19 @@ $(function(){
 	
 	Delta = 0;
 	
-	var Then = new Date().getTime();
+	Then = new Date().getTime();
 	
-	var CoreGameTime = 50;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
-	function subSec()
-	{
-		CurGameTime--;
-	}
+	GameStart = false;
+	
 	
 	var LastA=false;
 	var LastP=false;
 	var LastO=false;
-	var Paused = false;
+	Paused = false;
 	
 	var CurLevel = 0;
 	
@@ -415,21 +422,15 @@ $(function(){
 	
 	function PauseGame()
 	{
+		
 		$.playground().pauseGame();
 		soundBG.pause();
 		Paused = true;
-		//$("#overlay").append("<div id='pausecreenHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");	
-		//$("#overlay").append("<div id='pauseScreen' style='width: 700px; height: 250px; position: absolute; z-index: 100;'><div 'style='position: absolute; top: 140px; width: 700px; color: white;'><a style='cursor: pointer;' id='resumebutton'>click here to resume the game</a></div></div>")
-		console.log(Paused);
+		GameStart = false;
+		
+		
 	}
 	
-	function ResumeGame()
-	{
-		
-		//$.playground().resumeGame();
-		soundBG.resume();
-		Paused = false;
-	}
 	
 	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
@@ -559,11 +560,11 @@ $(function(){
     //initialize the start button
     $("#startbutton").click(function(){
         $.playground().startGame(function(){
+			Then = new Date().getTime();
 			var spinner = new Spinner().spin();
-				  background.appendChild(spinner.el);
-				  
+			background.appendChild(spinner.el);
+			GameStart = true;
 			soundBG = createjs.Sound.play("bgmusic");
-			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
         });
     })
@@ -593,53 +594,25 @@ $(function(){
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
-<<<<<<< HEAD
-			LastA=false;
-			
-			//DEBUG DEBUG DEBUG
-		if ($.gQ.keyTracker[80])
-		{
-			if (LastP==false)
-			{
-				LastP=true;
-				PauseGame();
-	
-			}
-		}
-		else
-			LastP=false;
-			
-			if ($.gQ.keyTracker[79])
-		{
-			if (LastO==false)
-			{
-				LastO=true;
-	
-				ResumeGame();
-			}
-		}
-		else
-			LastO=false;
-		
-		//Calculate how many cards has been matched.
-		var Turned = 0;
-		ForEachCard(function()
-=======
->>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
+
 		{
 			//Basic Game Engine!!
 			
 			//Use this to get delta (The amount of milliseconds since last frame).
 			Now = new Date().getTime();
-			Delta = Now - Then;	
+			Delta = Now - Then;
 			
 			
 			$("#PointHUD").html("Points: "+Points);	
 			
-			$("#TimeHUD").html("Time: "+CurGameTime);
+			$("#TimeHUD").html("Time: "+Math.ceil(CurGameTime/1000));
 		
 			$("#LevelHUD").html("Level: "+CurLevel);
 			
+			if(GameStart = true)
+			{
+			CurGameTime= CurGameTime-Delta;
+			}
 			
 			ForEachCard(function()
 			{
@@ -659,6 +632,29 @@ $(function(){
 			else
 				LastA=false;
 				
+			if ($.gQ.keyTracker[80])
+			{
+				if (LastP==false)
+				{
+					LastP=true;
+					PauseGame();
+		
+				}
+			}
+			else
+				LastP=false;
+				
+			if ($.gQ.keyTracker[79])
+			{
+				if (LastO==false)
+				{
+					LastO=true;
+					ResumeGame();
+				}
+			}
+			else
+				LastO=false;
+
 			//Ends game if GameTime hits 0
 			if(CurGameTime <= 0)
 			{

@@ -84,15 +84,11 @@ $(function(){
 	}
 	
 	var LastA=false;
-<<<<<<< HEAD
 	var LastP=false;
 	var LastO=false;
 	var Paused = false;
-=======
 	
 	var CurLevel = 0;
-	
->>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
 	
     // Animations declaration: 
     // The background:    
@@ -569,10 +565,6 @@ $(function(){
 			soundBG = createjs.Sound.play("bgmusic");
 			setInterval(subSec,1000);
             $("#welcomeScreen").remove();
-<<<<<<< HEAD
-			$("#spin").remove();
-=======
->>>>>>> 2ad2716b6f334017b437c04493ad307d3b61bdb6
         });
     })
     

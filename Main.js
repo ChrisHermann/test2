@@ -26,6 +26,15 @@ function ForEachGFX(Function)
 		Function.apply($("#GFX_"+i)[0]);
 	}
 }
+
+function ResumeGame()
+{
+	Then = new Date().getTime();
+	$.playground().resumeGame();
+	soundBG.resume();
+	Paused = false;
+	GameStart = true;
+}
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
 // --------------------------------------------------------------------
@@ -34,7 +43,7 @@ function ForEachGFX(Function)
 //http://gamequeryjs.com/documentation/
 //It is purely made in the DOM and as such does not use canvas at all.
 
-$(function(){
+ $(function(){
 	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
 	{
@@ -84,21 +93,21 @@ $(function(){
 	
 	Delta = 0;
 	
-	var Then = new Date().getTime();
+	Then = new Date().getTime();
 	
-	var CoreGameTime = 50;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
-	function subSec()
-	{
-		CurGameTime--;
-	}
+	GameStart = false;
+	
 	
 	var LastA=false;
+	var LastP=false;
+	var LastO=false;
+	Paused = false;
 	
 	var CurLevel = 0;
-	
 	
     // Animations declaration: 
     // The background:    
@@ -426,6 +435,18 @@ $(function(){
 		Name += key_press;
 	}
 	
+	function PauseGame()
+	{
+		
+		$.playground().pauseGame();
+		soundBG.pause();
+		Paused = true;
+		GameStart = false;
+		
+		
+	}
+	
+	
 	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
 		//Delete chars when entering name
@@ -556,11 +577,11 @@ $(function(){
     //initialize the start button
     $("#startbutton").click(function(){
         $.playground().startGame(function(){
+			Then = new Date().getTime();
 			var spinner = new Spinner().spin();
-				  background.appendChild(spinner.el);
-			
-			createjs.Sound.play("bgmusic");
-			setInterval(subSec,1000);
+			background.appendChild(spinner.el);
+			GameStart = true;
+			soundBG = createjs.Sound.play("bgmusic");
             $("#welcomeScreen").remove();
         });
     })
@@ -604,12 +625,13 @@ $(function(){
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
+
 		{
 			//Basic Game Engine!!
 			
 			//Use this to get delta (The amount of milliseconds since last frame).
 			Now = new Date().getTime();
-			Delta = Now - Then;	
+			Delta = Now - Then;
 			
 			if (PointsV<Points)
 			{
@@ -620,10 +642,14 @@ $(function(){
 			
 			$("#PointHUD").html("Points: "+Math.round(PointsV));	
 			
-			$("#TimeHUD").html("Time: "+CurGameTime);
+			$("#TimeHUD").html("Time: "+Math.ceil(CurGameTime/1000));
 		
 			$("#LevelHUD").html("Level: "+CurLevel);
 			
+			if(GameStart = true)
+			{
+			CurGameTime= CurGameTime-Delta;
+			}
 			
 			ForEachCard(function()
 			{
@@ -649,6 +675,29 @@ $(function(){
 			else
 				LastA=false;
 				
+			if ($.gQ.keyTracker[80])
+			{
+				if (LastP==false)
+				{
+					LastP=true;
+					PauseGame();
+		
+				}
+			}
+			else
+				LastP=false;
+				
+			if ($.gQ.keyTracker[79])
+			{
+				if (LastO==false)
+				{
+					LastO=true;
+					ResumeGame();
+				}
+			}
+			else
+				LastO=false;
+
 			//Ends game if GameTime hits 0
 			if(CurGameTime <= 0)
 			{
@@ -727,3 +776,5 @@ $(function(){
 	});
 
 });
+
+	

@@ -6,7 +6,8 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
 	<script type="text/javascript" src="http://gamequeryjs.com/wp-content/uploads/jquery.gamequery-0.7.1.js"></script>
-	<script type="text/javascript" src = "http://code.createjs.com/createjs-2013.05.14.min.js"></script>
+	<!--<script type="text/javascript" src ="http://code.createjs.com/createjs-2013.05.14.min.js"></script>-->
+	<script type="text/javascript" src = "http://code.createjs.com/soundjs-0.4.1.min.js"></script>
 	<script type="text/javascript" src="Card.js"></script>
 	<script type="text/javascript" src="GFX.js"></script>
 	<script type="text/javascript" src="LevelManager.js"></script>
@@ -17,13 +18,16 @@
 </head>
 
 <body style="background-color: black;">
+
 <div id="playground" style="width: 700px; height: 250px; background: black;">
+<button onclick="ResumeGame()">Try it</button>
     <div id="welcomeScreen" style="width: 700px; height: 250px; position: absolute; z-index: 100;">
         <div style="position: absolute; top: 120px; width: 700px; color: white;">
             <a style="cursor: pointer;" class="spinner-link" id="startbutton">click here to start the game</a>
 			<div id="spin" style="display:none;"></div>
         </div>
     </div>
+	
 </div>
 </body>
 </html>

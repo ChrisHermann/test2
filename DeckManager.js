@@ -13,7 +13,8 @@
 	this.NextVal;
 	this.LastB;
 	
-	//Sets hte class up properly.
+	//Sets the class up properly.
+	//Sets the class up properly.
 	this.Create = function(CardPool, BonusCardPool)
 	{
 		this.CardPool = CardPool;
@@ -75,13 +76,13 @@
 		return(CardPool.length + BonusCardPool.length);
 	}
 	
-	//Returns wether the last card drawn was a bonus card or not.
+	//Returns whether the last card drawn was a bonus card or not.
 	this.LastBonus = function()
 	{
 		return(this.LastB);
 	}
 	
-	//Returns wether the next card to be drawn will be a bonus card or not.
+	//Returns whether the next card to be drawn will be a bonus card or not.
 	this.NextBonus = function()
 	{
 		if (NextVal>CardPool.length)
@@ -98,6 +99,7 @@
 	this.GetRandomBonus = function()
 	{
 		//return(POINTID);
+		return(POINTID);
 		return(SWARTZID+Math.floor(Math.random()*BONUSES));
 	}
 }

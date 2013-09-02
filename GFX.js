@@ -1,9 +1,6 @@
 function GFX(node)
 {
-	//This class will manage the deck
-	//It will be used to set up the current levels and
-	//Make it easier to manage which cards are
-	//still available
+	//This card is used to easily make 
 	
 	this.node = node;
 	this.StartSize;
@@ -18,6 +15,8 @@ function GFX(node)
 	this.StepSize;
 	this.StepAlpha;
 	this.StepPosition;
+	this.Callback;
+	this.Hascb = false;
 	
 	//Sets up the functions.
 	this.Create = function(SS, ES, SA, EA, SP, EP, steps)
@@ -46,7 +45,7 @@ function GFX(node)
 	//The step function that transitions stuff.
 	//It all does the same, just with different variables.
 	//take the base amount, and increase it by the step amount.
-	//If hte base amount is greater htan the end-amount, then hard-set the step amount to the end-amount.
+	//If the base amount is greater htan the end-amount, then hard-set the step amount to the end-amount.
 	this.Step = function()
 	{
 		this.StartSize+=this.StepSize;
@@ -67,6 +66,30 @@ function GFX(node)
 		
 		
 		//NEEDS TO BE ABLE TO DELETE ITSELF
+		
+		if (this.StartSize == this.EndSize
+		&& this.StartAlpha == this.EndAlpha
+		&& this.StartPosition.x == this.EndPosition.x
+		&& this.StartPosition.y == this.EndPosition.y)
+		{
+			this.Depsawn();
+		}
 	}
 	
+	this.Depsawn = function()
+	{
+		if (this.Hascb)
+		this.Callback.apply(this);
+		
+		this.node.remove();
+		//Unsure if this part is necessary?
+		$(this.node.id).remove();
+	}
+	
+	//Calls the function when the object is about to despawn
+	this.EndCall = function(Function)
+	{
+		this.Callback = Function;
+		this.Hascb = true;
+	}
 }

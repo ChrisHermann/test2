@@ -97,14 +97,47 @@ function Cards(node)
 		if (this.value == POINTID)
 		{
 			//Simple add 500 points to the players score.
-			Points+=500;
+			//Points+=500;
+			
+			//Create the GFX for the points!
+			
+			$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetGFX(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+			
+			var Current = $("#GFX_"+GFXCount)[0];
+			
+			Current.GFX = new GFX($("#GFX_"+GFXCount));
+			Current.GFX.Create(1, 1, 1, 1, {x: this.node.x()+this.node.w()/2, y: this.node.y()}, {x: this.node.x()+this.node.w()/2, y: this.node.y()-50}, 30);
+			
+			
+			Current.GFX.EndCall(function() {
+			
+				$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetGFX(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+				
+				var Current = $("#GFX_"+GFXCount)[0];
+				
+				Current.GFX = new GFX($("#GFX_"+GFXCount));
+				var DIV = $("#PointHUD");
+				console.log (this.node.width());
+				//Limit it to 70, to make sure it will never overlap the "score:" caption
+				Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 30);
+				
+				
+				Current.GFX.EndCall(function() {
+					Points+=500;
+				});
+				
+				GFXCount++;
+			});
+			
+			GFXCount++;
+			
 			node.fadeOut();
 			this.visible=false;
 		}
 		if (this.value == PAIRID)
 		{
 			//This card will find a pair for you. If you already have a card flipped, it will find the matching card and
-			//Flip that one, if not, it will set autocomplete to true, telling the main class that hte next time a card
+			//Flip that one, if not, it will set autocomplete to true, telling the main class that the next time a card
 			//Is turned, it should find a pair for that card.
 			if (Turned > 0)
 			{

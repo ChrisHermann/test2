@@ -16,6 +16,16 @@ function ForEachCard(Function)
 		Function.apply($("#Card_"+i)[0]);
 	}
 }
+
+//Similar, but with all GFX cards.
+function ForEachGFX(Function)
+{
+	for (var i = 0; i < GFXCount; ++i)
+	{
+		if ($("#GFX_"+i)[0])
+		Function.apply($("#GFX_"+i)[0]);
+	}
+}
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
 // --------------------------------------------------------------------
@@ -65,7 +75,9 @@ $(function(){
 	var EndedL = 0;
 	var Name = "";
 	var Line;
+	GFXCount = 0;
 	Points = 0;
+	PointsV = 0;
 	Autocomplete = false;
 
 	Now = 0;
@@ -92,7 +104,7 @@ $(function(){
     // The background:    
 	
 	var DM = new DeckManager();
-	var IM = new ImageManager();
+	IM = new ImageManager();
 	LM = new LevelManager();
 	LM.Create(20,25);
 	
@@ -108,22 +120,25 @@ $(function(){
 	
 	//Loads the normal card faces
 	var Face = new Array();
-	IM.Load("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
-	IM.Load("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
-	IM.Load("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
-	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-	IM.Load("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-	IM.Load("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
-	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
-	IM.Load("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
-	IM.Load("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
-	IM.Load("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+	IM.LoadCard("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
+	IM.LoadCard("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
+	IM.LoadCard("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
+	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
+	IM.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+	IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+	IM.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
+	IM.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
+	IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
 	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-	SWARTZID = IM.Load("http://www.towergaming.com/images/media-room/articles/joker-card.png");
-	POINTID = IM.Load("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-	PAIRID = IM.Load("http://www.dwsmg.com/wp-content/uploads/2011/02/valentine-cards-24.jpeg");
-	CONFUSEID = IM.Load("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+	SWARTZID = IM.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+	POINTID = IM.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
+	PAIRID = IM.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
+	CONFUSEID = IM.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+	
+	POINTS1 = IM.LoadGFX("http://starship-games.com/500.png");
+	POINTS2 = IM.LoadGFX("http://starship-games.com/500.png");
 		
 	//Sets the amountn of bonus cards loaded.
 	BONUSES = 4;	
@@ -185,7 +200,7 @@ $(function(){
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];
 			Current.Cards = new Cards($("#"+name));
-			Current.Cards.Create(val, IM.GetImage(val), IM.GetImage(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
+			Current.Cards.Create(val, IM.GetCard(val), IM.GetCard(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
 			
 			
 			//Add a mousedown event for the card, this mousedown will be run in the main
@@ -517,11 +532,13 @@ $(function(){
 		$.playground()
 		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
+		.addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
+                                 height: PLAYGROUND_HEIGHT})
 		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 								 
 	//Create a div for the Point UI.
-	$("#overlay").append("<div id='PointHUD'style='color: white; width: 200px; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
+	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
 	
 	//Create the first level.
 	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
@@ -548,10 +565,24 @@ $(function(){
         });
     })
     
+	
+	//Mute/unmite the Music
+	ToggleMusic = function()
+	{
+		createjs.Sound.setMute(true);
+	}
+	//Mute/unmite the Sound
+	ToggleSound = function()
+	{
+		
+	}
     
+	
+	
     //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function()
 	{
+		ToggleMusic();
 		if (Ended == 2)
 		{
 			var Current = $("#HighscoreHUD");
@@ -580,8 +611,14 @@ $(function(){
 			Now = new Date().getTime();
 			Delta = Now - Then;	
 			
+			if (PointsV<Points)
+			{
+				PointsV+=((Points - PointsV)/300+0.33) * (Delta);
+			}
 			
-			$("#PointHUD").html("Points: "+Points);	
+			if (PointsV>Points) PointsV=Points;
+			
+			$("#PointHUD").html("Points: "+Math.round(PointsV));	
 			
 			$("#TimeHUD").html("Time: "+CurGameTime);
 		
@@ -594,13 +631,19 @@ $(function(){
 				this.Cards.Step();
 			});
 			
+			ForEachGFX(function()
+			{
+				//For each card, perform their step event.
+				this.GFX.Step();
+			});
+			
 			//DEBUG DEBUG DEBUG
 			if ($.gQ.keyTracker[65])
 			{
 				if (LastA==false)
 				{
 					LastA=true;
-					EndGame();
+					
 				}
 			}
 			else
@@ -641,14 +684,14 @@ $(function(){
 				}
 			}
 		
-		Then = Now;
+			Then = Now;
 			
 		}
 		EndedL=Ended;
 	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));
 	
-	//This function is used for the loading spinnner.
+	//This function is used for the loading spinner.
 	//We have little idea how it works.
 	$.fn.spin = function(opts) {
 		this.each(function() {

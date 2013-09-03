@@ -38,7 +38,6 @@ function Cards(node)
 	
 	this.Hiding = 0;
 	
-	
 	this.ChangeFace = function(face)
 	{
 		//Changes the face of the card.
@@ -311,7 +310,8 @@ function Cards(node)
 		//Turns the Card around.
 		this.Turning = true;
 		this.changed = false;
-		createjs.Sound.play("sound");
+		//createjs.Sound.play("sound");
+		soundFlipCard.play();
 	}
 	
 	this.Clicked = function()

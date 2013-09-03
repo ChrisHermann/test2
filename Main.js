@@ -6,6 +6,9 @@ var REFRESH_RATE        = 30;
 
 var percent = 1;
 
+var Paused = false;
+var MMusic = false;
+var MSound = false;
 
 //Global function that applies a function to all cards.
 //We avoid $("#Card").each because it's very slow in ie8.
@@ -35,6 +38,66 @@ function ResumeGame()
 	Paused = false;
 	GameStart = true;
 }
+
+function PauseGame()
+{
+		
+	$.playground().pauseGame();
+	soundBG.pause();
+	Paused = true;
+	GameStart = false;
+}
+
+function PauseResume()
+{
+	
+		if (Paused == false)
+			PauseGame();
+		else
+			ResumeGame();
+}
+
+function MuteMusic()
+{
+	function MuteMusic()
+	{
+		soundBG.setMute(true);
+		MMusic = true;
+	}
+	function UnMuteMusic()
+	{
+		soundBG.setMute(false);
+		MMusic = false;
+	}
+	
+	if(MMusic == false)
+		MuteMusic();
+	else
+		UnMuteMusic();
+}
+
+function MuteSound()
+{
+	function MuteSound()
+	{
+		soundFlipCard.setMute(true);
+		MSound = true;
+	}
+	function UnMuteSound()
+	{
+		soundFlipCard.setMute(false);
+		MSound = false;
+	}
+	
+	if(MSound == false)
+		MuteSound();
+	else
+		UnMuteSound();
+}
+
+
+
+
 // --------------------------------------------------------------------
 // --                      the main declaration:                     --
 // --------------------------------------------------------------------
@@ -105,7 +168,7 @@ function ResumeGame()
 	var LastA=false;
 	var LastP=false;
 	var LastO=false;
-	Paused = false;
+
 	
 	var CurLevel = 0;
 	
@@ -123,8 +186,10 @@ function ResumeGame()
 	
 		
 	//Sounds
-	 createjs.Sound.registerSound("./flipcard.wav", "sound");
-	 createjs.Sound.registerSound("./music.mp3", "bgmusic");
+	 //createjs.Sound.registerSound("./flipcard.wav", "sound");
+	 //createjs.Sound.registerSound("./music.mp3", "bgmusic");
+	 soundBG = createjs.Sound.createInstance("./music.mp3");
+	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 
 	
 	//Loads the normal card faces
@@ -153,7 +218,15 @@ function ResumeGame()
 	BONUSES = 4;	
 	
 	
-	
+	//focus unfocus
+	window.addEventListener("focus", function(event) 
+	{ 
+	ResumeGame();
+	}, false);
+	window.addEventListener("blur", function(event)
+	{ 
+	PauseGame();
+	}, false);
     
 
 	//This functions "creates a level" this function is run when there is an empty screen to set up
@@ -435,16 +508,7 @@ function ResumeGame()
 		Name += key_press;
 	}
 	
-	function PauseGame()
-	{
-		
-		$.playground().pauseGame();
-		soundBG.pause();
-		Paused = true;
-		GameStart = false;
-		
-		
-	}
+
 	
 	
 	//Used for highscore screens in general.
@@ -578,10 +642,8 @@ function ResumeGame()
     $("#startbutton").click(function(){
         $.playground().startGame(function(){
 			Then = new Date().getTime();
-			var spinner = new Spinner().spin();
-			background.appendChild(spinner.el);
 			GameStart = true;
-			soundBG = createjs.Sound.play("bgmusic");
+			soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
             $("#welcomeScreen").remove();
         });
     })
@@ -603,7 +665,6 @@ function ResumeGame()
     //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function()
 	{
-		ToggleMusic();
 		if (Ended == 2)
 		{
 			var Current = $("#HighscoreHUD");

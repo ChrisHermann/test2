@@ -529,6 +529,7 @@ function MuteSound()
 		soundBG.pause();
 		Paused = true;
 		GameStart = false;
+	}
 	
 	
 	//Used for highscore screens in general.

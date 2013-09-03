@@ -643,11 +643,7 @@ function MuteSound()
 	$("#overlay").append("<div id='BorderLeft'style='color: white; position: absolute; width: 36px; height: 100%'></div>");
 	document.getElementById("BorderLeft").style.backgroundImage = "url(./UI_Left.png)";
 	
-	//$("#overlay").
 	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
-	//$("#overlay").addSprite("UI_Top", {animation: IM.GetMisc(UITop), width: 1, height: 59, posx: 383 + Math.floor((PLAYGROUND_WIDTH-384)/2) , posy: 0 });
-	//$("#overlay").addSprite("UI_Left", {animation: IM.GetMisc(UILeft), width: 36, height: 1, posx: 0 , posy: 191 + Math.floor((PLAYGROUND_HEIGHT-192)/2) });
-	
 	
 	//Create a div for the Point UI.
 	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
@@ -657,6 +653,33 @@ function MuteSound()
 	
 	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	//Create a div for the Level UI.
+	
+	$("#overlay").append("<div id='PauseBut'style='color: white; position: absolute; left: 10px; top: 120px;'></div>");
+	$("#overlay").append("<div id='MuteMBut'style='color: white; position: absolute; left: 100px; top: 70px;'></div>");
+	$("#overlay").append("<div id='MuteSBut'style='color: white; position: absolute; left: 10px; top: 70px;'></div>");
+	
+	
+	myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "Pause";
+	myButton.onclick = PauseGame;
+	placeHolder = document.getElementById("PauseBut");
+	placeHolder.appendChild(myButton);
+	
+	myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "Mute Music";
+	myButton.onclick = MuteMusic;
+	placeHolder = document.getElementById("MuteMBut");
+	placeHolder.appendChild(myButton);
+	placeHolder.appendChild(myButton);
+	
+	myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "Mute Sound";
+	myButton.onclick = MuteSound;
+	placeHolder = document.getElementById("MuteSBut");
+	placeHolder.appendChild(myButton);
 	
 	
 	

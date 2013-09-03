@@ -52,21 +52,6 @@ function ResumeGame()
 	
 	//TEST HIGHSCORE
 	//TODO: DELETE!!!
-	Scores = new Array();
-	Scores[0]={score: 100, name: "SSH"};
-	Scores[1]={score: 200, name: "SSH"};
-	Scores[2]={score: 500, name: "SSH"};
-	Scores[3]={score: 300, name: "SSH"};
-	Scores[4]={score: 400, name: "SSH"};
-	Scores[5]={score: 450, name: "SSH"};
-	Scores[6]={score: 10000, name: "SSH"};
-	Scores[7]={score: 20, name: "SSH"};
-	Scores[8]={score: 150, name: "SSH"};
-	Scores[9]={score: 160, name: "SSH"};
-	Scores[10]={score: 170, name: "SSH"};
-	
-	Scores.sort(CustomSort);
-	
 	
 
 	//Calculate playground width and height:
@@ -84,6 +69,7 @@ function ResumeGame()
 	var EndedL = 0;
 	var Name = "";
 	var Line;
+	var Scores;
 	GFXCount = 0;
 	Points = 0;
 	PointsV = 0;
@@ -146,8 +132,12 @@ function ResumeGame()
 	PAIRID = IM.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
 	CONFUSEID = IM.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 	
-	POINTS1 = IM.LoadGFX("http://starship-games.com/500.png");
-	POINTS2 = IM.LoadGFX("http://starship-games.com/500.png");
+	POINTS1 = IM.LoadMisc("http://starship-games.com/500.png");
+	POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
+	
+	var UIMain = IM.LoadMisc("./UI_Main.png");
+	var UITop = IM.LoadMisc("./UI_Top.png");
+	var UILeft = IM.LoadMisc("./UI_Left.png");
 		
 	//Sets the amountn of bonus cards loaded.
 	BONUSES = 4;	
@@ -194,6 +184,7 @@ function ResumeGame()
 		
 		
 		DM.Create(Vals, Vals2);
+		
 		//In this stage we spawn the actual cards, right now this is a huge function.
 		//Imagemanager and deckmanager will make this function a lot smaller.
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
@@ -342,6 +333,7 @@ function ResumeGame()
 		noc = (LM.NumberOfCards + LM.NumberOfCardsBonus)/(Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    ) ));
 		
 		//Calculate the number of columns based on the new even distribution.
+		
 		SpaceX = PLAYGROUND_WIDTH/ Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1));
 		
 		
@@ -385,6 +377,8 @@ function ResumeGame()
         width: PLAYGROUND_WIDTH});
 		
 		
+	
+	
 		//Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
 		//Finds all cards, if they exist, updates their position and scaling. 
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
@@ -398,6 +392,11 @@ function ResumeGame()
 		   }
 		
 		}
+		
+		
+	$("#overlay").append("<div id='BorderTop'style='color: white; position: absolute; width: 100%; height: 59px'></div>");
+	
+	$("#overlay").append("<div id='BorderLeft'style='color: white; position: absolute; width: 36px; height: 100%'></div>");
     };
 	
 	//Function to end the game
@@ -420,6 +419,21 @@ function ResumeGame()
 	{
 		$("#HighscoreHUD").remove();
 		
+		
+		Scores = new Array();
+		
+		//Create a line containing the 10 best scores, and apply them to the div.
+		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
+			for (i=0; i<data.length/2; i++)
+			{
+				Scores[i] = {score: data[i*2+1], name: data[i*2]};
+			}
+		}, 'json');
+		
+		Scores.sort(CustomSort);
+		
+		Points = 0;
+		PointsV = 0;
 		Ended = 0;
 		//This is the easiest way to reset the levelmanager.
 		LM.Create(6,10);
@@ -442,8 +456,6 @@ function ResumeGame()
 		soundBG.pause();
 		Paused = true;
 		GameStart = false;
-		
-		
 	}
 	
 	
@@ -465,18 +477,8 @@ function ResumeGame()
 				//If we are entering our name show the highscore
 				$("#HighscoreHUD").remove();
 				
-				//Consider loading this earlier, possibly whwn starting the game, and than manually inserting hte player score
+				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
 				//both off.line and online.
-				$.ajax
-				({
-					data: "Name=" + Name + "&Score=" + Points,
-					type: "POST",
-					url: "http://www.starship-games.com/PostHighscore.php",
-					complete: function (data) {
-						console.log(data);
-					}
-				});
-				
 				
 				ShowHighscore();
 			}
@@ -504,20 +506,15 @@ function ResumeGame()
 		}
 		Ended=2;
 		
-		
 		Line = "<br>";
+		
 		
 		//Create a line containing the 10 best scores, and apply them to the div.
 		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
-			for (i=0; i<data.length/2; i++)
+			for (i=0; i<Math.min(10, Scores.length); i++)
 			{
-				Line+=(i+1)+". "+data[i*2]+" - "+data[i*2+1]+"<br>";
+				Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
 			}
-				//$.each(data, function(key, val) {
-				//console.log('index ' + key + ' points to file ' + val);
-				//Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
-				//alert('index ' + key + ' points to file ' + val);
-				//});
 		}, 'json');
 		
 		var Current = $("#HighscoreHUD");
@@ -525,7 +522,14 @@ function ResumeGame()
 		
 		//Create new div for high score.
 		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
-	
+		$.ajax
+		({
+			data: "Name=" + Name + "&Score=" + Points,
+			type: "POST",
+			url: "http://www.starship-games.com/PostHighscore.php",
+			complete: function (data) {
+			}
+		});
 	}
 	
 	//This is called with an object containing name and score, can be used to send to the database.
@@ -557,18 +561,54 @@ function ResumeGame()
                                  height: PLAYGROUND_HEIGHT})
 		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
-								 
+	//Setup UI
+	
+	//Does not work on resizing
+	$("#overlay").append("<div id='BorderTop'style='color: white; position: absolute; width: 100%; height: 59px'></div>");
+	document.getElementById("BorderTop").style.backgroundImage = "url(./UI_Top.png)";
+	
+	$("#overlay").append("<div id='BorderLeft'style='color: white; position: absolute; width: 36px; height: 100%'></div>");
+	document.getElementById("BorderLeft").style.backgroundImage = "url(./UI_Left.png)";
+	
+	//$("#overlay").
+	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
+	//$("#overlay").addSprite("UI_Top", {animation: IM.GetMisc(UITop), width: 1, height: 59, posx: 383 + Math.floor((PLAYGROUND_WIDTH-384)/2) , posy: 0 });
+	//$("#overlay").addSprite("UI_Left", {animation: IM.GetMisc(UILeft), width: 36, height: 1, posx: 0 , posy: 191 + Math.floor((PLAYGROUND_HEIGHT-192)/2) });
+	
+	
 	//Create a div for the Point UI.
-	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 0px; font-family: verdana, sans-serif;'></div>");
+	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	
 	//Create the first level.
-	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; font-family: verdana, sans-serif; float: right;'></div>");
+	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
 	
+	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	//Create a div for the Level UI.
-	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 400px; font-family: verdana, sans-serif;'></div>");
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//Create the first level.
 	CreateLevel();
+	
+	Scores = new Array();
+	
+	//Create a line containing the 10 best scores, and apply them to the div.
+	$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
+		for (i=0; i<data.length/2; i++)
+		{
+			Scores[i] = {score: data[i*2+1], name: data[i*2]};
+			console.log( data[i*2+1]);
+		}
+	}, 'json');
+	
+	Scores.sort(CustomSort);
 					
     // this sets the id of the loading bar (NOT USED YET):
 	$.loadCallback(function(percent){
@@ -597,6 +637,8 @@ function ResumeGame()
 	{
 		
 	}
+	
+	
     
 	
 	
@@ -608,7 +650,7 @@ function ResumeGame()
 		{
 			var Current = $("#HighscoreHUD");
 			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-			Current.html(Line);
+			Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
@@ -715,12 +757,13 @@ function ResumeGame()
 			//If we have matched all the cards.
 			if (Turned >= LM.NumberOfCards)
 			{
-				DoneTimer++;
+				DoneTimer+=Delta;
 				Done = true;
 				//If done, count the timer up to create a delay before next level.
-				if (DoneTimer>30)
+				if (DoneTimer>1000)
 				{
 					DoneTimer=0;
+					Points+=Math.round(CurGameTime/100) + CurLevel * 100;
 					Done = false;
 					//Once done, reset the control variables, and remove all cards.
 					for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)

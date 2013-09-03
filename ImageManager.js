@@ -4,7 +4,7 @@ function ImageManager()
 	//This will make it easier to change the images for future games.
 	this.Faces = new Array();
 	this.BFace;
-	this.GFX = new Array();
+	this.Misc = new Array();
 	
 	//Sets up the necessary variables.
 	this.Create = function(BackFaceURL)
@@ -24,12 +24,12 @@ function ImageManager()
 	}
 	
 	//Loads a new image, and stores it as a misc Image.
-	this.LoadGFX = function(URL)
+	this.LoadMisc = function(URL)
 	{
-		this.GFX[this.GFX.length] = new $.gameQuery.Animation({
+		this.Misc[this.Misc.length] = new $.gameQuery.Animation({
         imageURL: URL});
 		
-		return(this.GFX.length-1);
+		return(this.Misc.length-1);
 	}
 	
 	//Gets the image with a given index.
@@ -39,9 +39,9 @@ function ImageManager()
 	}
 	
 	//Gets the image with a given index.
-	this.GetGFX = function(Number)
+	this.GetMisc = function(Number)
 	{
-		return(this.GFX[Number]);
+		return(this.Misc[Number]);
 	}
 	
 	

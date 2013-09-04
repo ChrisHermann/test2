@@ -174,8 +174,7 @@ function MuteSound()
 	 soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 
-	//IM.LoadCard("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
-	//IM.LoadCard("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+	 
 	//Loads the normal card faces
 	var Face = new Array();
 	IM.LoadCard("peter.png");
@@ -469,6 +468,12 @@ function MuteSound()
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH);
 		$("#BorderLeft").height(PLAYGROUND_HEIGHT);
+		
+		$("#bgtop").width($("#BorderTop").width());
+		$("#bgtop").height($("#BorderTop").height());
+		
+		$("#bgleft").width($("#BorderLeft").width());
+		$("#bgleft	").height($("#BorderLeft").height());
     };
 	
 	//Function to end the game
@@ -625,15 +630,15 @@ function MuteSound()
 	//Setup UI
 	//Add borders.
 	$("#overlay").append("<div id='BorderTop'style='color: white; background-size:100% 100%; position: absolute; width: 100%; height: 59px'><img src='UI_Top.png' alt='background image' id='bgtop' /></div>");
-	//$("#bgtop").css("position: fixed; top: 0; left: 0; width: 100%; height: 100%;");
-	$("#bgtop").width(100);
-	$("#bgtop").height(100);
+	$("#bgtop").width($("#BorderTop").width());
+	$("#bgtop").height($("#BorderTop").height());
 
 	
 	$("#overlay").append("<div id='BorderLeft' style='color: white; background-size:100% 100%; position: absolute; width: 36px; height: 100%'><img src='UI_Left.png' alt='background image' id='bgleft' /></div>");
+	$("#bgleft").width($("#BorderLeft").width());
+	$("#bgleft	").height($("#BorderLeft").height());
 	
-	
-	//$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
+	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
 	
 	//Create a div for the Point UI.
 	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");

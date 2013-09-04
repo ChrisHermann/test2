@@ -39,27 +39,42 @@ function LevelManager(node)
 		//Second calculate the amount of bonus cards, based on a base and small random attribute.
 		var bonus = this.BonusCardsB+Math.random()*this.BonusCardsR-Math.random()*this.BonusCardsR;
 		
-		//Now calculate how many normal cards we should use fir this level, this is a raw number.
-		this.NumberOfCards = Math.round(this.MaxCards * this.Difficulty * (1 - bonus));
+		//Now calculate how many normal cards we should use for this level, this is a raw number.
+		this.NumberOfCards = Math.round(this.ActualyMaxCards * this.Difficulty * (1 - bonus));
 		
 		//Now, make sure the number of normal cards are divideable by two.
 		if (this.NumberOfCards/2 != Math.ceil(this.NumberOfCards/2))
 		{
+			
 			//if not, then unless the amount of normal cards are equal to the total amount of cards
 			//increase the number or normal cards by one, if it is equal, decrease it by one.
-			if (this.NumberOfCards!= this.MaxCards)
+			if (this.NumberOfCards!= Math.round(this.ActualyMaxCards * this.Difficulty))
 				this.NumberOfCards++;
 			else
 				this.NumberOfCards--;
 		}
-		
+			
 		//If the number of cards are below two, set them to two, because having less than two cards in a pairing game sucks.
 		if (this.NumberOfCards < 2) this.NumberOfCards = 2;
 		
-		//This code should not be needed!
-		//It's a security code that should only kick in if the amount of bonus cards go negative.
+		//Make sure it doesn't exceed the cards for this level.
+		if (this.NumberOfCards > this.ActualyMaxCards * this.Difficulty)
+		{
+			if (Math.round(this.ActualyMaxCards * this.Difficulty)/2 == Math.ceil(Math.round(this.ActualyMaxCards * this.Difficulty)/2))
+				this.NumberOfCards = (this.ActualyMaxCards * this.Difficulty);
+			else
+				this.NumberOfCards = (this.ActualyMaxCards * this.Difficulty) - 1;
+		}
+		
+		//Make sure it doesn't exceed the mazimum.
 		if (this.NumberOfCards > this.MaxCards)
 		{
+			
+			console.log("=========================================");
+			console.log(this.NumberOfCards);
+			console.log(this.MaxCards/2 == Math.ceil(this.MaxCards/2));
+			console.log("=========================================");
+			
 			if (this.MaxCards/2 == Math.ceil(this.MaxCards/2))
 				this.NumberOfCards = this.MaxCards;
 			else

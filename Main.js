@@ -164,7 +164,6 @@ function MuteSound()
 	var DM = new DeckManager();
 	IM = new ImageManager();
 	LM = new LevelManager();
-	LM.Create(20,25);
 	
 	
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
@@ -172,8 +171,6 @@ function MuteSound()
 	
 		
 	//Sounds
-	 //createjs.Sound.registerSound("./flipcard.wav", "sound");
-	 //createjs.Sound.registerSound("./music.mp3", "bgmusic");
 	 soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 
@@ -191,6 +188,9 @@ function MuteSound()
 	IM.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
 	IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
 	
+	
+	LM.Create(IM.Faces.length,25);
+	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
 	SWARTZID = IM.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
 	POINTID = IM.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
@@ -200,9 +200,8 @@ function MuteSound()
 	POINTS1 = IM.LoadMisc("http://starship-games.com/500.png");
 	POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
 	
+	//Change this and lines: 636-681, to change the UI.
 	var UIMain = IM.LoadMisc("./UI_Main.png");
-	var UITop = IM.LoadMisc("./UI_Top.png");
-	var UILeft = IM.LoadMisc("./UI_Left.png");
 		
 	//Sets the amountn of bonus cards loaded.
 	BONUSES = 4;	
@@ -509,7 +508,7 @@ function MuteSound()
 		PointsV = 0;
 		Ended = 0;
 		//This is the easiest way to reset the levelmanager.
-		LM.Create(6,10);
+		LM.Create(IM.Faces.length*2,25);
 		CreateLevel();
 	}
 	
@@ -635,8 +634,7 @@ function MuteSound()
 		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 	//Setup UI
-	
-	//Does not work on resizing
+	//Add borders.
 	$("#overlay").append("<div id='BorderTop'style='color: white; position: absolute; width: 100%; height: 59px'></div>");
 	document.getElementById("BorderTop").style.backgroundImage = "url(./UI_Top.png)";
 	
@@ -654,11 +652,12 @@ function MuteSound()
 	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	//Create a div for the Level UI.
 	
+	//Add div for control buttons
 	$("#overlay").append("<div id='PauseBut'style='color: white; position: absolute; left: 10px; top: 120px;'></div>");
 	$("#overlay").append("<div id='MuteMBut'style='color: white; position: absolute; left: 100px; top: 70px;'></div>");
 	$("#overlay").append("<div id='MuteSBut'style='color: white; position: absolute; left: 10px; top: 70px;'></div>");
 	
-	
+	//Add the control buttons to the UI
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Pause";

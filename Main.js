@@ -34,8 +34,7 @@ function ResumeGame()
 {
 	Then = new Date().getTime();
 	if(GameStart)
-	$.playground().resumeGame();
-	
+	$.playground().resumeGame();	
 	soundBG.resume();
 	Paused = false;
 }
@@ -46,6 +45,7 @@ function PauseGame()
 	$.playground().pauseGame();
 	soundBG.pause();
 	Paused = true;
+
 }
 
 function PauseResume()
@@ -521,17 +521,6 @@ function MuteSound()
 		if (event.keyCode!=13 && key_press != " " && EndedL==1)
 		Name += key_press;
 	}
-	
-	function PauseGame()
-	{
-		
-		$.playground().pauseGame();
-		soundBG.pause();
-		Paused = true;
-		GameStart = false;
-	}
-	
-	
 	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
 		//Delete chars when entering name
@@ -695,14 +684,14 @@ function MuteSound()
 	
 	Scores = new Array();
 	
-	//Create a line containing the 10 best scores, and apply them to the div.
+	/*//Create a line containing the 10 best scores, and apply them to the div.
 	$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
 		for (i=0; i<data.length/2; i++)
 		{
 			Scores[i] = {score: data[i*2+1], name: data[i*2]};
 			console.log( data[i*2+1]);
 		}
-	}, 'json');
+	}, 'json');*/
 	
 	Scores.sort(CustomSort);
 					

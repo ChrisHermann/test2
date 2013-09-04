@@ -137,6 +137,7 @@ function MuteSound()
 	Points = 0;
 	PointsV = 0;
 	Autocomplete = false;
+	Restarted = false;
 
 	Now = 0;
 	
@@ -144,7 +145,7 @@ function MuteSound()
 	
 	Then = new Date().getTime();
 	
-	var CoreGameTime = 50 * 1000;
+	var CoreGameTime = 10 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -155,8 +156,10 @@ function MuteSound()
 	var LastP=false;
 	var LastO=false;
 
+	CoreLevel = 0;
 	
-	var CurLevel = 0;
+	CurLevel = CoreLevel;
+	
 	
     // Animations declaration: 
     // The background:    
@@ -229,8 +232,15 @@ function MuteSound()
 		// Resets clock.
 		CurGameTime = CoreGameTime;
 		
-		// Level goes up
+		// Level goes up or Restarts
+		if(Restarted == false)
+		{
 		CurLevel++;
+		}
+		else
+		{
+		CurLevel = 1;
+		}
 		
 		//Setup Card data so they can be reached randomly
 		var Vals = new Array();
@@ -512,6 +522,7 @@ function MuteSound()
 		Points = 0;
 		PointsV = 0;
 		Ended = 0;
+		CurGameTime = CoreGameTime;
 		//This is the easiest way to reset the levelmanager.
 		LM.Create(IM.Faces.length*2,25);
 		CreateLevel();
@@ -549,8 +560,11 @@ function MuteSound()
 				ShowHighscore();
 			}
 			else
-				//Else, restart the game.
-				RestartGame();
+			{
+			//Else, restart the game.
+			Restarted = true;
+			RestartGame();
+			}
 			
 			//Send the highscore to the database.
 			ApplyHighscore( {name: Name, score: Points} );
@@ -861,6 +875,7 @@ function MuteSound()
 					}
 					
 					//Then create next level.
+					Restarted = false;
 					CreateLevel();
 				}
 			}

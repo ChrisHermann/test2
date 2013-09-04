@@ -466,9 +466,8 @@ function MuteSound()
 		}
 		
 		
-	$("#overlay").append("<div id='BorderTop'style='color: white; position: absolute; width: 100%; height: 59px'></div>");
-	
-	$("#overlay").append("<div id='BorderLeft'style='color: white; position: absolute; width: 36px; height: 100%'></div>");
+		$("#BorderTop").width(PLAYGROUND_WIDTH);
+		$("#BorderLeft").height(PLAYGROUND_HEIGHT);
     };
 	
 	//Function to end the game
@@ -635,10 +634,10 @@ function MuteSound()
                                  height: PLAYGROUND_HEIGHT})
 	//Setup UI
 	//Add borders.
-	$("#overlay").append("<div id='BorderTop'style='color: white; position: absolute; width: 100%; height: 59px'></div>");
+	$("#overlay").append("<div id='BorderTop'style='color: white; background-size:100% 100%; position: absolute; width: 100%; height: 59px'></div>");
 	document.getElementById("BorderTop").style.backgroundImage = "url(./UI_Top.png)";
 	
-	$("#overlay").append("<div id='BorderLeft'style='color: white; position: absolute; width: 36px; height: 100%'></div>");
+	$("#overlay").append("<div id='BorderLeft' style='color: white; background-size:100% 100%; position: absolute; width: 36px; height: 100%'></div>");
 	document.getElementById("BorderLeft").style.backgroundImage = "url(./UI_Left.png)";
 	
 	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });

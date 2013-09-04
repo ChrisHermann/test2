@@ -33,10 +33,11 @@ function ForEachGFX(Function)
 function ResumeGame()
 {
 	Then = new Date().getTime();
+	if(GameStart)
 	$.playground().resumeGame();
+	
 	soundBG.resume();
 	Paused = false;
-	GameStart = true;
 }
 
 function PauseGame()
@@ -45,7 +46,6 @@ function PauseGame()
 	$.playground().pauseGame();
 	soundBG.pause();
 	Paused = true;
-	GameStart = false;
 }
 
 function PauseResume()
@@ -174,12 +174,13 @@ function MuteSound()
 	 soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 
-	
+	//IM.LoadCard("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
+	//IM.LoadCard("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
 	//Loads the normal card faces
 	var Face = new Array();
-	IM.LoadCard("http://www.damienriley.com/wp-content/uploads/2009/09/ist2_5106943-king-card.jpg");
-	IM.LoadCard("http://i.istockimg.com/file_thumbview_approve/6844208/2/stock-illustration-6844208-jack-of-diamonds-two-playing-card.jpg");
-	IM.LoadCard("http://www.danielveazey.com/wp-content/uploads/2012/03/queen-of-hearts.jpg");
+	IM.LoadCard("peter.png");
+	IM.LoadCard("nicolaus.png");
+	IM.LoadCard("schwartz.png");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
 	IM.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");

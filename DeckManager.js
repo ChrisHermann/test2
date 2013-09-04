@@ -98,6 +98,7 @@
 	//Returns a random bonus card, within the appropriate range.
 	this.GetRandomBonus = function()
 	{
+
 		return(SWARTZID+Math.floor(Math.random()*BONUSES));
 	}
 }

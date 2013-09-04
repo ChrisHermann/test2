@@ -3,7 +3,7 @@ function Cards(node)
 	//The card class, and it's attributes.
 	//These attributes may be obsolete atm.
 	this.WIDTH = 208;
-	this.HEIGHT = 303;
+	this.HEIGHT = 303; 
 	
 	this.value = 0;
 	

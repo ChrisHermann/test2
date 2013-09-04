@@ -26,20 +26,20 @@ function GFX(node)
 		//Size is the size of the object.
 		//Alpha is the opacity
 		//Position is an object given as: {x: , y:} with coordinates.
-		//Steps is the amount of time the transition should take.
-		this.Steps = steps;
+		//Steps is the amount of seconds the transaction should take.
+		this.Steps = (steps * 1000);
 		
 		this.StartSize = SS;
 		this.EndSize = ES;
-		this.StepSize = (ES-SS)/steps;
+		this.StepSize = (ES-SS)/this.Steps;
 		
 		this.StartAlpha= SA;
 		this.EndAlpha = EA;
-		this.StepAlpha = (EA-SA)/steps;
+		this.StepAlpha = (EA-SA)/this.Steps;
 		
 		this.StartPosition = SP;
 		this.EndPosition = EP;
-		this.StepPosition = {x: (EP.x-SP.x)/steps, y: (EP.y-SP.y)/steps};
+		this.StepPosition = {x: (EP.x-SP.x)/this.Steps, y: (EP.y-SP.y)/this.Steps};
 	}
 	
 	//The step function that transitions stuff.
@@ -48,18 +48,18 @@ function GFX(node)
 	//If the base amount is greater htan the end-amount, then hard-set the step amount to the end-amount.
 	this.Step = function()
 	{
-		this.StartSize+=this.StepSize;
+		this.StartSize+=this.StepSize * Delta;
 		if ((this.StartSize>this.EndSize && this.StepSize>0) || (this.StartSize<this.EndSize && this.StepSize<0)) this.StartSize=this.EndSize;
 		
 		
-		this.StartAlpha+=this.StepAlpha;
+		this.StartAlpha+=this.StepAlpha * Delta;
 		if ((this.StartAlpha>this.EndAlpha && this.StepAlpha>0) || (this.StartAlpha<this.EndAlpha && this.StepAlpha<0)) this.StartAlpha=this.EndAlpha;
 		
-		this.StartPosition.x+=this.StepPosition.x;
+		this.StartPosition.x+=this.StepPosition.x * Delta;
 		if ((this.StartPosition.x>this.EndPosition.x && this.StepPosition.x>0) || (this.StartPosition.x<this.EndPosition.x && this.StepPosition.x<0)) this.StartPosition.x=this.EndPosition.x;
 		
 		
-		this.StartPosition.y+=this.StepPosition.y;
+		this.StartPosition.y+=this.StepPosition.y * Delta;
 		if ((this.StartPosition.y>this.EndPosition.y && this.StepPosition.y>0) || (this.StartPosition.y<this.EndPosition.y && this.StepPosition.y<0)) this.StartPosition.y=this.EndPosition.y;
 		
 		this.node.scale(this.StartSize).xy(this.StartPosition.x, this.StartPosition.y).css({opacity: this.StartAlpha});

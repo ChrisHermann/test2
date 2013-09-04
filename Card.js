@@ -100,25 +100,25 @@ function Cards(node)
 			
 			//Create the GFX for the points!
 			
-			$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetGFX(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+			$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
 			
 			var Current = $("#GFX_"+GFXCount)[0];
 			
 			Current.GFX = new GFX($("#GFX_"+GFXCount));
-			Current.GFX.Create(1, 1, 1, 1, {x: this.node.x()+this.node.w()/2, y: this.node.y()}, {x: this.node.x()+this.node.w()/2, y: this.node.y()-50}, 30);
+			Current.GFX.Create(1, 1, 1, 1, {x: this.node.x()+this.node.w()/2, y: this.node.y()}, {x: this.node.x()+this.node.w()/2, y: this.node.y()-50}, 1);
 			
 			
 			Current.GFX.EndCall(function() {
 			
-				$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetGFX(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+				$("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
 				
 				var Current = $("#GFX_"+GFXCount)[0];
 				
 				Current.GFX = new GFX($("#GFX_"+GFXCount));
 				var DIV = $("#PointHUD");
-				console.log (this.node.width());
+				
 				//Limit it to 70, to make sure it will never overlap the "score:" caption
-				Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 30);
+				Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 1);
 				
 				
 				Current.GFX.EndCall(function() {

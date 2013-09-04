@@ -69,12 +69,6 @@ function LevelManager(node)
 		//Make sure it doesn't exceed the mazimum.
 		if (this.NumberOfCards > this.MaxCards)
 		{
-			
-			console.log("=========================================");
-			console.log(this.NumberOfCards);
-			console.log(this.MaxCards/2 == Math.ceil(this.MaxCards/2));
-			console.log("=========================================");
-			
 			if (this.MaxCards/2 == Math.ceil(this.MaxCards/2))
 				this.NumberOfCards = this.MaxCards;
 			else

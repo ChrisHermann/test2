@@ -439,7 +439,7 @@ function MuteSound()
 			Scale2 = SpaceY/(CARDSIZEY+EMPTYSPACE);
 		}
 		
-		//Now choose the lesser of hte scalings, because this one will be the one to actually be applied.
+		//Now choose the lesser of the scalings, because this one will be the one to actually be applied.
 		Scale = Math.min(Scale1, Scale2);
 		
 		
@@ -465,15 +465,58 @@ function MuteSound()
 		
 		}
 		
+		var ScaleUI = Math.max(  Math.min((SpaceY - (CARDSIZEY+EMPTYSPACE)/2*Scale)/192,1) , Math.min((SpaceX - (CARDSIZEX+EMPTYSPACE)/2*Scale)/384,1)  );
+		
+		$("#UI_Main").scale(ScaleUI);
+		$("#UI_Main").xy(Math.floor(-384*(1-$("#UI_Main").scale())/2),-192*(1-$("#UI_Main").scale())/2);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH);
 		$("#BorderLeft").height(PLAYGROUND_HEIGHT);
+		
+		$("#BorderTop").height(59*ScaleUI);
+		$("#BorderLeft").width(36*ScaleUI);
 		
 		$("#bgtop").width($("#BorderTop").width());
 		$("#bgtop").height($("#BorderTop").height());
 		
 		$("#bgleft").width($("#BorderLeft").width());
-		$("#bgleft	").height($("#BorderLeft").height());
+		$("#bgleft").height($("#BorderLeft").height());
+		
+		
+		
+		
+		//Math improvements needed!
+		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(120 * ScaleUI)});
+		$('#ButP').width(80*ScaleUI);
+		$('#ButP').height(20*ScaleUI);
+		
+		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(70 * ScaleUI)});
+		$('#ButMM').width(80*ScaleUI);
+		$('#ButMM').height(20*ScaleUI);
+		
+		$('#MuteSBut').css({ left: Math.floor(100 * ScaleUI ), top: Math.floor(70 * ScaleUI)});
+		$('#ButMS').width(80*ScaleUI);
+		$('#ButMS').height(20*ScaleUI);
+		
+		
+		
+			$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
+			
+			//Create the first level.
+			$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
+			
+			$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
+			//Create a div for the Level UI.
+		
+			
+		$("#PointHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
+		$('#PointHUD').css({ left: Math.floor(400 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		
+		$("#TimeHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
+		$('#TimeHUD').css({ left: Math.floor(200 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		
+		$("#LevelHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
+		$('#LevelHUD').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
     };
 	
 	//Function to end the game
@@ -658,6 +701,7 @@ function MuteSound()
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Pause";
+	myButton.id = "ButP";
 	myButton.onclick = PauseGame;
 	placeHolder = document.getElementById("PauseBut");
 	placeHolder.appendChild(myButton);
@@ -665,6 +709,7 @@ function MuteSound()
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Mute Music";
+	myButton.id = "ButMM";
 	myButton.onclick = MuteMusic;
 	placeHolder = document.getElementById("MuteMBut");
 	placeHolder.appendChild(myButton);
@@ -673,6 +718,7 @@ function MuteSound()
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Mute Sound";
+	myButton.id = "ButMS";
 	myButton.onclick = MuteSound;
 	placeHolder = document.getElementById("MuteSBut");
 	placeHolder.appendChild(myButton);

@@ -795,7 +795,6 @@ function MuteSound()
 			//Generate a string based on the name varaible, which is changed in onkeypress
 			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
 			
-			
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);
@@ -876,8 +875,9 @@ function MuteSound()
 				LastO=false;
 
 			//Ends game if GameTime hits 0
-			if(CurGameTime <= 0)
+			if (CurGameTime <= 0)
 			{
+				$("#TimeHUD").html("Time: 0");
 				EndGame();
 			}
 			

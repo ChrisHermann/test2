@@ -99,7 +99,6 @@
 	this.GetRandomBonus = function()
 	{
 		//return(POINTID);
-		return(POINTID);
 		return(SWARTZID+Math.floor(Math.random()*BONUSES));
 	}
 }

@@ -499,27 +499,18 @@ function MuteSound()
 		
 		
 		//Math improvements needed!
-		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(120 * ScaleUI)});
-		$('#ButP').width(80*ScaleUI);
-		$('#ButP').height(20*ScaleUI);
+		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
+		$('#ButP').width(160*ScaleUI);
+		$('#ButP').height(44*ScaleUI);
 		
-		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(70 * ScaleUI)});
-		$('#ButMM').width(80*ScaleUI);
-		$('#ButMM').height(20*ScaleUI);
+		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
+		$('#ButMM').width(160*ScaleUI);
+		$('#ButMM').height(44*ScaleUI);
 		
-		$('#MuteSBut').css({ left: Math.floor(100 * ScaleUI ), top: Math.floor(70 * ScaleUI)});
-		$('#ButMS').width(80*ScaleUI);
-		$('#ButMS').height(20*ScaleUI);
+		$('#MuteSBut').css({ left: Math.floor(180 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
+		$('#ButMS').width(160*ScaleUI);
+		$('#ButMS').height(44*ScaleUI);
 		
-		
-		
-			$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
-			
-			//Create the first level.
-			$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
-			
-			$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
-			//Create a div for the Level UI.
 		
 			
 		$("#PointHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
@@ -529,7 +520,7 @@ function MuteSound()
 		$('#TimeHUD').css({ left: Math.floor(200 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
 		
 		$("#LevelHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
-		$('#LevelHUD').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		$('#LevelHUD').css({ left: Math.floor(25 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
     };
 	
 	//Function to end the game
@@ -582,6 +573,7 @@ function MuteSound()
 		if (event.keyCode!=13 && key_press != " " && EndedL==1)
 		Name += key_press;
 	}
+	
 	//Used for highscore screens in general.
 	$(document).keydown(function (e) {
 		//Delete chars when entering name
@@ -606,10 +598,11 @@ function MuteSound()
 				ShowHighscore();
 			}
 			else
+			if (Ended == 2)
 			{
 			//Else, restart the game.
-			Restarted = true;
-			RestartGame();
+				Restarted = true;
+				RestartGame();
 			}
 			
 			//Send the highscore to the database.
@@ -714,19 +707,67 @@ function MuteSound()
 	$("#overlay").append("<div id='MuteMBut'style='color: white; position: absolute; left: 100px; top: 70px;'></div>");
 	$("#overlay").append("<div id='MuteSBut'style='color: white; position: absolute; left: 10px; top: 70px;'></div>");
 	
+	
+	
+	//TODO: UNCOMMENT!
+	MuteMusic();
+	
 	//Add the control buttons to the UI
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Pause";
 	myButton.id = "ButP";
+	Current = $(myButton);
+	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
+	Current.css('font-size', '21px');
+	Current.css('font-weight', ' bold');
+	Current.css('text-decoration', '	none');
+	Current.css('color', ' #402a20');
+	Current.css('background-color', ' #eab344');
+	Current.css('height', ' 48px');
+	Current.css('width', ' 200px');
+	Current.css('text-align: center');
+	Current.css('display', ' block');
+ 	Current.css('border-style', ' solid');
+	Current.css('border-width', '4px');
+	Current.css('border-color', ' #402a20');
+	Current.css('border-radius', ' 48px');
+	myButton.onmouseover = function() {
+	$(this).css('background-color','#ffd258');
+	};
+	myButton.onmouseout = function() {
+	$(this).css('background-color','#eab344');
+	};
 	myButton.onclick = PauseGame;
 	placeHolder = document.getElementById("PauseBut");
 	placeHolder.appendChild(myButton);
+	
 	
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Mute Music";
 	myButton.id = "ButMM";
+	Current = $(myButton);
+	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
+	Current.css('font-size', '21px');
+	Current.css('font-weight', ' bold');
+	Current.css('text-decoration', '	none');
+	Current.css('color', ' #402a20');
+	Current.css('background-color', ' #eab344');
+	Current.css('height', ' 48px');
+	Current.css('width', ' 200px');
+	Current.css('text-align: center');
+	Current.css('display', ' block');
+ 	Current.css('border-style', ' solid');
+	Current.css('border-width', '4px');
+	Current.css('border-color', ' #402a20');
+	Current.css('border-radius', ' 48px');
+	myButton.onmouseover = function() {
+	$(this).css('background-color','#ffd258');
+	};
+	myButton.onmouseout = function() {
+	$(this).css('background-color','#eab344');
+	};
 	myButton.onclick = MuteMusic;
 	placeHolder = document.getElementById("MuteMBut");
 	placeHolder.appendChild(myButton);
@@ -736,6 +777,27 @@ function MuteSound()
 	myButton.type = "button";
 	myButton.value = "Mute Sound";
 	myButton.id = "ButMS";
+	Current = $(myButton);
+	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
+	Current.css('font-size', '21px');
+	Current.css('font-weight', ' bold');
+	Current.css('text-decoration', '	none');
+	Current.css('color', ' #402a20');
+	Current.css('background-color', ' #eab344');
+	Current.css('height', ' 48px');
+	Current.css('width', ' 200px');
+	Current.css('text-align: center');
+	Current.css('display', ' block');
+ 	Current.css('border-style', ' solid');
+	Current.css('border-width', '4px');
+	Current.css('border-color', ' #402a20');
+	Current.css('border-radius', ' 48px');
+	myButton.onmouseover = function() {
+	$(this).css('background-color','#ffd258');
+	};
+	myButton.onmouseout = function() {
+	$(this).css('background-color','#eab344');
+	};
 	myButton.onclick = MuteSound;
 	placeHolder = document.getElementById("MuteSBut");
 	placeHolder.appendChild(myButton);

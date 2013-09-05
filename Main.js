@@ -111,6 +111,12 @@ function MuteSound()
 //It is purely made in the DOM and as such does not use canvas at all.
 
  $(function(){
+	
+	//Calculate playground width and height:
+	PLAYGROUND_WIDTH = $(window).width();
+	PLAYGROUND_HEIGHT = $(window).height();
+ 
+	//$("#HighscoreHUD")
 	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
 	{
@@ -124,6 +130,10 @@ function MuteSound()
 	//Calculate playground width and height:
 	PLAYGROUND_WIDTH = $(window).width() - 20;
 	PLAYGROUND_HEIGHT = $(window).height() - 20;
+	
+	$("#spin").css('left', PLAYGROUND_WIDTH/2+'px')
+	$("#spin").css('top', (PLAYGROUND_HEIGHT/2-120)+'px')
+	
 
 	//Calculate Layour for responsive Design.
 	//Calculate Area:
@@ -403,8 +413,8 @@ function MuteSound()
     function Resized() 
     {
 		//Calculate playground width and height:
-		PLAYGROUND_WIDTH = $(window).width() - 20;
-		PLAYGROUND_HEIGHT = $(window).height() - 20;
+		PLAYGROUND_WIDTH = $(window).width();
+		PLAYGROUND_HEIGHT = $(window).height();
 		
 		//Calculates the screen ratio, so we can organize the deck in a manner that makes sense to the ratio.
 		Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
@@ -507,14 +517,17 @@ function MuteSound()
 		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
 		$('#ButP').width(160*ScaleUI);
 		$('#ButP').height(44*ScaleUI);
+		$('#ButP').css('font-size', 21*ScaleUI+'px');
 		
 		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
 		$('#ButMM').width(160*ScaleUI);
 		$('#ButMM').height(44*ScaleUI);
+		$('#ButMM').css('font-size', 21*ScaleUI+'px');
 		
 		$('#MuteSBut').css({ left: Math.floor(180 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
 		$('#ButMS').width(160*ScaleUI);
 		$('#ButMS').height(44*ScaleUI);
+		$('#ButMS').css('font-size', 21*ScaleUI+'px');
 		
 		
 			
@@ -526,6 +539,17 @@ function MuteSound()
 		
 		$("#LevelHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
 		$('#LevelHUD').css({ left: Math.floor(25 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		
+		
+		if ($("#HighscoreHUD"))
+		{
+			Current = $("#HighscoreHUD");
+			
+			scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
+			
+			Current.width(PLAYGROUND_WIDTH);
+			Current.css('font-size',Scale*200+'%');
+		}
     };
 	
 	//Function to end the game
@@ -534,7 +558,20 @@ function MuteSound()
 		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
+		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
+		
+		
+		//Generate a string based on the name varaible, which is changed in onkeypress
+		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+		
+		var Current = $("#HighscoreHUD");
+		//Apply the string to the div, and recenter it.
+		Current.html(string);
+			
+		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
+		
+		Current.width(PLAYGROUND_WIDTH);
+		Current.css('font-size',Scale*200+'%');
 	
 		//Delete all cards currently on the field.
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
@@ -643,6 +680,13 @@ function MuteSound()
 		
 		var Current = $("#HighscoreHUD");
 		Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
+		
+		
+		
+		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
+		
+		Current.width(PLAYGROUND_WIDTH);
+		Current.css('font-size',Scale*200+'%');
 		
 		//Create new div for high score.
 		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 

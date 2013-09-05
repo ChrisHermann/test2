@@ -13,6 +13,7 @@ function Cards(node)
 	this.FaceS;
 	
 	this.Swartzed = false;
+	this.SwartzedTimer = 0;
 	
 	this.Bonus;
 	
@@ -91,6 +92,7 @@ function Cards(node)
 			ForEachCard(function()
 			{
 				this.Cards.Swartzed = true;
+				this.Cards.SwartzedTimer = 5*1000;
 				
 				if (this.Cards.Flipped==true && this.Cards.changed==true)
 					this.Cards.ChangeFace(this.Cards.FaceS);
@@ -225,6 +227,11 @@ function Cards(node)
 	
 	this.Step = function()
 	{
+		this.SwartzedTimer-=Delta;
+		if (this.SwartzedTimer<=0 && this.Swartzed)
+		{
+			this.ResetBonus();
+		}
 		if (this.visible == true)
 		{
 			//The step event for cards, this will be performed each frame.
@@ -234,7 +241,6 @@ function Cards(node)
 			else
 			if (this.Timer>this.TurnSteps && this.Hiding==2)
 			{
-				this.ResetBonus();
 				node.fadeOut();
 				this.visible=false;
 			}
@@ -347,7 +353,6 @@ function Cards(node)
 	//Used to make the card instantly hide rather than with a delay.
 	this.TrueHide = function()
 	{
-		this.ResetBonus();
 		this.Hiding = 0;
 		this.Flipped=false;
 		this.Turn();
@@ -371,11 +376,9 @@ function Cards(node)
 	//Makes the card not swartzed any longer. It will again show it's true face.
 	this.ResetBonus = function()
 	{
-		
-		ForEachCard(function()
-		{
-			this.Cards.Swartzed = false;
-		});
+		this.Swartzed = false;
+		if (this.Flipped==true && this.changed==true)
+		this.ChangeFace(this.FaceF);
 	}
 	
 	//Updates the card visually, and applies whatever options you want to it.

@@ -233,6 +233,7 @@ function MuteSound()
 		Resized();
 		
 		// Resets clock.
+		Then = new Date().getTime();
 		CurGameTime = CoreGameTime;
 		
 		// Level goes up or Restarts
@@ -840,22 +841,7 @@ function MuteSound()
             $("#welcomeScreen").remove();
         });
     })
-    
-	
-	//Mute/unmite the Music
-	ToggleMusic = function()
-	{
-		createjs.Sound.setMute(true);
-	}
-	//Mute/unmite the Sound
-	ToggleSound = function()
-	{
-		
-	}
-	
-	
-    
-	
+
 	
     //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function()

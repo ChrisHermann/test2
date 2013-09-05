@@ -4,6 +4,7 @@ function Cards(node)
 	//These attributes may be obsolete atm.
 	this.WIDTH = 208;
 	this.HEIGHT = 303; 
+	this.Size = 208;
 	
 	this.value = 0;
 	
@@ -27,6 +28,8 @@ function Cards(node)
 	
 	this.factor = 1;
 	this.scale  = 1;
+	this.internalw;
+	this.internalh ;
 	this.Dir = 3.14/2;
 	
 	//Seconds times 1000
@@ -63,10 +66,13 @@ function Cards(node)
 		this.scale = scale;
 		this.Bonus = Bonus;
 		
+		
+		this.internalw = this.Size/this.node.w();
+		this.internalh = this.Size/this.node.h();
 		//Applies the correct scale to the card. The code seems messy, but that's how game engine does it.
 		var spriteDOMObject = this.node[0];
 				
-		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.scale, factorv: (208/303) * this.scale});
+		var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.internalw * this.scale, factorv: this.internalh * this.scale});
 			
 		if(spriteDOMObject != undefined){
 			spriteDOMObject.gameQuery = options;
@@ -264,7 +270,7 @@ function Cards(node)
 					//This applies to factor to the width of the gamequery sprite.
 					var spriteDOMObject = this.node[0];
 					
-					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+					var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
 						
 					if(spriteDOMObject != undefined){
 						spriteDOMObject.gameQuery = options;
@@ -279,7 +285,7 @@ function Cards(node)
 					this.factor=1;
 					
 					//This applies to factor to the width of the gamequery sprite.
-					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale, factorv: (208/303) * this.scale});
+					var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale, factorv: this.internalh * this.scale});
 						
 					if(spriteDOMObject != undefined){
 						spriteDOMObject.gameQuery = options;
@@ -378,7 +384,7 @@ function Cards(node)
 		//Again, ugly code, this is how gamequery does it though.
 		var spriteDOMObject = this.node[0];
 				
-		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: (208/303) * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+		var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
 		options = $.extend(spriteDOMObject.gameQuery, options2);
 		
 		

@@ -145,7 +145,7 @@ function MuteSound()
 	
 	Then = new Date().getTime();
 	
-	var CoreGameTime = 10 * 1000;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -155,6 +155,9 @@ function MuteSound()
 	var LastA=false;
 	var LastP=false;
 	var LastO=false;
+	
+	//Cahnge this if image resolution changes
+	var CardSize = {x: 208,y: 303};
 
 	CoreLevel = 0;
 	
@@ -275,9 +278,9 @@ function MuteSound()
 			var name = "Card_"+i;
 			
 			val = DM.PushCard();
-			
+				
 			//Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: 208, height: 303, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
+			$("#Cards").addSprite(name, {animation: IM.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
 			
 			//Create the actual class for the card, this will add logic to the object.
 			var Current = $("#"+name)[0];

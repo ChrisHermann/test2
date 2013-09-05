@@ -37,7 +37,7 @@ function LevelManager(node)
 		if (this.Difficulty>1) this.Difficulty=1;
 		
 		//Second calculate the amount of bonus cards, based on a base and small random attribute.
-		var bonus = this.BonusCardsB+Math.random()*this.BonusCardsR-Math.random()*this.BonusCardsR;
+		var bonus = this.BonusCardsB+Math.random()*this.BonusCardsR;
 		
 		//Now calculate how many normal cards we should use for this level, this is a raw number.
 		this.NumberOfCards = Math.round(this.ActualyMaxCards * this.Difficulty * (1 - bonus));
@@ -53,6 +53,7 @@ function LevelManager(node)
 			else
 				this.NumberOfCards--;
 		}
+		
 			
 		//If the number of cards are below two, set them to two, because having less than two cards in a pairing game sucks.
 		if (this.NumberOfCards < 2) this.NumberOfCards = 2;

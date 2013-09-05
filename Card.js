@@ -189,7 +189,7 @@ function Cards(node)
 				ForEachCard(function()
 				{
 					//Search through eligible cards. Cannot chose cards of the same type.
-					if (this.Cards.visible == true && this.Cards.value != 6 && this.Cards.Flipped==false)
+					if (this.Cards.visible == true && this.Cards.value != CONFUSEID && this.Cards.Flipped==false)
 					{
 						PCards[n] = this.Cards;
 						n++;

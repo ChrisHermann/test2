@@ -32,20 +32,24 @@ function ForEachGFX(Function)
 
 function ResumeGame()
 {
-	Then = new Date().getTime();
 	if(GameStart)
-	$.playground().resumeGame();	
-	soundBG.resume();
-	Paused = false;
+	{
+		Then = new Date().getTime();
+		$.playground().resumeGame();	
+		soundBG.resume();
+		Paused = false;
+	}
 }
 
 function PauseGame()
 {
-		
-	$.playground().pauseGame();
-	soundBG.pause();
-	Paused = true;
-
+	
+	if(GameStart)
+	{
+		$.playground().pauseGame();
+		soundBG.pause();
+		Paused = true;
+	}
 }
 
 function PauseResume()
@@ -216,11 +220,11 @@ function MuteSound()
 	//focus unfocus
 	window.addEventListener("focus", function(event) 
 	{ 
-	ResumeGame();
+		ResumeGame();
 	}, false);
 	window.addEventListener("blur", function(event)
 	{ 
-	PauseGame();
+		PauseGame();
 	}, false);
     
 

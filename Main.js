@@ -517,14 +517,17 @@ function MuteSound()
 		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
 		$('#ButP').width(160*ScaleUI);
 		$('#ButP').height(44*ScaleUI);
+		$('#ButP').css('font-size', 21*ScaleUI+'px');
 		
 		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
 		$('#ButMM').width(160*ScaleUI);
 		$('#ButMM').height(44*ScaleUI);
+		$('#ButMM').css('font-size', 21*ScaleUI+'px');
 		
 		$('#MuteSBut').css({ left: Math.floor(180 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
 		$('#ButMS').width(160*ScaleUI);
 		$('#ButMS').height(44*ScaleUI);
+		$('#ButMS').css('font-size', 21*ScaleUI+'px');
 		
 		
 			

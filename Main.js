@@ -111,7 +111,7 @@ function MuteSound()
 //It is purely made in the DOM and as such does not use canvas at all.
 
  $(function(){
-	
+	document.body.style.overflow = "hidden";
 	//Calculate playground width and height:
 	PLAYGROUND_WIDTH = $(window).width();
 	PLAYGROUND_HEIGHT = $(window).height();
@@ -411,7 +411,7 @@ function MuteSound()
 	
     //Actual Resizing Event
     function Resized() 
-    {
+    {	
 		//Calculate playground width and height:
 		PLAYGROUND_WIDTH = $(window).width();
 		PLAYGROUND_HEIGHT = $(window).height();
@@ -499,10 +499,11 @@ function MuteSound()
 		$("#UI_Main").xy(Math.floor(-384*(1-$("#UI_Main").scale())/2),-192*(1-$("#UI_Main").scale())/2);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH);
+		
 		$("#BorderLeft").height(PLAYGROUND_HEIGHT);
 		
-		$("#BorderTop").height(59*ScaleUI);
-		$("#BorderLeft").width(36*ScaleUI);
+		$("#BorderTop").height(Math.floor(59*ScaleUI));
+		$("#BorderLeft").width(Math.floor(36*ScaleUI));
 		
 		$("#bgtop").width($("#BorderTop").width());
 		$("#bgtop").height($("#BorderTop").height());
@@ -731,14 +732,17 @@ function MuteSound()
                                  height: PLAYGROUND_HEIGHT})
 	//Setup UI
 	//Add borders.
+	//TODO: Remove background code!!
 	$("#overlay").append("<div id='BorderTop'style='color: white; background-size:100% 100%; position: absolute; width: 100%; height: 59px'><img src='UI_Top.png' alt='background image' id='bgtop' /></div>");
 	$("#bgtop").width($("#BorderTop").width());
 	$("#bgtop").height($("#BorderTop").height());
+	$("#bgtop").css('position','absolute');
 
 	
 	$("#overlay").append("<div id='BorderLeft' style='color: white; background-size:100% 100%; position: absolute; width: 36px; height: 100%'><img src='UI_Left.png' alt='background image' id='bgleft' /></div>");
 	$("#bgleft").width($("#BorderLeft").width());
 	$("#bgleft	").height($("#BorderLeft").height());
+	$("#bgleft").css('position','absolute');
 	
 	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
 	

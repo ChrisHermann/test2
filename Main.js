@@ -139,6 +139,7 @@ function MuteSound()
 	//Calculate Area:
 	var CARDSIZEX = 208;
 	var CARDSIZEY = 208;
+	var BGSIZE = {x: 2362, y: 1403};
 	var EMPTYSPACE = 5;
 	var DoneTimer = 0;
 	var Done = false;
@@ -222,6 +223,7 @@ function MuteSound()
 	
 	//Change this and lines: 636-681, to change the UI.
 	var UIMain = IM.LoadMisc("./UI_Main.png");
+	var BackI = IM.LoadMisc("./BG.jpg");
 		
 	//Sets the amountn of bonus cards loaded.
 	BONUSES = 4;	
@@ -551,6 +553,14 @@ function MuteSound()
 			Current.width(PLAYGROUND_WIDTH);
 			Current.css('font-size',Scale*200+'%');
 		}
+		
+		
+		console.log(PLAYGROUND_WIDTH);
+		scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
+		console.log(scale);
+		$("#BG").scale(scale);
+		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2)
+		console.log(BGSIZE.x*(scale-1)/2);
     };
 	
 	//Function to end the game
@@ -733,6 +743,8 @@ function MuteSound()
 	//Setup UI
 	//Add borders.
 	//TODO: Remove background code!!
+	$("#background").addSprite("BG", {animation: IM.GetMisc(BackI), width: BGSIZE.x, height: BGSIZE.y});
+	
 	$("#overlay").append("<div id='BorderTop'style='color: white; background-size:100% 100%; position: absolute; width: 100%; height: 59px'><img src='UI_Top.png' alt='background image' id='bgtop' /></div>");
 	$("#bgtop").width($("#BorderTop").width());
 	$("#bgtop").height($("#BorderTop").height());

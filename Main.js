@@ -6,9 +6,11 @@ var REFRESH_RATE        = 30;
 
 var percent = 1;
 
-var Paused = false;
+Paused = false;
 var MMusic = false;
 var MSound = false;
+//counter for resume button
+var inputcounter = 0;
 
 //Global function that applies a function to all cards.
 //We avoid $("#Card").each because it's very slow in ie8.
@@ -38,9 +40,10 @@ function ResumeGame()
 		$.playground().resumeGame();	
 		soundBG.resume();
 		Paused = false;
+		$("#ResumeBut").remove();
+		inputcounter = 0;
 	}
 }
-
 function PauseGame()
 {
 	
@@ -49,6 +52,48 @@ function PauseGame()
 		$.playground().pauseGame();
 		soundBG.pause();
 		Paused = true;
+		console.log(Paused);
+		
+		if(inputcounter <1)
+		{
+			$("#playground").append("<div id='ResumeBut'style='color: white; position: absolute; left: 0px; top: 0px;'></div>");
+			//$("#playground").append("<button id='ResumeBut' type='button' style='color: white; position: absolute; left: 10px; top: 120px;'>Click Me!</button>");
+			inputcounter++;
+			
+	
+			myButton = document.createElement("input");
+			myButton.type = "button";
+			myButton.value = "Resume Game";
+			myButton.id = "ButRG";
+			Current = $(myButton);
+			Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
+			Current.css('font-size', '21px');
+			Current.css('font-weight', ' bold');
+			Current.css('text-decoration', '	none');
+			Current.css('color', ' #402a20');
+			Current.css('background-color', ' #eab344');
+			Current.css('height', ' 48px');
+			Current.css('width', ' 200px');
+			Current.css('text-align: center');
+			Current.css('display', ' block');
+			Current.css('border-style', ' solid');
+			Current.css('border-width', '4px');
+			Current.css('border-color', ' #402a20');
+			Current.css('border-radius', ' 48px');
+			myButton.onmouseover = function() {
+			$(this).css('background-color','#ffd258');
+			};
+			myButton.onmouseout = function() {
+			$(this).css('background-color','#eab344');
+			};
+			myButton.onclick = ResumeGame;
+			placeHolder = document.getElementById("ResumeBut");
+			placeHolder.appendChild(myButton);
+			
+			
+			$("#ResumeBut").css('left', (PLAYGROUND_WIDTH/2-$("#ButRG").width()/2)+'px')
+			$("#ResumeBut").css('top',( PLAYGROUND_HEIGHT/2-$("#ButRG").height()/2)+'px')
+		}
 	}
 }
 
@@ -59,6 +104,11 @@ function PauseResume()
 			PauseGame();
 		else
 			ResumeGame();
+}
+
+function ResumeScreen()
+{
+	ResumeGame();
 }
 
 function MuteMusic()
@@ -135,6 +185,8 @@ function MuteSound()
 	$("#spin").css('top', (PLAYGROUND_HEIGHT/2-120)+'px')
 	
 
+	
+
 	//Calculate Layour for responsive Design.
 	//Calculate Area:
 	var CARDSIZEX = 208;
@@ -171,6 +223,7 @@ function MuteSound()
 	var LastP=false;
 	var LastO=false;
 	
+
 	//Cahnge this if image resolution changes
 	var CardSize = {x: 208,y: 303};
 
@@ -771,11 +824,7 @@ function MuteSound()
 	$("#overlay").append("<div id='PauseBut'style='color: white; position: absolute; left: 10px; top: 120px;'></div>");
 	$("#overlay").append("<div id='MuteMBut'style='color: white; position: absolute; left: 100px; top: 70px;'></div>");
 	$("#overlay").append("<div id='MuteSBut'style='color: white; position: absolute; left: 10px; top: 70px;'></div>");
-	
-	
-	
-	//TODO: UNCOMMENT!
-	MuteMusic();
+
 	
 	//Add the control buttons to the UI
 	myButton = document.createElement("input");
@@ -836,7 +885,6 @@ function MuteSound()
 	myButton.onclick = MuteMusic;
 	placeHolder = document.getElementById("MuteMBut");
 	placeHolder.appendChild(myButton);
-	placeHolder.appendChild(myButton);
 	
 	myButton = document.createElement("input");
 	myButton.type = "button";
@@ -867,10 +915,7 @@ function MuteSound()
 	placeHolder = document.getElementById("MuteSBut");
 	placeHolder.appendChild(myButton);
 	
-	
-	
-	
-	
+
 	
 	
 	
@@ -905,6 +950,31 @@ function MuteSound()
             $("#welcomeScreen").remove();
         });
     })
+	// Debug code is for debug
+	$("#TrykEnter").click(function(){
+		if (Ended == 1)
+			{
+				//If we are entering our name show the highscore
+				$("#HighscoreHUD").remove();
+				
+				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+				//both off.line and online.
+				
+				ShowHighscore();
+			}
+			else
+			{
+			//Else, restart the game.
+			Restarted = true;
+			RestartGame();
+			}
+			
+			//Send the highscore to the database.
+			ApplyHighscore( {name: Name, score: Points} );
+			
+			return false;
+	})
+	//Debug code ends
 
 	
     //THIS IS THE MAIN LOOP
@@ -923,7 +993,7 @@ function MuteSound()
 			//If we are entering our name:
 			//Generate a string based on the name varaible, which is changed in onkeypress
 			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-			
+			console.log("derp and sheeeeet");
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);

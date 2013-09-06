@@ -60,8 +60,6 @@ function PauseGame()
 			//$("#playground").append("<button id='ResumeBut' type='button' style='color: white; position: absolute; left: 10px; top: 120px;'>Click Me!</button>");
 			inputcounter++;
 			
-			$("#ResumeBut").css('left', PLAYGROUND_WIDTH/2-$("#ResumeBut").width()/2+'px')
-			$("#ResumeBut").css('top', PLAYGROUND_HEIGHT/2-$("#ResumeBut").height()/2+'px')
 	
 			myButton = document.createElement("input");
 			myButton.type = "button";
@@ -91,6 +89,10 @@ function PauseGame()
 			myButton.onclick = ResumeGame;
 			placeHolder = document.getElementById("ResumeBut");
 			placeHolder.appendChild(myButton);
+			
+			
+			$("#ResumeBut").css('left', (PLAYGROUND_WIDTH/2-$("#ButRG").width()/2)+'px')
+			$("#ResumeBut").css('top',( PLAYGROUND_HEIGHT/2-$("#ButRG").height()/2)+'px')
 		}
 	}
 }

@@ -936,6 +936,31 @@ function MuteSound()
             $("#welcomeScreen").remove();
         });
     })
+	// Debug code is for debug
+	$("#TrykEnter").click(function(){
+		if (Ended == 1)
+			{
+				//If we are entering our name show the highscore
+				$("#HighscoreHUD").remove();
+				
+				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+				//both off.line and online.
+				
+				ShowHighscore();
+			}
+			else
+			{
+			//Else, restart the game.
+			Restarted = true;
+			RestartGame();
+			}
+			
+			//Send the highscore to the database.
+			ApplyHighscore( {name: Name, score: Points} );
+			
+			return false;
+	})
+	//Debug code ends
 
 	
     //THIS IS THE MAIN LOOP
@@ -954,7 +979,7 @@ function MuteSound()
 			//If we are entering our name:
 			//Generate a string based on the name varaible, which is changed in onkeypress
 			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-			
+			console.log("derp and sheeeeet");
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);

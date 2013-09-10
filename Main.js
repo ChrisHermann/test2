@@ -3,7 +3,6 @@ var PLAYGROUND_WIDTH    = 1000;
 var PLAYGROUND_HEIGHT    = 1000;
 var REFRESH_RATE        = 30;
 
-
 var percent = 1;
 
 Paused = false;
@@ -52,7 +51,6 @@ function PauseGame()
 		$.playground().pauseGame();
 		soundBG.pause();
 		Paused = true;
-		console.log(Paused);
 		
 		if(inputcounter <1)
 		{
@@ -66,20 +64,20 @@ function PauseGame()
 			myButton.value = "Resume Game";
 			myButton.id = "ButRG";
 			Current = $(myButton);
-			Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
-			Current.css('font-size', '21px');
-			Current.css('font-weight', ' bold');
-			Current.css('text-decoration', '	none');
-			Current.css('color', ' #402a20');
-			Current.css('background-color', ' #eab344');
-			Current.css('height', ' 48px');
-			Current.css('width', ' 200px');
-			Current.css('text-align: center');
-			Current.css('display', ' block');
-			Current.css('border-style', ' solid');
-			Current.css('border-width', '4px');
-			Current.css('border-color', ' #402a20');
-			Current.css('border-radius', ' 48px');
+			Current.css('font-family','Helvetica Neue, Helvetica Arial, sans-serif');
+			Current.css('font-size','21px');
+			Current.css('font-weight','bold');
+			Current.css('text-decoration','none');
+			Current.css('color','#402a20');
+			Current.css('background-color','#eab344');
+			Current.css('height','48px');
+			Current.css('width','200px');
+			Current.css('text-align:center');
+			Current.css('display','block');
+			Current.css('border-style','solid');
+			Current.css('border-width','4px');
+			Current.css('border-color','#402a20');
+			Current.css('border-radius','48px');
 			myButton.onmouseover = function() {
 			$(this).css('background-color','#ffd258');
 			};
@@ -585,7 +583,15 @@ function MuteSound()
 		$('#ButMS').height(44*ScaleUI);
 		$('#ButMS').css('font-size', 21*ScaleUI+'px');
 		
+		//$('#startbutton').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
+		$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
+		$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
+		$('#ButSG').width(160*ScaleUI);
+		$('#ButSG').height(44*ScaleUI);
+		$('#ButSG').css('font-size', 21*ScaleUI+'px');
 		
+		console.log(PLAYGROUND_HEIGHT);
+
 			
 		$("#PointHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
 		$('#PointHUD').css({ left: Math.floor(400 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
@@ -608,12 +614,10 @@ function MuteSound()
 		}
 		
 		
-		console.log(PLAYGROUND_WIDTH);
 		scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
-		console.log(scale);
 		$("#BG").scale(scale);
-		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2)
-		console.log(BGSIZE.x*(scale-1)/2);
+		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
+
     };
 	
 	//Function to end the game
@@ -832,20 +836,20 @@ function MuteSound()
 	myButton.value = "Pause";
 	myButton.id = "ButP";
 	Current = $(myButton);
-	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
-	Current.css('font-size', '21px');
-	Current.css('font-weight', ' bold');
-	Current.css('text-decoration', '	none');
-	Current.css('color', ' #402a20');
-	Current.css('background-color', ' #eab344');
-	Current.css('height', ' 48px');
-	Current.css('width', ' 200px');
-	Current.css('text-align: center');
-	Current.css('display', ' block');
- 	Current.css('border-style', ' solid');
-	Current.css('border-width', '4px');
-	Current.css('border-color', ' #402a20');
-	Current.css('border-radius', ' 48px');
+	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
+	Current.css('font-size','21px');
+	Current.css('font-weight','bold');
+	Current.css('text-decoration','none');
+	Current.css('color','#402a20');
+	Current.css('background-color','#eab344');
+	Current.css('height','48px');
+	Current.css('width','200px');
+	Current.css('text-align:center');
+	Current.css('display','block');
+ 	Current.css('border-style','solid');
+	Current.css('border-width','4px');
+	Current.css('border-color','#402a20');
+	Current.css('border-radius','48px');
 	myButton.onmouseover = function() {
 	$(this).css('background-color','#ffd258');
 	};
@@ -862,20 +866,20 @@ function MuteSound()
 	myButton.value = "Mute Music";
 	myButton.id = "ButMM";
 	Current = $(myButton);
-	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
-	Current.css('font-size', '21px');
-	Current.css('font-weight', ' bold');
-	Current.css('text-decoration', '	none');
-	Current.css('color', ' #402a20');
-	Current.css('background-color', ' #eab344');
-	Current.css('height', ' 48px');
-	Current.css('width', ' 200px');
-	Current.css('text-align: center');
-	Current.css('display', ' block');
- 	Current.css('border-style', ' solid');
-	Current.css('border-width', '4px');
-	Current.css('border-color', ' #402a20');
-	Current.css('border-radius', ' 48px');
+	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
+	Current.css('font-size','21px');
+	Current.css('font-weight','bold');
+	Current.css('text-decoration','none');
+	Current.css('color','#402a20');
+	Current.css('background-color','#eab344');
+	Current.css('height','48px');
+	Current.css('width','200px');
+	Current.css('text-align:center');
+	Current.css('display','block');
+ 	Current.css('border-style','solid');
+	Current.css('border-width','4px');
+	Current.css('border-color','#402a20');
+	Current.css('border-radius','48px');
 	myButton.onmouseover = function() {
 	$(this).css('background-color','#ffd258');
 	};
@@ -891,20 +895,20 @@ function MuteSound()
 	myButton.value = "Mute Sound";
 	myButton.id = "ButMS";
 	Current = $(myButton);
-	Current.css('font-family', 'Helvetica Neue, Helvetica Arial, sans-serif');
-	Current.css('font-size', '21px');
-	Current.css('font-weight', ' bold');
-	Current.css('text-decoration', '	none');
-	Current.css('color', ' #402a20');
-	Current.css('background-color', ' #eab344');
-	Current.css('height', ' 48px');
-	Current.css('width', ' 200px');
-	Current.css('text-align: center');
-	Current.css('display', ' block');
- 	Current.css('border-style', ' solid');
-	Current.css('border-width', '4px');
-	Current.css('border-color', ' #402a20');
-	Current.css('border-radius', ' 48px');
+	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
+	Current.css('font-size','21px');
+	Current.css('font-weight','bold');
+	Current.css('text-decoration','none');
+	Current.css('color','#402a20');
+	Current.css('background-color','#eab344');
+	Current.css('height','48px');
+	Current.css('width','200px');
+	Current.css('text-align:center');
+	Current.css('display','block');
+ 	Current.css('border-style','solid');
+	Current.css('border-width','4px');
+	Current.css('border-color','#402a20');
+	Current.css('border-radius','48px');
 	myButton.onmouseover = function() {
 	$(this).css('background-color','#ffd258');
 	};
@@ -916,7 +920,39 @@ function MuteSound()
 	placeHolder.appendChild(myButton);
 	
 
+	myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "Start Game";
+	myButton.id = "ButSG";
+	Current = $(myButton);
+	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
+	Current.css('font-size','21px');
+	Current.css('font-weight','bold');
+	Current.css('text-decoration','none');
+	Current.css('color','#402a20');
+	Current.css('background-color','#eab344');
+	Current.css('height','48px');
+	Current.css('width','200px');
+	Current.css('text-align:center');
+	Current.css('display','block');
+ 	Current.css('border-style','solid');
+	Current.css('border-width','4px');
+	Current.css('border-color','#402a20');
+	Current.css('border-radius','48px');
+	myButton.onmouseover = function() {
+	$(this).css('background-color','#ffd258');
+	};
+	myButton.onmouseout = function() {
+	$(this).css('background-color','#eab344');
+	};
+	myButton.onclick = MuteSound;
+	placeHolder = document.getElementById("startbutton");
+	placeHolder.appendChild(myButton);
 	
+	
+	
+	console.log(PLAYGROUND_HEIGHT/2-$("#ButSG").height());
+	console.log($("#playground").height());
 	
 	
 	
@@ -993,7 +1029,6 @@ function MuteSound()
 			//If we are entering our name:
 			//Generate a string based on the name varaible, which is changed in onkeypress
 			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-			console.log("derp and sheeeeet");
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);

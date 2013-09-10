@@ -163,6 +163,7 @@ function MuteSound()
 	//Calculate playground width and height:
 	PLAYGROUND_WIDTH = $(window).width();
 	PLAYGROUND_HEIGHT = $(window).height();
+	var UISIZEY = 170;
  
 	//$("#HighscoreHUD")
 	//Custom sorting function, so the array knows to sort based on an attribute.
@@ -273,7 +274,6 @@ function MuteSound()
 	POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
 	
 	//Change this and lines: 636-681, to change the UI.
-	var UIMain = IM.LoadMisc("./UI_Main.png");
 	var BackI = IM.LoadMisc("./BG.jpg");
 		
 	//Sets the amountn of bonus cards loaded.
@@ -297,7 +297,6 @@ function MuteSound()
 	{
 		//First go to next level to increase the difficulty.
 		LM.NextLevel();
-		Resized();
 		
 		// Resets clock.
 		Then = new Date().getTime();
@@ -312,6 +311,12 @@ function MuteSound()
 		{
 		CurLevel = 1;
 		}
+		
+		
+		current = $("#LevelHUD");
+		current.html("Level: "+CurLevel);
+		
+		Resized();
 		
 		//Setup Card data so they can be reached randomly
 		var Vals = new Array();
@@ -546,42 +551,37 @@ function MuteSound()
 		
 		}
 		
-		var ScaleUI = Math.max(  Math.min((SpaceY - (CARDSIZEY+EMPTYSPACE)/2*Scale)/192,1) , Math.min((SpaceX - (CARDSIZEX+EMPTYSPACE)/2*Scale)/384,1)  );
+		var ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), 1);
+		var TScale = Math.min(Math.floor((PLAYGROUND_WIDTH-20)/4)/Math.max($('#PointHUD').width(),$('#TimeHUD').width(),$('#MuteSBut').width()), ScaleUI);
 		
-		$("#UI_Main").scale(ScaleUI);
-		$("#UI_Main").xy(Math.floor(-384*(1-$("#UI_Main").scale())/2),-192*(1-$("#UI_Main").scale())/2);
+		$("#BorderTop").width(PLAYGROUND_WIDTH-20);
 		
-		$("#BorderTop").width(PLAYGROUND_WIDTH);
-		
-		$("#BorderLeft").height(PLAYGROUND_HEIGHT);
-		
-		$("#BorderTop").height(Math.floor(59*ScaleUI));
-		$("#BorderLeft").width(Math.floor(36*ScaleUI));
-		
-		$("#bgtop").width($("#BorderTop").width());
-		$("#bgtop").height($("#BorderTop").height());
-		
-		$("#bgleft").width($("#BorderLeft").width());
-		$("#bgleft").height($("#BorderLeft").height());
+		$("#BorderTop").height(Math.floor(UISIZEY*ScaleUI));
 		
 		
 		
-		
+		ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
 		//Math improvements needed!
-		$('#PauseBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
-		$('#ButP').width(160*ScaleUI);
-		$('#ButP').height(44*ScaleUI);
-		$('#ButP').css('font-size', 21*ScaleUI+'px');
+		current = $('#ButP');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
+		current = $('#PauseBut');
+		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
-		$('#MuteMBut').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
-		$('#ButMM').width(160*ScaleUI);
-		$('#ButMM').height(44*ScaleUI);
-		$('#ButMM').css('font-size', 21*ScaleUI+'px');
+		current = $('#ButMM');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
+		current = $('#MuteMBut');
+		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
-		$('#MuteSBut').css({ left: Math.floor(180 * ScaleUI ), top: Math.floor(50 * ScaleUI)});
-		$('#ButMS').width(160*ScaleUI);
-		$('#ButMS').height(44*ScaleUI);
-		$('#ButMS').css('font-size', 21*ScaleUI+'px');
+		current = $('#ButMS');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
+		current = $('#MuteSBut');
+		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
 		//$('#startbutton').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
 		$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
@@ -590,17 +590,17 @@ function MuteSound()
 		$('#ButSG').height(44*ScaleUI);
 		$('#ButSG').css('font-size', 21*ScaleUI+'px');
 		
-		console.log(PLAYGROUND_HEIGHT);
-
-			
-		$("#PointHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
-		$('#PointHUD').css({ left: Math.floor(400 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		current = $('#PointHUD');
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2) , top: 10});
 		
-		$("#TimeHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
-		$('#TimeHUD').css({ left: Math.floor(200 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		current = $("#TimeHUD");
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
-		$("#LevelHUD").css("font-size", Math.floor(150* ScaleUI)+'%');
-		$('#LevelHUD').css({ left: Math.floor(25 * ScaleUI ), top: Math.floor(10 * ScaleUI)});
+		current = $("#LevelHUD");
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		
 		if ($("#HighscoreHUD"))
@@ -638,6 +638,7 @@ function MuteSound()
 			
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
+
 		Current.width(PLAYGROUND_WIDTH);
 		Current.css('font-size',Scale*200+'%');
 	
@@ -802,26 +803,14 @@ function MuteSound()
 	//TODO: Remove background code!!
 	$("#background").addSprite("BG", {animation: IM.GetMisc(BackI), width: BGSIZE.x, height: BGSIZE.y});
 	
-	$("#overlay").append("<div id='BorderTop'style='color: white; background-size:100% 100%; position: absolute; width: 100%; height: 59px'><img src='UI_Top.png' alt='background image' id='bgtop' /></div>");
-	$("#bgtop").width($("#BorderTop").width());
-	$("#bgtop").height($("#BorderTop").height());
-	$("#bgtop").css('position','absolute');
-
-	
-	$("#overlay").append("<div id='BorderLeft' style='color: white; background-size:100% 100%; position: absolute; width: 36px; height: 100%'><img src='UI_Left.png' alt='background image' id='bgleft' /></div>");
-	$("#bgleft").width($("#BorderLeft").width());
-	$("#bgleft	").height($("#BorderLeft").height());
-	$("#bgleft").css('position','absolute');
-	
-	$("#overlay").addSprite("UI_Main", {animation: IM.GetMisc(UIMain), width: 384, height: 192, posx: 0 , posy: 0 });
+	$("#overlay").append("<div id='BorderTop'style='background: #D27928; border-radius: 14px; position: absolute; left: 10px; top: 10px; height: 59px'></div>");
 	
 	//Create a div for the Point UI.
 	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	
-	//Create the first level.
-	$("#overlay").append("<div id='TimeHUD'style='color: white; width: 200px; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
+	$("#overlay").append("<div id='TimeHUD'style='color: white; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
 	
-	$("#overlay").append("<div id='LevelHUD'style='color: white; width: 200px; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
+	$("#overlay").append("<div id='LevelHUD'style='color: white; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
 	//Create a div for the Level UI.
 	
 	//Add div for control buttons
@@ -959,6 +948,7 @@ function MuteSound()
 	
 	//Create the first level.
 	CreateLevel();
+	MuteMusic();
 	
 	Scores = new Array();
 	
@@ -1035,7 +1025,6 @@ function MuteSound()
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
-
 		{
 			//Basic Game Engine!!
 			
@@ -1050,11 +1039,19 @@ function MuteSound()
 			
 			if (PointsV>Points) PointsV=Points;
 			
-			$("#PointHUD").html("Points: "+Math.round(PointsV));	
-			
-			$("#TimeHUD").html("Time: "+Math.ceil(CurGameTime/1000));
 		
-			$("#LevelHUD").html("Level: "+CurLevel);
+			
+			
+			var ScaleUI = Math.max(  Math.min((SpaceY - (CARDSIZEY+EMPTYSPACE)/2*Scale)/192,1) , Math.min((SpaceX - (CARDSIZEX+EMPTYSPACE)/2*Scale)/384,1)  );
+			
+			current = $('#PointHUD');
+			current.html("Points: "+Math.round(PointsV));
+			current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+			
+			
+			current = $("#TimeHUD");
+			current.html("Time: "+Math.ceil(CurGameTime/1000));
+			current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 			
 			if(GameStart = true)
 			{

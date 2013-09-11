@@ -274,7 +274,7 @@ function MuteSound()
 	POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
 	
 	//Change this and lines: 636-681, to change the UI.
-	var BackI = IM.LoadMisc("./BG.jpg");
+	var BackI = IM.LoadMisc("BG.png");
 		
 	//Sets the amountn of bonus cards loaded.
 	BONUSES = 4;	
@@ -552,6 +552,7 @@ function MuteSound()
 		}
 		
 		var ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), 1);
+		// Not sure if problem
 		var TScale = Math.min(Math.floor((PLAYGROUND_WIDTH-20)/4)/Math.max($('#PointHUD').width(),$('#TimeHUD').width(),$('#MuteSBut').width()), ScaleUI);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH-20);
@@ -619,6 +620,8 @@ function MuteSound()
 		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
 
     };
+	//end of problem
+	
 	
 	//Function to end the game
 	function EndGame()
@@ -934,21 +937,18 @@ function MuteSound()
 	myButton.onmouseout = function() {
 	$(this).css('background-color','#eab344');
 	};
-	myButton.onclick = MuteSound;
+	myButton.onclick = StartGame;
 	placeHolder = document.getElementById("startbutton");
 	placeHolder.appendChild(myButton);
 	
 	
 	
-	console.log(PLAYGROUND_HEIGHT/2-$("#ButSG").height());
-	console.log($("#playground").height());
 	
 	
 	
 	
 	//Create the first level.
 	CreateLevel();
-	MuteMusic();
 	
 	Scores = new Array();
 	
@@ -963,19 +963,25 @@ function MuteSound()
 	
 	Scores.sort(CustomSort);
 					
-    // this sets the id of the loading bar (NOT USED YET):
-	$.loadCallback(function(percent){
-            $("#loadingBar").width(400*percent);
-      });
     //initialize the start button
-    $("#startbutton").click(function(){
+    /*
+	$("#startbutton").click(function(){
         $.playground().startGame(function(){
 			Then = new Date().getTime();
 			GameStart = true;
 			soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
             $("#welcomeScreen").remove();
         });
-    })
+    })*/
+	function StartGame()
+	{
+		$.playground().startGame(function(){
+			Then = new Date().getTime();
+			GameStart = true;
+			soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
+            $("#welcomeScreen").remove();
+        });
+	}
 	// Debug code is for debug
 	$("#TrykEnter").click(function(){
 		if (Ended == 1)
@@ -1043,7 +1049,7 @@ function MuteSound()
 			
 			
 			var ScaleUI = Math.max(  Math.min((SpaceY - (CARDSIZEY+EMPTYSPACE)/2*Scale)/192,1) , Math.min((SpaceX - (CARDSIZEX+EMPTYSPACE)/2*Scale)/384,1)  );
-			
+
 			current = $('#PointHUD');
 			current.html("Points: "+Math.round(PointsV));
 			current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});

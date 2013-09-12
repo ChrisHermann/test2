@@ -1,0 +1,180 @@
+#ResumeBut{
+	color: white; 
+	position: absolute; 
+	left: 0px; 
+	top: 0px;'
+}
+
+#ButRG{
+	font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+	font-size: 21px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #402a20;
+	background-color:#eab344;
+	height: 48px;
+	width: 200px;
+	text-align: center;
+	display: block;
+	border-style: solid;
+	border-width: 4px;
+	border-color: #402a20;
+	border-radius: 48px;
+}
+
+#ButRG:hover{
+	background-color: #ffd258;
+}
+
+#HighscoreHUD{
+	color: white; 
+	text-align: center; 
+	position: absolute; 
+	left: 0px; 
+	font-family: verdana, sans-serif; 
+	font-size: 200%;
+}
+
+#BorderTop{
+	background: #D27928;
+	border-radius: 14px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	height: 59px;
+}
+
+#PointHUD{
+	color: white; 
+	position: absolute; 
+	left: 400px; 
+	top: 10px; 
+	font-family: verdana, sans-serif; 
+	font-weight: bold; 
+	font-size:150%;
+}
+
+#TimeHUD{
+	color: white; 
+	position: absolute; 
+	left: 200px; 
+	top: 10px; 
+	font-family: verdana, sans-serif; 
+	float: right; 
+	font-weight: bold; 
+	font-size:150%;
+}
+
+#LevelHUD{
+	color: white; 
+	position: absolute; 
+	left: 10px; 
+	top: 10px; 
+	font-family: verdana, sans-serif; 
+	font-weight: bold; 
+	font-size:150%;
+}
+
+#PauseBut{
+	color: white; 
+	position: absolute; 
+	left: 10px; 
+	top: 120px;
+}
+
+#MuteMBut{
+	color: white; 
+	position: absolute; 
+	left: 100px; 
+	top: 70px;
+}
+
+#MuteSBut{
+	color: white; 
+	position: absolute; 
+	left: 10px; 
+	top: 70px;
+}
+
+#ButP{
+	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
+	font-size: 21px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #402a20;
+	background-color: #eab344;
+	height: 48px;
+	width: 200px;
+	text-align: center;
+	display: block;
+ 	border-style: solid;
+	border-width: 4px;
+	border-color: #402a20;
+	border-radius: 48px;
+}	
+
+#ButP:hover{
+	background-color: #ffd258;
+}
+#ButMM{
+	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
+	font-size: 21px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #402a20;
+	background-color: #eab344;
+	height: 48px;
+	width: 200px;
+	text-align: center;
+	display: block;
+	border-style: solid;
+	border-width: 4px;
+	border-color: #402a20;
+	border-radius: 48px;
+}
+
+#ButMM:hover{
+	background-color: #ffd258;
+}
+
+#ButMS{
+	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
+	font-size: 21px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #402a20;
+	background-color: #eab344;
+	height: 48px;
+	width: 200px;
+	text-align: center;
+	display: block;
+	border-style: solid;
+	border-width: 4px;
+	border-color: #402a20;
+	border-radius: 48px;
+}
+
+#ButMS:hover{
+	background-color: #ffd258;
+}
+
+#ButSG{
+	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
+	font-size: 21px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #402a20;
+	background-color: #eab344;
+	height: 48px;
+	width: 200px;
+	text-align: center;
+	display: block;
+ 	border-style: solid;
+	border-width: 4px;
+	border-color: #402a20;
+	border-radius: 48px;
+}
+
+#ButSG:hover{
+	background-color: #ffd258;
+}

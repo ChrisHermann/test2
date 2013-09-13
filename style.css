@@ -40,6 +40,19 @@
 	font-size: 200%;
 }*/
 
+#NameEnterHUD{
+	border-radius: 14px;
+	padding: 30px; 
+	vertical-align: middle; 
+	background: #D27928; 
+	color: white; 
+	text-align: center; 
+	position: absolute; 
+	font-family: verdana, sans-serif; 
+	font-size: 200%;
+	overflow:hidden;
+}
+
 #HighscoreHUD{
 	color: white; 
 	text-align: center; 

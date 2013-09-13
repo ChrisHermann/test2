@@ -282,7 +282,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	PLAYGROUND_HEIGHT = $(window).height();
 	var UISIZEY = 170;
  
-	//$("#HighscoreHUD")
 	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
 	{
@@ -744,43 +743,41 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		{
 			Current = $("#HighscoreHUD");
 			
-			if (Ended==1)
-				scale = Math.min(1,PLAYGROUND_WIDTH/1100);
-			else
-				scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
-			//Current.width(PLAYGROUND_WIDTH);
-			//Current.css('font-size',scale*200+'%');
-			if (Ended==1)
-			{
-				Current.width(800*scale);
-				Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-			}
-			else
-			{
-				//Could be optimized, but is used very rarely!
-				Current.width(800*scale);
+			//Posiboly optimize to make wider when y-axis is problem TODO
+			//TODO Possibly center on y-axis
+			scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400);
+			//Could be optimized, but is used very rarely!
+			Current.width(800*scale);
+			
 				
-					
-				for (i=0; i<=HSLines; i++)
+			for (i=0; i<=HSLines; i++)
+			{
+				if (i==0)
+					$("#para_"+i).css('font-size',scale*150+'%');
+				else
+				if (i==HSLines)
+					$("#para_"+i).css('font-size',scale*150+'%');
+				else
 				{
-					if (i==0)
-						$("#para_"+i).css('font-size',scale*150+'%');
+					if (i<3) 
+						txtsz = 80+35/(i+1);
 					else
-					if (i==HSLines)
-						$("#para_"+i).css('font-size',scale*150+'%');
-					else
-					{
-						if (i<3) 
-							txtsz = 80+35/(i+1);
-						else
-							txtsz = 80;
-						$("#para_"+i).css('font-size',scale*txtsz+'%');
-					}
-					
+						txtsz = 80;
+					$("#para_"+i).css('font-size',scale*txtsz+'%');
 				}
 				
-				Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 			}
+			
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+		}
+		
+		if ($("#NameEnterHUD"))
+		{
+			Current = $("#NameEnterHUD");
+			
+			scale = Math.min(1,PLAYGROUND_WIDTH/1100);
+			Current.width(800*scale);
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		
 		if ($("#Blureffect"))
@@ -814,8 +811,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
-		$("#popup").append("<span id='HighscoreHUD'></span>");
+
+		$("#popup").append("<span id='NameEnterHUD'></span>");
 		$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
+
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
 		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
@@ -829,7 +828,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 
 		}
-		var Current = $("#HighscoreHUD");
+		var Current = $("#NameEnterHUD");
 		//Apply the string to the div, and recenter it.
 		Current.html(string);
 			
@@ -845,8 +844,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		{
 			$("#Card_"+i).remove();
 		}
-		
-		Current = $("#HighscoreHUD");
 			
 		scale = Math.min(1,PLAYGROUND_WIDTH/1100);
 		Current.width(800*scale);
@@ -907,7 +904,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			if (Ended == 1)
 			{
 				//If we are entering our name show the highscore
-				$("#HighscoreHUD").remove();
+				$("#NameEnterHUD").remove();
 				
 				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
 				//both off.line and online.
@@ -917,7 +914,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			else
 			if (Ended == 2)
 			{
-			//Else, restart the game.
+				//Else, restart the game.
 				Restarted = true;
 				RestartGame();
 			}
@@ -1008,12 +1005,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 		}, 'json');
 		
-		var Current = $("#popup");
 		
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
-		Current.width(PLAYGROUND_WIDTH);
-		Current.css('font-size',Scale*200+'%');
 		
 		//Create new div for high score.
 		
@@ -1027,13 +1021,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			complete: function (data) {
 			}
 		});
-		console.log(Line);
+		
 		$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
 		
 		Current = $("#HighscoreHUD");
 			
 		scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
-		//Could be optimized, but is used very rarely!
+		
 		Current.width(800*scale);
 		
 			
@@ -1213,6 +1207,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			}
 			else
 			{
+				$("#NameEnterHUD").remove();
 				//Else, restart the game.
 				Restarted = true;
 				RestartGame();
@@ -1245,7 +1240,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 
 
 	
-			var Current = $("#HighscoreHUD");
+			var Current = $("#NameEnterHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);
 			//TODO: Find a way to get the padding possibly.
@@ -1412,5 +1407,3 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		});
 	});
 });
-
-	

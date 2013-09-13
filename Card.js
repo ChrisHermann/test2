@@ -323,6 +323,7 @@ function Cards(node)
 		this.Turning = true;
 		this.changed = false;
 		//createjs.Sound.play("sound");
+		if(ppDetect[0,0] != "iPad" ||  pDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		soundFlipCard.play();
 	}
 	

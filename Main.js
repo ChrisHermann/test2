@@ -54,8 +54,7 @@ function PauseGame()
 		
 		if(inputcounter <1)
 		{
-			$("#playground").append("<div id='ResumeBut'style='color: white; position: absolute; left: 0px; top: 0px;'></div>");
-			//$("#playground").append("<button id='ResumeBut' type='button' style='color: white; position: absolute; left: 10px; top: 120px;'>Click Me!</button>");
+			$("#playground").append("<div id='ResumeBut'></div>");
 			inputcounter++;
 			
 	
@@ -64,26 +63,6 @@ function PauseGame()
 			myButton.value = "Resume Game";
 			myButton.id = "ButRG";
 			Current = $(myButton);
-			Current.css('font-family','Helvetica Neue, Helvetica Arial, sans-serif');
-			Current.css('font-size','21px');
-			Current.css('font-weight','bold');
-			Current.css('text-decoration','none');
-			Current.css('color','#402a20');
-			Current.css('background-color','#eab344');
-			Current.css('height','48px');
-			Current.css('width','200px');
-			Current.css('text-align:center');
-			Current.css('display','block');
-			Current.css('border-style','solid');
-			Current.css('border-width','4px');
-			Current.css('border-color','#402a20');
-			Current.css('border-radius','48px');
-			myButton.onmouseover = function() {
-			$(this).css('background-color','#ffd258');
-			};
-			myButton.onmouseout = function() {
-			$(this).css('background-color','#eab344');
-			};
 			myButton.onclick = ResumeGame;
 			placeHolder = document.getElementById("ResumeBut");
 			placeHolder.appendChild(myButton);
@@ -795,7 +774,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
+
+		$("#overlay").append("<div id='HighscoreHUD'></div>");
 
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
@@ -937,8 +917,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		Current.css('font-size',Scale*200+'%');
 		
 		//Create new div for high score.
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
+		$("#overlay").append("<div id='HighscoreHUD'></div>");		
 		$("#inputbox").append("<div id='inputHUD'style=position:absolute;></div>");
+
+					 
 		$.ajax
 		({
 			data: "Name=" + Name + "&Score=" + Points,
@@ -986,20 +968,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//TODO: Remove background code!!
 	$("#background").addSprite("BG", {animation: IM.GetMisc(BackI), width: BGSIZE.x, height: BGSIZE.y});
 	
-	$("#overlay").append("<div id='BorderTop'style='background: #D27928; border-radius: 14px; position: absolute; left: 10px; top: 10px; height: 59px'></div>");
+	$("#overlay").append("<div id='BorderTop'></div>");
 	
 	//Create a div for the Point UI.
-	$("#overlay").append("<div id='PointHUD'style='color: white; position: absolute; left: 400px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
+	$("#overlay").append("<div id='PointHUD'></div>");
 	
-	$("#overlay").append("<div id='TimeHUD'style='color: white; position: absolute; left: 200px; top: 10px; font-family: verdana, sans-serif; float: right; font-weight: bold; font-size:150%;'></div>");
+	$("#overlay").append("<div id='TimeHUD'></div>");
 	
-	$("#overlay").append("<div id='LevelHUD'style='color: white; position: absolute; left: 10px; top: 10px; font-family: verdana, sans-serif; font-weight: bold; font-size:150%;'></div>");
+	$("#overlay").append("<div id='LevelHUD'></div>");
 	//Create a div for the Level UI.
 	
 	//Add div for control buttons
-	$("#overlay").append("<div id='PauseBut'style='color: white; position: absolute; left: 10px; top: 120px;'></div>");
-	$("#overlay").append("<div id='MuteMBut'style='color: white; position: absolute; left: 100px; top: 70px;'></div>");
-	$("#overlay").append("<div id='MuteSBut'style='color: white; position: absolute; left: 10px; top: 70px;'></div>");
+	$("#overlay").append("<div id='PauseBut'></div>");
+	$("#overlay").append("<div id='MuteMBut'></div>");
+	$("#overlay").append("<div id='MuteSBut'></div>");
 
 	
 	//Add the control buttons to the UI
@@ -1008,26 +990,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	myButton.value = "Pause";
 	myButton.id = "ButP";
 	Current = $(myButton);
-	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
-	Current.css('font-size','21px');
-	Current.css('font-weight','bold');
-	Current.css('text-decoration','none');
-	Current.css('color','#402a20');
-	Current.css('background-color','#eab344');
-	Current.css('height','48px');
-	Current.css('width','200px');
-	Current.css('text-align:center');
-	Current.css('display','block');
- 	Current.css('border-style','solid');
-	Current.css('border-width','4px');
-	Current.css('border-color','#402a20');
-	Current.css('border-radius','48px');
-	myButton.onmouseover = function() {
-	$(this).css('background-color','#ffd258');
-	};
-	myButton.onmouseout = function() {
-	$(this).css('background-color','#eab344');
-	};
 	myButton.onclick = PauseGame;
 	placeHolder = document.getElementById("PauseBut");
 	placeHolder.appendChild(myButton);
@@ -1038,26 +1000,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	myButton.value = "Mute Music";
 	myButton.id = "ButMM";
 	Current = $(myButton);
-	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
-	Current.css('font-size','21px');
-	Current.css('font-weight','bold');
-	Current.css('text-decoration','none');
-	Current.css('color','#402a20');
-	Current.css('background-color','#eab344');
-	Current.css('height','48px');
-	Current.css('width','200px');
-	Current.css('text-align:center');
-	Current.css('display','block');
- 	Current.css('border-style','solid');
-	Current.css('border-width','4px');
-	Current.css('border-color','#402a20');
-	Current.css('border-radius','48px');
-	myButton.onmouseover = function() {
-	$(this).css('background-color','#ffd258');
-	};
-	myButton.onmouseout = function() {
-	$(this).css('background-color','#eab344');
-	};
 	myButton.onclick = MuteMusic;
 	placeHolder = document.getElementById("MuteMBut");
 	placeHolder.appendChild(myButton);
@@ -1067,26 +1009,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	myButton.value = "Mute Sound";
 	myButton.id = "ButMS";
 	Current = $(myButton);
-	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
-	Current.css('font-size','21px');
-	Current.css('font-weight','bold');
-	Current.css('text-decoration','none');
-	Current.css('color','#402a20');
-	Current.css('background-color','#eab344');
-	Current.css('height','48px');
-	Current.css('width','200px');
-	Current.css('text-align:center');
-	Current.css('display','block');
- 	Current.css('border-style','solid');
-	Current.css('border-width','4px');
-	Current.css('border-color','#402a20');
-	Current.css('border-radius','48px');
-	myButton.onmouseover = function() {
-	$(this).css('background-color','#ffd258');
-	};
-	myButton.onmouseout = function() {
-	$(this).css('background-color','#eab344');
-	};
 	myButton.onclick = MuteSound;
 	placeHolder = document.getElementById("MuteSBut");
 	placeHolder.appendChild(myButton);
@@ -1097,26 +1019,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	myButton.value = "Start Game";
 	myButton.id = "ButSG";
 	Current = $(myButton);
-	Current.css('font-family','Helvetica Neue,Helvetica Arial,sans-serif');
-	Current.css('font-size','21px');
-	Current.css('font-weight','bold');
-	Current.css('text-decoration','none');
-	Current.css('color','#402a20');
-	Current.css('background-color','#eab344');
-	Current.css('height','48px');
-	Current.css('width','200px');
-	Current.css('text-align:center');
-	Current.css('display','block');
- 	Current.css('border-style','solid');
-	Current.css('border-width','4px');
-	Current.css('border-color','#402a20');
-	Current.css('border-radius','48px');
-	myButton.onmouseover = function() {
-	$(this).css('background-color','#ffd258');
-	};
-	myButton.onmouseout = function() {
-	$(this).css('background-color','#eab344');
-	};
 	myButton.onclick = StartGame;
 	placeHolder = document.getElementById("startbutton");
 	placeHolder.appendChild(myButton);

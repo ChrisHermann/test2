@@ -147,6 +147,145 @@ function MuteSound()
 		UnMuteSound();
 }
 
+	//a lot of browser detect code see http://www.quirksmode.org/js/detect.html
+	var BrowserDetect = {
+	init: function () {
+		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+		this.version = this.searchVersion(navigator.userAgent)
+			|| this.searchVersion(navigator.appVersion)
+			|| "an unknown version";
+		this.OS = this.searchString(this.dataOS) || "an unknown OS";
+	},
+	searchString: function (data) {
+		for (var i=0;i<data.length;i++)	{
+			var dataString = data[i].string;
+			var dataProp = data[i].prop;
+			this.versionSearchString = data[i].versionSearch || data[i].identity;
+			if (dataString) {
+				if (dataString.indexOf(data[i].subString) != -1)
+					return data[i].identity;
+			}
+			else if (dataProp)
+				return data[i].identity;
+		}
+	},
+	searchVersion: function (dataString) {
+		var index = dataString.indexOf(this.versionSearchString);
+		if (index == -1) return;
+		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+	},
+	dataBrowser: [
+		{
+			string: navigator.userAgent,
+			subString: "Chrome",
+			identity: "Chrome"
+		},
+		{ 	string: navigator.userAgent,
+			subString: "OmniWeb",
+			versionSearch: "OmniWeb/",
+			identity: "OmniWeb"
+		},
+		{
+			string: navigator.vendor,
+			subString: "Apple",
+			identity: "Safari",
+			versionSearch: "Version"
+		},
+		{
+			prop: window.opera,
+			identity: "Opera",
+			versionSearch: "Version"
+		},
+		{
+			string: navigator.vendor,
+			subString: "iCab",
+			identity: "iCab"
+		},
+		{
+			string: navigator.vendor,
+			subString: "KDE",
+			identity: "Konqueror"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Firefox",
+			identity: "Firefox"
+		},
+		{
+			string: navigator.vendor,
+			subString: "Camino",
+			identity: "Camino"
+		},
+		{		// for newer Netscapes (6+)
+			string: navigator.userAgent,
+			subString: "Netscape",
+			identity: "Netscape"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "MSIE",
+			identity: "Explorer",
+			versionSearch: "MSIE"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Gecko",
+			identity: "Mozilla",
+			versionSearch: "rv"
+		},
+		{ 		// for older Netscapes (4-)
+			string: navigator.userAgent,
+			subString: "Mozilla",
+			identity: "Netscape",
+			versionSearch: "Mozilla"
+		}
+	],
+	dataOS : [
+		{
+			string: navigator.platform,
+			subString: "Win",
+			identity: "Windows"
+		},
+		{
+			string: navigator.platform,
+			subString: "Mac",
+			identity: "Mac"
+		},
+		{
+			   string: navigator.userAgent,
+			   subString: "iPhone",
+			   identity: "iPhone/iPod"
+	    },
+		{
+			string: navigator.platform,
+			subString: "Linux",
+			identity: "Linux"
+		}
+	]
+
+};
+BrowserDetect.init();
+
+//segmenting the platform info
+//p & b, platform & browser detect.
+var pTemp = navigator.appVersion;
+pTemp = pTemp.split(" ") ;
+var bDetect = BrowserDetect.browser + BrowserDetect.version;
+var pDetect = pTemp[0,1] + " " + pTemp[0,0];
+pDetect = pDetect.substring(1);
+ppDetect = pDetect.split(";");
+
+// if Explorer 8 DO
+if(bDetect == "Explorer8" )
+{
+	alert("Du er på IE 8");
+}
+// if iPad DO
+else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+{
+	alert("Du er på mac");
+}
+
 
 
 
@@ -211,7 +350,8 @@ function MuteSound()
 	
 	Then = new Date().getTime();
 	
-	var CoreGameTime = 50 * 1000;
+	//changed for debugging
+	var CoreGameTime = 5 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -244,15 +384,23 @@ function MuteSound()
 	
 		
 	//Sounds
-	 soundBG = createjs.Sound.createInstance("./music.mp3");
+	//no bg music on iPad
+	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+	{
+		soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
-
+	}
+	 /*
+	 	IM.LoadCard("peter.png");
+	IM.LoadCard("nicolaus.png");
+	IM.LoadCard("schwartz.png");
+	*/
 	 
 	//Loads the normal card faces
 	var Face = new Array();
-	IM.LoadCard("peter.png");
-	IM.LoadCard("nicolaus.png");
-	IM.LoadCard("schwartz.png");
+	IM.LoadCard("http://davidsaffir.files.wordpress.com/2009/12/portrait-retouch-saffir-eyelashes.jpg");
+	IM.LoadCard("http://www.dannyst.com/blogimg/gallery-portraits-of-strangers-20.jpg");
+	IM.LoadCard("http://www.fwallpaper.net/wallpapers/H/I/hilary-duff-portrait_1920x1200.jpg");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
 	IM.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
@@ -281,14 +429,23 @@ function MuteSound()
 	
 	
 	//focus unfocus
-	window.addEventListener("focus", function(event) 
-	{ 
-		ResumeGame();
-	}, false);
-	window.addEventListener("blur", function(event)
-	{ 
-		PauseGame();
-	}, false);
+	if(!window.addEventListener)
+	{
+		window.attachEvent("focus", function(event){} );
+		window.attachEvent("blur", function(event){} );
+	}
+	else
+	{
+		window.addEventListener("focus", function(event) 
+		{ 
+				ResumeGame();
+			}, false);
+			window.addEventListener("blur", function(event)
+			{ 
+				PauseGame();
+		}, false);
+	}
+
     
 
 	//This functions "creates a level" this function is run when there is an empty screen to set up
@@ -614,6 +771,15 @@ function MuteSound()
 			Current.css('font-size',Scale*200+'%');
 		}
 		
+		if ($("#inputHUD"))
+		{
+			Current = $("#inputBox");
+			
+			Current.width(PLAYGROUND_WIDTH);
+			Current.height(PLAYGROUND_HEIGHT);
+
+		}
+		
 		
 		scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
 		$("#BG").scale(scale);
@@ -630,11 +796,20 @@ function MuteSound()
 		Ended = 1;
 		Name = "";
 		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
-		
+
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
 		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
 		
+		if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+		{
+			$("#inputbox").append("<div id='inputHUD'style='opacity:0;'><input id = 'inputBox' autocorrect='off' type = 'text' style='opacity:0;position:absolute;height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+			Name = document.getElementById("inputBox").value;
+			
+			$("#inputBox").focus();
+			
+
+		}
 		var Current = $("#HighscoreHUD");
 		//Apply the string to the div, and recenter it.
 		Current.html(string);
@@ -656,6 +831,7 @@ function MuteSound()
 	function RestartGame()
 	{
 		$("#HighscoreHUD").remove();
+		$("#inputHUD").remove();
 		
 		
 		Scores = new Array();
@@ -761,7 +937,8 @@ function MuteSound()
 		Current.css('font-size',Scale*200+'%');
 		
 		//Create new div for high score.
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
+		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
+		$("#inputbox").append("<div id='inputHUD'style=position:absolute;></div>");
 		$.ajax
 		({
 			data: "Name=" + Name + "&Score=" + Points,
@@ -795,12 +972,15 @@ function MuteSound()
 	//Generate the actual Cards
 	
 		$.playground()
+		.addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
+		 height: PLAYGROUND_HEIGHT})
 		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 		.addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
+	
 	//Setup UI
 	//Add borders.
 	//TODO: Remove background code!!
@@ -978,7 +1158,9 @@ function MuteSound()
 		$.playground().startGame(function(){
 			Then = new Date().getTime();
 			GameStart = true;
-			soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
+			//no BG music if iPad
+			if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+				soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
             $("#welcomeScreen").remove();
         });
 	}
@@ -1025,6 +1207,9 @@ function MuteSound()
 			//If we are entering our name:
 			//Generate a string based on the name varaible, which is changed in onkeypress
 			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+
+
+	
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);
@@ -1190,7 +1375,6 @@ function MuteSound()
 
 		});
 	});
-
 });
 
 	

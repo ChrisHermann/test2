@@ -45,7 +45,6 @@ function ResumeGame()
 }
 function PauseGame()
 {
-	
 	if(GameStart)
 	{
 		$.playground().pauseGame();
@@ -199,6 +198,7 @@ function MuteSound()
 	var Name = "";
 	var Line;
 	var Scores;
+	var HSLines;
 	GFXCount = 0;
 	Points = 0;
 	PointsV = 0;
@@ -211,7 +211,7 @@ function MuteSound()
 	
 	Then = new Date().getTime();
 	
-	var CoreGameTime = 50 * 1000;
+	var CoreGameTime = 1 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -449,7 +449,6 @@ function MuteSound()
 					}
 				}
 			});
-								 
 		}
 	}
 	
@@ -561,25 +560,26 @@ function MuteSound()
 		
 		
 		ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
+		ButScal=Math.min(ButSpace/(320+20), 1);
 		//Math improvements needed!
 		current = $('#ButP');
-		current.width(320*ScaleUI);
-		current.height(88*ScaleUI);
-		current.css('font-size', 40*ScaleUI+'px');
+		current.width(320*Math.min(ScaleUI,ButScal));
+		current.height(88*Math.min(ScaleUI,ButScal));
+		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
 		current = $('#PauseBut');
 		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
 		current = $('#ButMM');
-		current.width(320*ScaleUI);
-		current.height(88*ScaleUI);
-		current.css('font-size', 40*ScaleUI+'px');
+		current.width(320*Math.min(ScaleUI,ButScal));
+		current.height(88*Math.min(ScaleUI,ButScal));
+		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
 		current = $('#MuteMBut');
 		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
 		current = $('#ButMS');
-		current.width(320*ScaleUI);
-		current.height(88*ScaleUI);
-		current.css('font-size', 40*ScaleUI+'px');
+		current.width(320*Math.min(ScaleUI,ButScal));
+		current.height(88*Math.min(ScaleUI,ButScal));
+		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
 		current = $('#MuteSBut');
 		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
@@ -607,17 +607,57 @@ function MuteSound()
 		{
 			Current = $("#HighscoreHUD");
 			
-			scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
+			if (Ended==1)
+				scale = Math.min(1,PLAYGROUND_WIDTH/1100);
+			else
+				scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
+			//Current.width(PLAYGROUND_WIDTH);
+			//Current.css('font-size',scale*200+'%');
+			if (Ended==1)
+			{
+				Current.width(800*scale);
+				Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+			}
+			else
+			{
+				//Could be optimized, but is used very rarely!
+				Current.width(800*scale);
+				
+					
+				for (i=0; i<=HSLines; i++)
+				{
+					if (i==0)
+						$("#para_"+i).css('font-size',scale*150+'%');
+					else
+					if (i==HSLines)
+						$("#para_"+i).css('font-size',scale*150+'%');
+					else
+					{
+						if (i<3) 
+							txtsz = 80+35/(i+1);
+						else
+							txtsz = 80;
+						$("#para_"+i).css('font-size',scale*txtsz+'%');
+					}
+					
+				}
+				
+				Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+			}
+		}
+		
+		if ($("#Blureffect"))
+		{
+			Current = $("#Blureffect");
 			
 			Current.width(PLAYGROUND_WIDTH);
-			Current.css('font-size',Scale*200+'%');
+			Current.height(PLAYGROUND_HEIGHT);
 		}
 		
 		
 		scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
 		$("#BG").scale(scale);
 		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
-
     };
 	
 	//Function to end the game
@@ -626,7 +666,8 @@ function MuteSound()
 		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");
+		$("#popup").append("<span id='HighscoreHUD'style='border-radius: 14px;padding: 30px; vertical-align: middle; background: #D27928; color: white; text-align: center; position: absolute; font-family: verdana, sans-serif; font-size: 200%;overflow:hidden;'></span>");
+		$("#blur").append("<div id='Blureffect' style='display: block; opacity: 0.7; filter:alpha(opacity=70); position: absolute; left: 0px; top: 0px; width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px; background-color: #000000;'></div>");
 		
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
@@ -639,14 +680,21 @@ function MuteSound()
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
 
-		Current.width(PLAYGROUND_WIDTH);
 		Current.css('font-size',Scale*200+'%');
+		//Current.width(Current.width()+60);
+		//Current.height(Current.height()+60);
 	
 		//Delete all cards currently on the field.
 		for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
 		{
 			$("#Card_"+i).remove();
 		}
+		
+		Current = $("#HighscoreHUD");
+			
+		scale = Math.min(1,PLAYGROUND_WIDTH/1100);
+		Current.width(800*scale);
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 	}
 	
 	//Remove the highscore screen, and start the game from scratch.
@@ -666,6 +714,7 @@ function MuteSound()
 		}, 'json');
 		
 		Scores.sort(CustomSort);
+		$("#Blureffect").remove();
 		
 		Points = 0;
 		PointsV = 0;
@@ -733,24 +782,76 @@ function MuteSound()
 			{
 				$("#Card_"+i).remove();
 			}
+			$("#blur").append("<div id='Blureffect' style='display: block; opacity: 0.7; filter:alpha(opacity=70); position: absolute; left: 0px; top: 0px; width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px; background-color: #000000;'></div>");
+
 		}
 		Ended=2;
+		HSLines=0;
+		Line = "<p id='para_"+HSLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
+		HSLines++;
 		
-		Line = "<br>";
+		Scores[1]={name: "sander", score: 400};
+		Scores[2]={name: "sander", score: 400};
+		Scores[3]={name: "sander", score: 400};
+		Scores[4]={name: "sander", score: 400};
+		Scores[5]={name: "sander", score: 400};
+		Scores[6]={name: "sander", score: 400};
+		Scores[7]={name: "sander", score: 400};
+		Scores[8]={name: "sander", score: 400};
+		Scores[9]={name: "sander", score: 400};
+		Scores[10 ]={name: "sander", score: 400};
 		
-		
+		var n = true;
 		//Create a line containing the 10 best scores, and apply them to the div.
 		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
 			for (i=0; i<Math.min(10, Scores.length); i++)
 			{
-				Line+=(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"<br>";
+				if (i<3) 
+				txtsz = 100+35/(i+1);
+				else
+				txtsz = 100;
+				if (n)
+					Line+="<p id='para_"+HSLines+"' style='background: #EAB344; padding: 7px 30px; font-size: "+txtsz+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+				else
+					Line+="<p id='para_"+HSLines+"' style='padding: 7px	 30px; font-size: "+txtsz+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+				
+				HSLines++;
+				n = !n;
 			}
+			$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='para_"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+			HSLines++;
+			
+			
+			Current = $("#HighscoreHUD");
+			
+			scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
+			//Could be optimized, but is used very rarely!
+			Current.width(800*scale);
+			
+				
+			for (i=0; i<=HSLines; i++)
+			{
+				if (i==0)
+					$("#para_"+i).css('font-size',scale*150+'%');
+				else
+				if (i==HSLines)
+					$("#para_"+i).css('font-size',scale*150+'%');
+				else
+				{
+					if (i<3) 
+						txtsz = 80+35/(i+1);
+					else
+						txtsz = 80;
+					$("#para_"+i).css('font-size',scale*txtsz+'%');
+				}
+				
+			}
+			
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+			
 		}, 'json');
 		
-		var Current = $("#HighscoreHUD");
-		Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
-		
-		
+		var Current = $("#popup");
 		
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
@@ -758,7 +859,8 @@ function MuteSound()
 		Current.css('font-size',Scale*200+'%');
 		
 		//Create new div for high score.
-		$("#overlay").append("<div id='HighscoreHUD'style='color: white; text-align: center; position: absolute; left: 0px; font-family: verdana, sans-serif; font-size: 200%;'></div>");							 
+		
+		$("#popup").append("<div id='HighscoreHUD'style='border-radius: 14px;padding: 30px 0; vertical-align: middle; background: #D27928; color: white; text-align: center; position: relative; font-family: verdana, sans-serif; font-size: 200%;overflow:hidden;'></div>");
 		$.ajax
 		({
 			data: "Name=" + Name + "&Score=" + Points,
@@ -767,6 +869,35 @@ function MuteSound()
 			complete: function (data) {
 			}
 		});
+		console.log(Line);
+		$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+		
+		Current = $("#HighscoreHUD");
+			
+		scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
+		//Could be optimized, but is used very rarely!
+		Current.width(800*scale);
+		
+			
+		for (i=0; i<=HSLines; i++)
+		{
+			if (i==0)
+				$("#para_"+i).css('font-size',scale*150+'%');
+			else
+			if (i==HSLines)
+				$("#para_"+i).css('font-size',scale*150+'%');
+			else
+			{
+				if (i<3) 
+					txtsz = 80+35/(i+1);
+				else
+					txtsz = 80;
+				$("#para_"+i).css('font-size',scale*txtsz+'%');
+			}
+			
+		}
+		
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 	}
 	
 	//This is called with an object containing name and score, can be used to send to the database.
@@ -785,6 +916,7 @@ function MuteSound()
 		mouseTracker: true});
 
     // Initialize the background
+	//TODO: Make it on long chain of groups?
     $.playground()
         .addGroup("background", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT});
@@ -792,11 +924,15 @@ function MuteSound()
 	//Generate the actual Cards
 	
 		$.playground()
-		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
+		.addGroup("popup", {width: PLAYGROUND_WIDTH, 
+                                 height: PLAYGROUND_HEIGHT})
+		.addGroup("blur", {width: PLAYGROUND_WIDTH, 
+                                 height: PLAYGROUND_HEIGHT})
+		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 		.addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
-		.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
+		.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT})
 	//Setup UI
 	//Add borders.
@@ -990,9 +1126,9 @@ function MuteSound()
 			}
 			else
 			{
-			//Else, restart the game.
-			Restarted = true;
-			RestartGame();
+				//Else, restart the game.
+				Restarted = true;
+				RestartGame();
 			}
 			
 			//Send the highscore to the database.
@@ -1010,7 +1146,7 @@ function MuteSound()
 		{
 			var Current = $("#HighscoreHUD");
 			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-			Current.html(Line+"<br>Tryk Enter for at starte et nyt spil");
+			//Current.html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
@@ -1022,7 +1158,8 @@ function MuteSound()
 			var Current = $("#HighscoreHUD");
 			//Apply the string to the div, and recenter it.
 			Current.html(string);
-			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+			//TODO: Find a way to get the padding possibly.
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		else
 		{

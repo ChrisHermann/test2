@@ -1,8 +1,13 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
 #ResumeBut{
 	color: white; 
 	position: absolute; 
 	left: 0px; 
-	top: 0px;'
+	top: 0px;
 }
 
 #ButRG{
@@ -177,4 +182,8 @@
 
 #ButSG:hover{
 	background-color: #ffd258;
+}
+
+#inputHUD{
+	position:absolute;
 }

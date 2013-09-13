@@ -330,7 +330,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	//changed for debugging
-	var CoreGameTime = 5 * 1000;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -783,7 +783,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		{
-			$("#inputbox").append("<div id='inputHUD'style='opacity:0;'><input id = 'inputBox' autocorrect='off' type = 'text' style='opacity:0;position:absolute;height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+			$("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='opacity:0;position:absolute;height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
 			Name = document.getElementById("inputBox").value;
 			
 			$("#inputBox").focus();
@@ -918,7 +918,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		//Create new div for high score.
 		$("#overlay").append("<div id='HighscoreHUD'></div>");		
-		$("#inputbox").append("<div id='inputHUD'style=position:absolute;></div>");
+		$("#inputbox").append("<div id='inputHUD'></div>");
 
 					 
 		$.ajax

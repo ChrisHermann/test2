@@ -250,6 +250,7 @@ BrowserDetect.init();
 var pTemp = navigator.appVersion;
 pTemp = pTemp.split(" ") ;
 var bDetect = BrowserDetect.browser + BrowserDetect.version;
+var bbDetect = BrowserDetect.browser;
 var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
@@ -835,52 +836,117 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		CreateLevel();
 	}
 	
+	if (bbDetect != "Firefox")
+	{	
 	//Used only when entering your name for the highscore.
-	document.onkeypress = function(event)
-	{
-		var key_press = String.fromCharCode(event.keyCode);
+		document.onkeypress = function(event)
+		{
+			var key_press = String.fromCharCode(event.keyCode);
+			
+			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			Name += key_press;
+		}
 		
-		if (event.keyCode!=13 && key_press != " " && EndedL==1)
-		Name += key_press;
+		//Used for highscore screens in general.
+		$(document).keydown(function (e) {
+			//alert('You pressed '+event.keyCode);
+			//Delete chars when entering name
+			if (e.which === 8)
+			{
+				//your custom action here
+			
+				Name = Name.substring(0, Name.length - 1);
+				return false;
+			}
+			//Press enter to go to next screen.
+			//var event = window.event || event;
+			//var event = e;
+			if (event.keyCode==13)
+			{
+				if (Ended == 1)
+				{
+					//If we are entering our name show the highscore
+					$("#HighscoreHUD").remove();
+					
+					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+					//both off.line and online.
+					
+					ShowHighscore();
+				}
+				else
+				if (Ended == 2)
+				{
+				//Else, restart the game.
+					Restarted = true;
+					RestartGame();
+				}
+				
+				//Send the highscore to the database.
+				ApplyHighscore( {name: Name, score: Points} );
+				
+				return false;
+			}
+		});
+	}
+	else
+	{
+		//Delete chars when entering name
+		$(document).keydown(function (e) {
+			var capsL = false;
+			//FF needs event
+			var event = e;
+			if(e.which === 20)
+			{
+				if(capsL == false)
+					capsL = true;
+				if(capsL == true)
+					capsL = false;
+			}
+				
+			var key_press = String.fromCharCode(event.keyCode);
+			key_press = key_press.toLowerCase()
+			if (e.which === 8)
+			{
+
+				Name = Name.substring(0, Name.length - 1);
+				return false;
+			}
+			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			{
+				if (event.shiftKey || capsL== true)
+					Name += key_press.toUpperCase();
+				else
+					Name += key_press;
+			}
+			//Press enter to go to next screen.
+			if (event.keyCode==13)
+			{
+				if (Ended == 1)
+				{
+					//If we are entering our name show the highscore
+					$("#HighscoreHUD").remove();
+					
+					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+					//both off.line and online.
+					
+					ShowHighscore();
+				}
+				else
+				if (Ended == 2)
+				{
+				//Else, restart the game.
+					Restarted = true;
+					RestartGame();
+				}
+				
+				//Send the highscore to the database.
+				ApplyHighscore( {name: Name, score: Points} );
+				return false;
+			}
+			//event.preventDefault();
+		});
 	}
 	
-	//Used for highscore screens in general.
-	$(document).keydown(function (e) {
-		//Delete chars when entering name
-	    if (e.which === 8)
-	    {
-			//your custom action here
-		
-			Name = Name.substring(0, Name.length - 1);
-			return false;
- 	    }
-		//Press enter to go to next screen.
-		if (event.keyCode==13)
-		{
-			if (Ended == 1)
-			{
-				//If we are entering our name show the highscore
-				$("#HighscoreHUD").remove();
-				
-				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
-				//both off.line and online.
-				
-				ShowHighscore();
-			}
-			else
-			if (Ended == 2)
-			{
-			//Else, restart the game.
-				Restarted = true;
-				RestartGame();
-			}
-			
-			//Send the highscore to the database.
-			ApplyHighscore( {name: Name, score: Points} );
-			
-			return false;
-		}
-	});
 	
 	function ShowHighscore()
 	{

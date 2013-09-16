@@ -329,7 +329,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 1 * 1000;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -368,17 +368,17 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 	}
-	 /*
+	 
 	 	IM.LoadCard("peter.png");
 	IM.LoadCard("nicolaus.png");
 	IM.LoadCard("schwartz.png");
-	*/
+	
 	 
 	//Loads the normal card faces
 	var Face = new Array();
-	IM.LoadCard("http://davidsaffir.files.wordpress.com/2009/12/portrait-retouch-saffir-eyelashes.jpg");
-	IM.LoadCard("http://www.dannyst.com/blogimg/gallery-portraits-of-strangers-20.jpg");
-	IM.LoadCard("http://www.fwallpaper.net/wallpapers/H/I/hilary-duff-portrait_1920x1200.jpg");
+	IM.LoadCard("peter.png");
+	IM.LoadCard("nicolaus.png");
+	IM.LoadCard("schwartz.png");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
 	IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
 	IM.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
@@ -686,8 +686,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		}
 		
 		var ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), 1);
-		// Not sure if problem
-		var TScale = Math.min(Math.floor((PLAYGROUND_WIDTH-20)/4)/Math.max($('#PointHUD').width(),$('#TimeHUD').width(),$('#MuteSBut').width()), ScaleUI);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH-20);
 		
@@ -719,7 +717,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		current = $('#MuteSBut');
 		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
-		//$('#startbutton').css({ left: Math.floor(10 * ScaleUI ), top: Math.floor(100 * ScaleUI)});
+		
+		current = $('#PointHUD');
+		current.width(PLAYGROUND_WIDTH/3);
+		
+		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+		
 		$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
 		$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
 		$('#ButSG').width(160*ScaleUI);
@@ -728,14 +731,16 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		current = $('#PointHUD');
 		current.css("font-size", Math.floor(220* TScale)+'%');
-		current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2) , top: 10});
+		current.css({ left: Math.floor((ButSpace*3+	10)-Math.floor(current.width()/2)- ButSpace/2) , top: 10});
 		
 		current = $("#TimeHUD");
 		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.width(PLAYGROUND_WIDTH/3);
 		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		current = $("#LevelHUD");
 		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.width(PLAYGROUND_WIDTH/3);
 		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		
@@ -777,6 +782,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 			scale = Math.min(1,PLAYGROUND_WIDTH/1100);
 			Current.width(800*scale);
+			Current.css('font-size',scale*200+'%');
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		
@@ -1096,11 +1102,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	$("#overlay").append("<div id='BorderTop'></div>");
 	
 	//Create a div for the Point UI.
-	$("#overlay").append("<div id='PointHUD'></div>");
+	$("#overlay").append("<div id='PointHUD' style='text-align:center'></div>");
 	
-	$("#overlay").append("<div id='TimeHUD'></div>");
+	$("#overlay").append("<div id='TimeHUD' style='text-align:center'></div>");
 	
-	$("#overlay").append("<div id='LevelHUD'></div>");
+	$("#overlay").append("<div id='LevelHUD' style='text-align:center'></div>");
 	//Create a div for the Level UI.
 	
 	//Add div for control buttons

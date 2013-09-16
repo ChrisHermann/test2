@@ -31,6 +31,28 @@
 	background-color: #ffd258;
 }
 
+/*#HighscoreHUD{
+	color: white; 
+	text-align: center; 
+	position: absolute; 
+	left: 0px; 
+	font-family: verdana, sans-serif; 
+	font-size: 200%;
+}*/
+
+#NameEnterHUD{
+	border-radius: 14px;
+	padding: 30px; 
+	vertical-align: middle; 
+	background: #D27928; 
+	color: white; 
+	text-align: center; 
+	position: absolute; 
+	font-family: verdana, sans-serif; 
+	font-size: 200%;
+	overflow:hidden;
+}
+
 #HighscoreHUD{
 	color: white; 
 	text-align: center; 
@@ -38,6 +60,21 @@
 	left: 0px; 
 	font-family: verdana, sans-serif; 
 	font-size: 200%;
+	border-radius: 14px;
+	padding: 30px 0px;
+	vertical-align: middle;
+	background: #D27928;
+	overflow:hidden;
+}
+
+#Blureffect{
+	display: block;
+	opacity: 0.7; 
+	filter:alpha(opacity=70); 
+	position: absolute; 
+	left: 0px; 
+	top: 0px; 
+	background-color: #000000;
 }
 
 #BorderTop{
@@ -185,5 +222,10 @@
 }
 
 #inputHUD{
+	position:absolute;
+}
+
+#inputBox{
+	opacity:0;
 	position:absolute;
 }

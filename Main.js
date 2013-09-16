@@ -249,6 +249,7 @@ BrowserDetect.init();
 var pTemp = navigator.appVersion;
 pTemp = pTemp.split(" ") ;
 var bDetect = BrowserDetect.browser + BrowserDetect.version;
+var bbDetect = BrowserDetect.browser;
 var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
@@ -817,15 +818,17 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		//Correct the variables, and create a div to store the screen to enter your name.
 		Ended = 1;
 		Name = "";
-		$("#popup").append("<span id='NameEnterHUD'style='border-radius: 14px;padding: 30px; vertical-align: middle; background: #D27928; color: white; text-align: center; position: absolute; font-family: verdana, sans-serif; font-size: 200%;overflow:hidden;'></span>");
-		$("#blur").append("<div id='Blureffect' style='display: block; opacity: 0.7; filter:alpha(opacity=70); position: absolute; left: 0px; top: 0px; width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px; background-color: #000000;'></div>");
+
+		$("#popup").append("<span id='NameEnterHUD'></span>");
+		$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
+
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
 		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
 		
 		if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		{
-			$("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='opacity:0;position:absolute;height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+			$("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
 			Name = document.getElementById("inputBox").value;
 			
 			$("#inputBox").focus();
@@ -883,52 +886,110 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		CreateLevel();
 	}
 	
+	if (bbDetect != "Firefox")
+	{	
 	//Used only when entering your name for the highscore.
-	document.onkeypress = function(event)
-	{
-		var key_press = String.fromCharCode(event.keyCode);
+		document.onkeypress = function(event)
+		{
+			var key_press = String.fromCharCode(event.keyCode);
+			
+			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			Name += key_press;
+		}
 		
-		if (event.keyCode!=13 && key_press != " " && EndedL==1)
-		Name += key_press;
+		//Used for highscore screens in general.
+		$(document).keydown(function (e) {
+			//alert('You pressed '+event.keyCode);
+			//Delete chars when entering name
+			if (e.which === 8)
+			{
+				//your custom action here
+			
+				Name = Name.substring(0, Name.length - 1);
+				return false;
+			}
+			//Press enter to go to next screen.
+			//var event = window.event || event;
+			//var event = e;
+			if (event.keyCode==13)
+			{
+				if (Ended == 1)
+				{
+					//If we are entering our name show the highscore
+					//$("#HighscoreHUD").remove();
+					$("#NameEnterHUD").remove();
+					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+					//both off.line and online.
+					
+					ShowHighscore();
+				}
+				else
+				if (Ended == 2)
+				{
+				//Else, restart the game.
+					Restarted = true;
+					RestartGame();
+				}
+				
+				//Send the highscore to the database.
+				ApplyHighscore( {name: Name, score: Points} );
+				
+				return false;
+			}
+		});
+	}
+	else
+	{
+		//Delete chars when entering name
+		$(document).keydown(function (e) {
+			//FF needs event
+			var event = e;
+
+				
+			var key_press = String.fromCharCode(event.keyCode);
+			key_press = key_press.toLowerCase()
+			if (e.which === 8)
+			{
+
+				Name = Name.substring(0, Name.length - 1);
+				return false;
+			}
+			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			{
+				if (event.shiftKey)
+					Name += key_press.toUpperCase();
+				else
+					Name += key_press;
+			}
+			//Press enter to go to next screen.
+			if (event.keyCode==13)
+			{
+				if (Ended == 1)
+				{
+					//If we are entering our name show the highscore
+					//$("#HighscoreHUD").remove();
+					$("#NameEnterHUD").remove();
+					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
+					//both off.line and online.
+					
+					ShowHighscore();
+				}
+				else
+				if (Ended == 2)
+				{
+				//Else, restart the game.
+					Restarted = true;
+					RestartGame();
+				}
+				
+				//Send the highscore to the database.
+				ApplyHighscore( {name: Name, score: Points} );
+				return false;
+			}
+			//event.preventDefault();
+		});
 	}
 	
-	//Used for highscore screens in general.
-	$(document).keydown(function (e) {
-		//Delete chars when entering name
-	    if (e.which === 8)
-	    {
-			//your custom action here
-		
-			Name = Name.substring(0, Name.length - 1);
-			return false;
- 	    }
-		//Press enter to go to next screen.
-		if (event.keyCode==13)
-		{
-			if (Ended == 1)
-			{
-				//If we are entering our name show the highscore
-				$("#NameEnterHUD").remove();
-				
-				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
-				//both off.line and online.
-				
-				ShowHighscore();
-			}
-			else
-			if (Ended == 2)
-			{
-				//Else, restart the game.
-				Restarted = true;
-				RestartGame();
-			}
-			
-			//Send the highscore to the database.
-			ApplyHighscore( {name: Name, score: Points} );
-			
-			return false;
-		}
-	});
 	
 	function ShowHighscore()
 	{
@@ -940,7 +1001,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			{
 				$("#Card_"+i).remove();
 			}
-			$("#blur").append("<div id='Blureffect' style='display: block; opacity: 0.7; filter:alpha(opacity=70); position: absolute; left: 0px; top: 0px; width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px; background-color: #000000;'></div>");
+			$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
 
 		}
 		Ended=2;
@@ -1015,7 +1076,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		//Create new div for high score.
 		
-		$("#popup").append("<div id='HighscoreHUD'style='border-radius: 14px;padding: 30px 0; vertical-align: middle; background: #D27928; color: white; text-align: center; position: relative; font-family: verdana, sans-serif; font-size: 200%;overflow:hidden;'></div>");	
+		$("#popup").append("<div id='HighscoreHUD'></div>");	
 		$("#inputbox").append("<div id='inputHUD'></div>");
 		$.ajax
 		({

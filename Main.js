@@ -858,7 +858,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		$("#inputHUD").remove();
 		
 		
-		Scores = new Array();
+		/*Scores = new Array();
 		
 		//Create a line containing the 10 best scores, and apply them to the div.
 		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
@@ -868,7 +868,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			}
 		}, 'json');
 		
-		Scores.sort(CustomSort);
+		Scores.sort(CustomSort);*/
+		
 		$("#Blureffect").remove();
 		
 		Points = 0;
@@ -1002,8 +1003,18 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		HSLines=0;
 		Line = "<p id='para_"+HSLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
 		HSLines++;
+		SplitScores = localStorage.LSScores2.split(" ");
 		
-		Scores[1]={name: "sander", score: 400};
+		var j = 0;
+		if (SplitScores.length>1)
+		for(i=0;i<(SplitScores.length-1)/2;i++)
+		{
+			Scores[i]={name: SplitScores[j], score: SplitScores[j+1]};
+			
+			j+=2;
+		}
+		
+		/*Scores[1]={name: "sander", score: 400};
 		Scores[2]={name: "sander", score: 400};
 		Scores[3]={name: "sander", score: 400};
 		Scores[4]={name: "sander", score: 400};
@@ -1012,7 +1023,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		Scores[7]={name: "sander", score: 400};
 		Scores[8]={name: "sander", score: 400};
 		Scores[9]={name: "sander", score: 400};
-		Scores[10 ]={name: "sander", score: 400};
+		Scores[10 ]={name: "sander", score: 400};*/
 		
 		var n = true;
 		//Create a line containing the 10 best scores, and apply them to the div.
@@ -1116,6 +1127,18 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	{
 		Scores[Scores.length] = object;
 		Scores.sort(CustomSort);
+		
+		// Applies the scores to local storage
+		localStorage.LSScores1 = "";
+		String = "";
+		
+		for(i=0;i<Scores.length;i++)
+		{
+			
+			String += Scores[i].name + " " + Scores[i].score + " ";
+		}
+		
+		localStorage.LSScores2 = String; 
 	}
 	
 	

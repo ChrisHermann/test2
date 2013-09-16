@@ -776,7 +776,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
-		
+		//TODO: Use.length
 		if ($("#NameEnterHUD"))
 		{
 			Current = $("#NameEnterHUD");
@@ -1144,12 +1144,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 							height: PLAYGROUND_HEIGHT})
 	.addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
 							height: PLAYGROUND_HEIGHT})
-	
 	.addGroup("blur", {width: PLAYGROUND_WIDTH, 
 							 height: PLAYGROUND_HEIGHT})
 	.addGroup("overlay", {width: PLAYGROUND_WIDTH, 
 							 height: PLAYGROUND_HEIGHT})
-							 
 	.addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
 							 height: PLAYGROUND_HEIGHT})
 	.addGroup("Cards", {width: PLAYGROUND_WIDTH, 
@@ -1340,10 +1338,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			current.html("Time: "+Math.ceil(CurGameTime/1000));
 			current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 			
-			if(GameStart = true)
-			{
-			CurGameTime= CurGameTime-Delta;
-			}
 			
 			ForEachCard(function()
 			{
@@ -1407,13 +1401,39 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				Turned++;
 			});
 			
+			
+			if(GameStart = true)
+			{
+				if (Turned < LM.NumberOfCards)
+				CurGameTime= CurGameTime-Delta;
+			}
+			
 			//If we have matched all the cards.
 			if (Turned >= LM.NumberOfCards)
 			{
 				DoneTimer+=Delta;
 				Done = true;
+				
+				if ($("#Leveldiv").length==0)
+				{
+					ForEachCard(function()
+					{
+						this.Cards.node.fadeOut();
+					});
+					
+					$("#popup").append("<div id='Leveldiv''></div>");
+					$("#Leveldiv").html("Level: "+(CurLevel+1));
+				}
+				Current = $("#Leveldiv");
+				Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
+				
 				//If done, count the timer up to create a delay before next level.
-				if (DoneTimer>1000)
+				
+				if (DoneTimer>1500)
+				{
+					$("#Leveldiv").fadeOut();
+				}
+				if (DoneTimer>2000)
 				{
 					DoneTimer=0;
 					Points+=Math.round(CurGameTime/100) + CurLevel * 100;
@@ -1426,6 +1446,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					
 					//Then create next level.
 					Restarted = false;
+					$("#Leveldiv").remove();
 					CreateLevel();
 				}
 			}

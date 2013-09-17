@@ -282,6 +282,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	PLAYGROUND_WIDTH = $(window).width();
 	PLAYGROUND_HEIGHT = $(window).height();
 	var UISIZEY = 170;
+	
+
  
 	//Custom sorting function, so the array knows to sort based on an attribute.
 	function CustomSort(a,b)
@@ -305,6 +307,24 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	{
 		ResetHighscore();
 	}
+	
+
+	myButton = document.createElement("input");
+	myButton.type = "button";
+	myButton.value = "Start Game";
+	myButton.id = "ButSG";
+	Current = $(myButton);
+	myButton.onclick = StartGame;
+	placeHolder = document.getElementById("startbutton");
+	placeHolder.appendChild(myButton);
+	
+	
+	
+	$('#ButSG').width(160);
+	$('#ButSG').height(44);
+	$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
+	$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
+	$('#ButSG').css('font-size', 21+'px');
 	
 
 	//Calculate Layour for responsive Design.
@@ -728,10 +748,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
 		
+		$('#ButSG').width(160);
+		$('#ButSG').height(44);
 		$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
 		$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
-		$('#ButSG').width(160*ScaleUI);
-		$('#ButSG').height(44*ScaleUI);
 		$('#ButSG').css('font-size', 21*ScaleUI+'px');
 		
 		current = $('#PointHUD');
@@ -868,9 +888,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		$("#inputHUD").remove();
 		
 		
-		/*Scores = new Array();
+		Scores = new Array();
 		
-		//Create a line containing the 10 best scores, and apply them to the div.
+		/*//Create a line containing the 10 best scores, and apply them to the div.
 		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
 			for (i=0; i<data.length/2; i++)
 			{
@@ -880,6 +900,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		Scores.sort(CustomSort);
 		*/
+
 		$("#Blureffect").remove();
 		
 		Points = 0;
@@ -1233,17 +1254,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	myButton.onclick = MuteSound;
 	placeHolder = document.getElementById("MuteSBut");
 	placeHolder.appendChild(myButton);
-	
-
-	myButton = document.createElement("input");
-	myButton.type = "button";
-	myButton.value = "Start Game";
-	myButton.id = "ButSG";
-	Current = $(myButton);
-	myButton.onclick = StartGame;
-	placeHolder = document.getElementById("startbutton");
-	placeHolder.appendChild(myButton);
-	
 	
 	
 	

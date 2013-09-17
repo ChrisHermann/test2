@@ -254,15 +254,15 @@ var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
 
-// if Explorer 8 DO
+// if Explorer 8 DO...
 if(bDetect == "Explorer8" )
 {
 	alert("Du er på IE 8");
 }
-// if iPad DO
+// if iProduct DO...
 else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 {
-	alert("Du er på mac");
+	alert("Du er på et apple produkt");
 }
 
 
@@ -330,7 +330,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 50 * 1000;
+	var CoreGameTime = 5 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -856,6 +856,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	{
 		$("#HighscoreHUD").remove();
 		$("#inputHUD").remove();
+		$("#inputBox").remove();
+
 		
 		
 		Scores = new Array();

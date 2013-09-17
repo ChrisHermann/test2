@@ -300,7 +300,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	$("#spin").css('left', PLAYGROUND_WIDTH/2+'px')
 	$("#spin").css('top', (PLAYGROUND_HEIGHT/2-120)+'px')
 	
-
+	
+	if(!localStorage.LocalStorageScores)
+	{
+		ResetHighscore();
+	}
 	
 
 	//Calculate Layour for responsive Design.
@@ -318,7 +322,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	var Scores;
 	var HSLines;
 	GFXCount = 0;
-	Points = 0;
+	Points = 10000;
 	PointsV = 0;
 	Autocomplete = false;
 	Restarted = false;
@@ -330,7 +334,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 50 * 1000;
+	var CoreGameTime = 1 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -874,8 +878,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			}
 		}, 'json');
 		
-		Scores.sort(CustomSort);*/
-		
+		Scores.sort(CustomSort);
+		*/
 		$("#Blureffect").remove();
 		
 		Points = 0;
@@ -922,7 +926,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
 					//both off.line and online.
 					
+					//Send the highscore to the database.
 					ShowHighscore();
+					ApplyHighscore( {name: Name, score: Points} );
 				}
 				else
 				if (Ended == 2)
@@ -932,8 +938,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					RestartGame();
 				}
 				
-				//Send the highscore to the database.
-				ApplyHighscore( {name: Name, score: Points} );
 				
 				return false;
 			}
@@ -972,8 +976,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					$("#NameEnterHUD").remove();
 					//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
 					//both off.line and online.
+				
+					//Send the highscore to the database.
 					
 					ShowHighscore();
+					ApplyHighscore( {name: Name, score: Points} );
 				}
 				else
 				if (Ended == 2)
@@ -982,9 +989,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					Restarted = true;
 					RestartGame();
 				}
-				
-				//Send the highscore to the database.
-				ApplyHighscore( {name: Name, score: Points} );
 				return false;
 			}
 			//event.preventDefault();
@@ -1009,8 +1013,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		HSLines=0;
 		Line = "<p id='para_"+HSLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
 		HSLines++;
-		SplitScores = localStorage.LSScores2.split(" ");
 		
+		SplitScores = localStorage.LocalStorageScores.split(" ");
 		var j = 0;
 		if (SplitScores.length>1)
 		for(i=0;i<(SplitScores.length-1)/2;i++)
@@ -1135,16 +1139,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		Scores.sort(CustomSort);
 		
 		// Applies the scores to local storage
-		localStorage.LSScores1 = "";
-		String = "";
+		StringScores = "";
 		
 		for(i=0;i<Scores.length;i++)
 		{
 			
-			String += Scores[i].name + " " + Scores[i].score + " ";
+			StringScores += Scores[i].name + " " + Scores[i].score + " ";
 		}
-		
-		localStorage.LSScores2 = String; 
+		//ResetHighscore();
+		localStorage.LocalStorageScores = StringScores; 
+	}
+	
+	function ResetHighscore()
+	{
+		localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
 	}
 	
 	

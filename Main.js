@@ -341,6 +341,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	var Line;
 	var Scores;
 	var HSLines;
+	var ShowingMessage = false;
+	var ScaleUI = 0;
 	GFXCount = 0;
 	Points = 10000;
 	PointsV = 0;
@@ -449,6 +451,51 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				PauseGame();
 		}, false);
 	}
+	
+	function ShowMessage(Message, ButtonMessage)
+	{
+		ShowingMessage = true;
+		
+		$("#popup").append("<span id='MessageHUD'></span>");
+		$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
+
+		
+		
+		//Add the control buttons to the UI
+		myButton = document.createElement("input");
+		myButton.type = "button";
+		myButton.value = ButtonMessage;
+		myButton.id = "MessageButton";
+		Current = $(myButton);
+		myButton.onclick = UnshowMessage;
+		
+		
+		Current = $("#MessageHUD");
+		//Apply the string to the div, and recenter it.
+		Current.html(Message+"<br/><br/>");
+			
+		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
+		
+		placeHolder = document.getElementById("MessageHUD");
+		placeHolder.appendChild(myButton);
+
+		Current.css('font-size',scale*200+'%');
+			
+		scale = Math.min(1,PLAYGROUND_WIDTH/1100);
+		if (Current.width()>800*scale)
+		Current.width(800*scale);
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+	}
+	
+	
+	function UnshowMessage(Message)
+	{
+		ShowingMessage = false;
+		
+		$("#MessageHUD").remove();
+		$("#Blureffect").remove();
+		
+	}
 
     
 
@@ -476,6 +523,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		current = $("#LevelHUD");
 		current.html("Level: "+CurLevel);
+		
+		
+		current = $("#TimeHUD");
+		current.html("Time: "+Math.ceil(CurGameTime/1000));
 		
 		Resized();
 		
@@ -711,7 +762,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		}
 		
-		var ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), 1);
+		ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
+		ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), Math.min(ButSpace/(320+20), 1), 1);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH-20);
 		
@@ -719,27 +771,25 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		
 		
-		ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
-		ButScal=Math.min(ButSpace/(320+20), 1);
 		//Math improvements needed!
 		current = $('#ButP');
-		current.width(320*Math.min(ScaleUI,ButScal));
-		current.height(88*Math.min(ScaleUI,ButScal));
-		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
 		current = $('#PauseBut');
 		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
 		current = $('#ButMM');
-		current.width(320*Math.min(ScaleUI,ButScal));
-		current.height(88*Math.min(ScaleUI,ButScal));
-		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
 		current = $('#MuteMBut');
 		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
 		current = $('#ButMS');
-		current.width(320*Math.min(ScaleUI,ButScal));
-		current.height(88*Math.min(ScaleUI,ButScal));
-		current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
+		current.width(320*ScaleUI);
+		current.height(88*ScaleUI);
+		current.css('font-size', 40*ScaleUI+'px');
 		current = $('#MuteSBut');
 		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
@@ -747,9 +797,18 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		
 		current = $('#PointHUD');
-		current.width(PLAYGROUND_WIDTH/3);
+		current.width((PLAYGROUND_WIDTH-20)/3);
+		
+		
+		$("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
+		Current = $("#TextTestDiv");
+		Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
+		Current.html("Points: "+Math.round(PointsV));
+		var TextSize = Current.width();
+		Current.remove();
 		
 		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+		TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
 		
 		$('#ButSG').width(160);
 		$('#ButSG').height(44);
@@ -763,24 +822,24 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		current = $("#TimeHUD");
 		current.css("font-size", Math.floor(220* TScale)+'%');
-		current.width(PLAYGROUND_WIDTH/3);
+		current.width((PLAYGROUND_WIDTH-20)/3);
 		current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		current = $("#LevelHUD");
 		current.css("font-size", Math.floor(220* TScale)+'%');
-		current.width(PLAYGROUND_WIDTH/3);
+		current.width((PLAYGROUND_WIDTH-20)/3);
 		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		
-		if ($("#HighscoreHUD"))
+		if ($("#HighscoreHUD").length)
 		{
 			Current = $("#HighscoreHUD");
 			
-			//Posiboly optimize to make wider when y-axis is problem TODO
+			//Possibly optimize to make wider when y-axis is problem TODO
 			//TODO Possibly center on y-axis
 			scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400);
 			//Could be optimized, but is used very rarely!
-			Current.width(800*scale);
+			Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
 			
 				
 			for (i=0; i<=HSLines; i++)
@@ -801,10 +860,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				
 			}
 			
-			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
 		}
-		//TODO: Use.length
-		if ($("#NameEnterHUD"))
+
+		if ($("#NameEnterHUD").length)
 		{
 			Current = $("#NameEnterHUD");
 			
@@ -814,7 +873,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		
-		if ($("#Blureffect"))
+		if ($("#Blureffect").length)
 		{
 			Current = $("#Blureffect");
 			
@@ -822,13 +881,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Current.height(PLAYGROUND_HEIGHT);
 		}
 		
-		if ($("#inputHUD"))
+		if ($("#inputHUD").length)
 		{
 			Current = $("#inputBox");
 			
 			Current.width(PLAYGROUND_WIDTH);
 			Current.height(PLAYGROUND_HEIGHT);
-
 		}
 		
 		
@@ -839,6 +897,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//end of problem
 	
 	
+		MuteMusic();
 	//Function to end the game
 	function EndGame()
 	{
@@ -869,7 +928,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
 
-		Current.css('font-size',Scale*200+'%');
+		Current.css('font-size',scale*200+'%');
 		//Current.width(Current.width()+60);
 		//Current.height(Current.height()+60);
 	
@@ -1170,7 +1229,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 		scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
 		
-		Current.width(800*scale);
+		Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
 		
 			
 		for (i=0; i<=HSLines; i++)
@@ -1191,7 +1250,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 		}
 		
-		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height()-60)/2});
 	}
 	
 	//This is called with an object containing name and score, can be used to send to the database.
@@ -1369,173 +1428,199 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function()
 	{
-		if (Ended == 2)
-		{
-			var Current = $("#HighscoreHUD");
-			//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-			//Current.html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
-			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-		}
-		else
-		if (Ended == 1)
-		{
-			//If we are entering our name:
-			//Generate a string based on the name varaible, which is changed in onkeypress
-			var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-
-
-	
-			var Current = $("#NameEnterHUD");
-			//Apply the string to the div, and recenter it.
-			Current.html(string);
-			//TODO: Find a way to get the padding possibly.
-			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-		}
-		else
-		{
-			//Basic Game Engine!!
-			
-			//Use this to get delta (The amount of milliseconds since last frame).
-			Now = new Date().getTime();
-			Delta = Now - Then;
-			
-			if (PointsV<Points)
-			{
-				PointsV+=((Points - PointsV)/300+0.33) * (Delta);
-			}
-			
-			if (PointsV>Points) PointsV=Points;
-			
 		
-			
-			
-			var ScaleUI = Math.max(  Math.min((SpaceY - (CARDSIZEY+EMPTYSPACE)/2*Scale)/192,1) , Math.min((SpaceX - (CARDSIZEX+EMPTYSPACE)/2*Scale)/384,1)  );
-
-			current = $('#PointHUD');
-			current.html("Points: "+Math.round(PointsV));
-			current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
-			
-			
-			current = $("#TimeHUD");
-			current.html("Time: "+Math.ceil(CurGameTime/1000));
-			current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
-			
-			
-			ForEachCard(function()
+		Now = new Date().getTime();
+		Delta = Now - Then;
+		if (!ShowingMessage)
+		{
+			if (Ended == 2)
 			{
-				//For each card, perform their step event.
-				this.Cards.Step();
-			});
-			
-			ForEachGFX(function()
-			{
-				//For each card, perform their step event.
-				this.GFX.Step();
-			});
-			
-			//DEBUG DEBUG DEBUG
-			if ($.gQ.keyTracker[65])
-			{
-				if (LastA==false)
-				{
-					LastA=true;
-					
-				}
+				var Current = $("#HighscoreHUD");
+				//If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+				//Current.html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+				Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
 			}
 			else
-				LastA=false;
-				
-			if ($.gQ.keyTracker[80])
+			if (Ended == 1)
 			{
-				if (LastP==false)
-				{
-					LastP=true;
-					PauseGame();
+				//If we are entering our name:
+				//Generate a string based on the name varaible, which is changed in onkeypress
+				var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+
+
 		
-				}
+				var Current = $("#NameEnterHUD");
+				//Apply the string to the div, and recenter it.
+				Current.html(string);
+				//TODO: Find a way to get the padding possibly.
+				Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+				
+				
+				ForEachGFX(function()
+				{
+					//For each card, perform their step event.
+					this.GFX.Despawn();
+				});
 			}
 			else
-				LastP=false;
+			{
+				//Basic Game Engine!!
 				
-			if ($.gQ.keyTracker[79])
-			{
-				if (LastO==false)
-				{
-					LastO=true;
-					ResumeGame();
-				}
-			}
-			else
-				LastO=false;
-
-			//Ends game if GameTime hits 0
-			if (CurGameTime <= 0)
-			{
-				$("#TimeHUD").html("Time: 0");
-				EndGame();
-			}
-			
-			//Calculate how many cards has been matched.
-			var Turned = 0;
-			ForEachCard(function()
-			{
-				if (this.Cards.visible == false && this.Cards.Bonus==false)
-				Turned++;
-			});
-			
-			
-			if(GameStart = true)
-			{
-				if (Turned < LM.NumberOfCards)
-				CurGameTime= CurGameTime-Delta;
-			}
-			
-			//If we have matched all the cards.
-			if (Turned >= LM.NumberOfCards)
-			{
-				DoneTimer+=Delta;
-				Done = true;
+				//Use this to get delta (The amount of milliseconds since last frame).
 				
-				if ($("#Leveldiv").length==0)
+				
+				current = $("#TimeHUD");
+				current.html("Time: "+Math.ceil(CurGameTime/1000));
+				current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+				
+				
+				ForEachCard(function()
 				{
-					ForEachCard(function()
+					//For each card, perform their step event.
+					this.Cards.Step();
+				});
+				
+				ForEachGFX(function()
+				{
+					//For each card, perform their step event.
+					this.GFX.Step();
+				});
+				
+				//DEBUG DEBUG DEBUG
+				if ($.gQ.keyTracker[65])
+				{
+					if (LastA==false)
 					{
-						this.Cards.node.fadeOut();
-					});
-					
-					$("#popup").append("<div id='Leveldiv''></div>");
-					$("#Leveldiv").html("Level: "+(CurLevel+1));
-				}
-				Current = $("#Leveldiv");
-				Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
-				
-				//If done, count the timer up to create a delay before next level.
-				
-				if (DoneTimer>1500)
-				{
-					$("#Leveldiv").fadeOut();
-				}
-				if (DoneTimer>2000)
-				{
-					DoneTimer=0;
-					Points+=Math.round(CurGameTime/100) + CurLevel * 100;
-					Done = false;
-					//Once done, reset the control variables, and remove all cards.
-					for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
-					{
-						$("#Card_"+i).remove();
+						LastA=true;
+						
 					}
-					
-					//Then create next level.
-					Restarted = false;
-					$("#Leveldiv").remove();
-					CreateLevel();
 				}
-			}
-		
-			Then = Now;
+				else
+					LastA=false;
+					
+				if ($.gQ.keyTracker[80])
+				{
+					if (LastP==false)
+					{
+						LastP=true;
+						PauseGame();
 			
+					}
+				}
+				else
+					LastP=false;
+					
+				if ($.gQ.keyTracker[79])
+				{
+					if (LastO==false)
+					{
+						LastO=true;
+						ResumeGame();
+					}
+				}
+				else
+					LastO=false;
+
+				//Ends game if GameTime hits 0
+				if (CurGameTime <= 0)
+				{
+					$("#TimeHUD").html("Time: 0");
+					EndGame();
+				}
+				
+				//Calculate how many cards has been matched.
+				var Turned = 0;
+				ForEachCard(function()
+				{
+					if (this.Cards.visible == false && this.Cards.Bonus==false)
+					Turned++;
+				});
+				
+				
+				if(GameStart = true)
+				{
+					if (Turned < LM.NumberOfCards)
+					CurGameTime= CurGameTime-Delta;
+				}
+				
+				//If we have matched all the cards.
+				if (Turned >= LM.NumberOfCards)
+				{
+					DoneTimer+=Delta;
+					Done = true;
+					
+					if ($("#Leveldiv").length==0)
+					{
+						ForEachCard(function()
+						{
+							this.Cards.node.fadeOut();
+						});
+						
+						$("#popup").append("<div id='Leveldiv''></div>");
+						$("#Leveldiv").html("Level: "+(CurLevel+1));
+					}
+					Current = $("#Leveldiv");
+					Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
+					
+					//If done, count the timer up to create a delay before next level.
+					
+					if (DoneTimer>1500)
+					{
+						$("#Leveldiv").fadeOut();
+					}
+					if (DoneTimer>2000)
+					{
+						DoneTimer=0;
+						Points+=Math.round(CurGameTime/100) + CurLevel * 100;
+						Done = false;
+						//Once done, reset the control variables, and remove all cards.
+						for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+						{
+							$("#Card_"+i).remove();
+						}
+						
+						//Then create next level.
+						Restarted = false;
+						$("#Leveldiv").remove();
+						CreateLevel();
+					}
+				}
+			
+				
+			}
 		}
+		
+		
+		Then = Now;
+		if (PointsV<Points)
+		{
+			PointsV+=((Points - PointsV)/300+0.33) * (Delta);
+		}
+		
+		if (PointsV>Points) PointsV=Points;
+		
+		
+		$("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
+		Current = $("#TextTestDiv");
+		Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
+		Current.html("Points: "+Math.round(PointsV));
+		var TextSize = Current.width();
+		Current.remove();
+		
+		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+		TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
+		
+		current = $('#PointHUD');
+		current.html("Points: "+Math.round(PointsV));
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+		
+		current = $("#TimeHUD");
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		
+		current = $("#LevelHUD");
+		current.css("font-size", Math.floor(220* TScale)+'%');
+		
 		EndedL=Ended;
 	//Loop
     }, Math.min(0,REFRESH_RATE-Delta));

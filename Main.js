@@ -1000,7 +1000,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		{
 			var key_press = String.fromCharCode(event.keyCode);
 			
-			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedL==1)
 			Name += key_press;
 		}
 		
@@ -1061,7 +1061,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				Name = Name.substring(0, Name.length - 1);
 				return false;
 			}
-			if (event.keyCode!=13 && key_press != " " && EndedL==1)
+			if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedL==1)
 			{
 				if (event.shiftKey)
 					Name += key_press.toUpperCase();

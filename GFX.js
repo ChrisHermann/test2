@@ -72,11 +72,11 @@ function GFX(node)
 		&& this.StartPosition.x == this.EndPosition.x
 		&& this.StartPosition.y == this.EndPosition.y)
 		{
-			this.Depsawn();
+			this.Despawn();
 		}
 	}
 	
-	this.Depsawn = function()
+	this.Despawn = function()
 	{
 		if (this.Hascb)
 		this.Callback.apply(this);
@@ -86,7 +86,7 @@ function GFX(node)
 		$(this.node.id).remove();
 	}
 	
-	//Calls the function when the object is about to despawn
+	//Calls the function when the object is about to Despawn
 	this.EndCall = function(Function)
 	{
 		this.Callback = Function;

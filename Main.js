@@ -8,8 +8,6 @@ var percent = 1;
 Paused = false;
 var MMusic = false;
 var MSound = false;
-//counter for resume button
-var inputcounter = 0;
 
 //Global function that applies a function to all cards.
 //We avoid $("#Card").each because it's very slow in ie8.
@@ -31,62 +29,59 @@ function ForEachGFX(Function)
 	}
 }
 
+//This function resumes the game.
 function ResumeGame()
 {
+	//Don't run hte function if the game has not yet started, this creates weird bugs.
 	if(GameStart)
 	{
+		//This is used to reset delta, so hte game thinks no time has passed between the pause.
 		Then = new Date().getTime();
 		$.playground().resumeGame();	
 		soundBG.resume();
 		Paused = false;
 		$("#ResumeBut").remove();
-		inputcounter = 0;
 	}
 }
+
+//This function pauses the game.
 function PauseGame()
 {
+	//Do not pause hte game before it has started, as this creates weird bugs.
 	if(GameStart)
 	{
 		$.playground().pauseGame();
 		soundBG.pause();
 		Paused = true;
 		
-		if(inputcounter <1)
-		{
-			$("#playground").append("<div id='ResumeBut'></div>");
-			inputcounter++;
-			
-	
-			myButton = document.createElement("input");
-			myButton.type = "button";
-			myButton.value = "Resume Game";
-			myButton.id = "ButRG";
-			Current = $(myButton);
-			myButton.onclick = ResumeGame;
-			placeHolder = document.getElementById("ResumeBut");
-			placeHolder.appendChild(myButton);
-			
-			
-			$("#ResumeBut").css('left', (PLAYGROUND_WIDTH/2-$("#ButRG").width()/2)+'px')
-			$("#ResumeBut").css('top',( PLAYGROUND_HEIGHT/2-$("#ButRG").height()/2)+'px')
-		}
+		$("#playground").append("<div id='ResumeBut'></div>");
+		
+		//Create a button, which is hten used to resume the game.
+		myButton = document.createElement("input");
+		myButton.type = "button";
+		myButton.value = "Resume Game";
+		myButton.id = "ButRG";
+		Current = $(myButton);
+		myButton.onclick = ResumeGame;
+		placeHolder = document.getElementById("ResumeBut");
+		placeHolder.appendChild(myButton);
+		
+		
+		$("#ResumeBut").css('left', (PLAYGROUND_WIDTH/2-$("#ButRG").width()/2)+'px')
+		$("#ResumeBut").css('top',( PLAYGROUND_HEIGHT/2-$("#ButRG").height()/2)+'px')
 	}
 }
 
 function PauseResume()
 {
-	
+		//Use this function to automatically alter between paused state and resumed state.
 		if (Paused == false)
 			PauseGame();
 		else
 			ResumeGame();
 }
 
-function ResumeScreen()
-{
-	ResumeGame();
-}
-
+//This function has two functions to mute and unmute music. It will detect what the music currently is, and do the opposite.
 function MuteMusic()
 {
 	function MuteMusic()
@@ -100,12 +95,14 @@ function MuteMusic()
 		MMusic = false;
 	}
 	
+	//This is the actual call.
 	if(MMusic == false)
 		MuteMusic();
 	else
 		UnMuteMusic();
 }
 
+//This function has two functions to mute and unmute Sound. It will detect what the music currently is, and do the opposite.
 function MuteSound()
 {
 	function MuteSound()
@@ -119,6 +116,7 @@ function MuteSound()
 		MSound = false;
 	}
 	
+	//This is the actual call.
 	if(MSound == false)
 		MuteSound();
 	else
@@ -126,6 +124,10 @@ function MuteSound()
 }
 
 	//a lot of browser detect code see http://www.quirksmode.org/js/detect.html
+	//Essentially, what it does is find four strings: 
+	//It searches through the string returned by the browser and generates various substrings which can be used to identify the browser.
+	//The most important ones are dataBrowser.identity and dataOS.identity.
+	
 	var BrowserDetect = {
 	init: function () {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
@@ -257,12 +259,12 @@ ppDetect = pDetect.split(";");
 // if Explorer 8 DO
 if(bDetect == "Explorer8" )
 {
-	alert("Du er på IE 8");
+	//Not necessary right now.
 }
 // if iPad DO
 else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 {
-	alert("Du er på mac");
+	//Not necessary right now.
 }
 
 
@@ -302,13 +304,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	$("#spin").css('left', PLAYGROUND_WIDTH/2+'px')
 	$("#spin").css('top', (PLAYGROUND_HEIGHT/2-120)+'px')
 	
-	
+	//Initiates a default highscore if there is none.
 	if(!localStorage.LocalStorageScores)
 	{
 		ResetHighscore();
 	}
 	
-
+	//Create a button to start the game with.
 	myButton = document.createElement("input");
 	myButton.type = "button";
 	myButton.value = "Start Game";
@@ -319,7 +321,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	placeHolder.appendChild(myButton);
 	
 	
-	
+	//Resize and center the div on the screen.
 	$('#ButSG').width(160);
 	$('#ButSG').height(44);
 	$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
@@ -327,8 +329,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	$('#ButSG').css('font-size', 21+'px');
 	
 
-	//Calculate Layour for responsive Design.
-	//Calculate Area:
+	//Sets up all the variables needed for the game to run.
 	var CARDSIZEX = 208;
 	var CARDSIZEY = 208;
 	var BGSIZE = {x: 2362, y: 1403};
@@ -383,7 +384,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	IM = new ImageManager();
 	LM = new LevelManager();
 	
-	
+	//Creates the imagem anager and loads the backcard.
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
 	
 	
@@ -395,8 +396,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		soundBG = createjs.Sound.createInstance("./music.mp3");
 	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 	}
-	 
-	 	IM.LoadCard("peter.png");
+	
+	//Loads the faces for the cards.
+	IM.LoadCard("peter.png");
 	IM.LoadCard("nicolaus.png");
 	IM.LoadCard("schwartz.png");
 	
@@ -415,16 +417,19 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
 	
 	
-	LM.Create(IM.Faces.length,25);
-	
 	//Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
 	SWARTZID = IM.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
 	POINTID = IM.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
 	PAIRID = IM.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
 	CONFUSEID = IM.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
 	
+	//Loads the images for GFX
 	POINTS1 = IM.LoadMisc("http://starship-games.com/500.png");
 	POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
+	
+	//Creates the levemanager object. Giving it the amount of faces, and telling it that the amount of cards must never exceed 25 cards.
+	LM.Create(IM.Faces.length,25);
+	
 	
 	//Change this and lines: 636-681, to change the UI.
 	var BackI = IM.LoadMisc("BG.png");
@@ -433,7 +438,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	BONUSES = 4;	
 	
 	
-	//focus unfocus
+	//Check what kind of eventlisteners the browser supports. and apply them the correct way.
 	if(!window.addEventListener)
 	{
 		window.attachEvent("focus", function(event){} );
@@ -451,10 +456,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		}, false);
 	}
 	
+	//This function shows a message, with the proper css.
 	function ShowMessage(Message, ButtonMessage)
 	{
+		//Tell the game it is currently showing a message to pseudo-pause it.
 		ShowingMessage = true;
 		
+		//Append the needed containers.
 		$("#popup").append("<span id='MessageHUD'></span>");
 		$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
 
@@ -470,7 +478,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		
 		Current = $("#MessageHUD");
-		//Apply the string to the div, and recenter it.
+		//Apply the string to the div, scale it, and then recenter it.
 		Current.html(Message+"<br/><br/>");
 			
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
@@ -486,7 +494,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 	}
 	
-	
+	//Unshows the message, basicly, this should only be called by the Ok button.
 	function UnshowMessage(Message)
 	{
 		ShowingMessage = false;
@@ -512,14 +520,14 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		// Level goes up or Restarts
 		if(Restarted == false)
 		{
-		CurLevel++;
+			CurLevel++;
 		}
 		else
 		{
-		CurLevel = 1;
+			CurLevel = 1;
 		}
 		
-		
+		//Updates the HUD values.
 		current = $("#LevelHUD");
 		current.html("Level: "+CurLevel);
 		
@@ -527,6 +535,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		current = $("#TimeHUD");
 		current.html("Time: "+Math.ceil(CurGameTime/1000));
 		
+		//Since the amount of cards has changed, calls the resized function.
 		Resized();
 		
 		//Setup Card data so they can be reached randomly
@@ -551,7 +560,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		};
 		
 		
-		
+		//Creates the Deckmanager for this level.
 		DM.Create(Vals, Vals2);
 		
 		//In this stage we spawn the actual cards, right now this is a huge function.
@@ -577,6 +586,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			//to all the data we need access to.
 			$("#"+name).mousedown(function(e)
 			{
+				//Finds pit how many cards have already been turned around, so you can't turn more than 2
 				var Ready = 0;
 				ForEachCard(function()
 				{
@@ -585,10 +595,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 						Ready++;
 					}
 				});
-				//Find all the objects with the tag/class card.
-				//Check if the mouse clicked the card, if it's still part of the game, and if it has not been flipped.
 					
-				
+				//Check if this card is eligible for being turned.
 				if (this.Cards.visible==true && this.Cards.Flipped == false  && this.Cards.Turning == false
 				&& Ready<TurnedMax && !Done)
 				{
@@ -599,14 +607,17 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					if (this.Cards.Bonus == false)
 					{
 						Turned++;
+						//Check if the autocomplete bonus card is currently in effect
 						if (Autocomplete)
 						{
+							//End the effect and save the card for comparison
 							Autocomplete = false;
 							var Card = this.Cards;
 							
 							var Someflip=false;
 							ForEachCard(function()
 							{
+								//Find a card that is not flipped and has the same value, and then simulate that it is clicked.
 								if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value)
 								{
 									this.Cards.node.mousedown();
@@ -655,6 +666,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 								this.Cards.Hide();
 							});
 							
+							//Set the amount of cards to turned, since they have all been unturned at this point.
 							Turned=0;
 						}
 					}
@@ -761,7 +773,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		}
 		
+		//Calculate how much space is in between hte buttons.
 		ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
+		
+		//Use this to calculate the UI.
 		ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), Math.min(ButSpace/(320+20), 1), 1);
 		
 		$("#BorderTop").width(PLAYGROUND_WIDTH-20);
@@ -769,8 +784,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		$("#BorderTop").height(Math.floor(UISIZEY*ScaleUI));
 		
 		
-		
-		//Math improvements needed!
+		//Resizes the button, according to the variable ScaleUI.
+		//Also centers them in the UI.
 		current = $('#ButP');
 		current.width(320*ScaleUI);
 		current.height(88*ScaleUI);
@@ -792,11 +807,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		current = $('#MuteSBut');
 		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
-		
+		//Scales the pointHUD before everything else, this is used to properly calculate the TextScale.
 		current = $('#PointHUD');
 		current.width((PLAYGROUND_WIDTH-20)/3);
 		
-		
+		//Append a textdiv which is used to test text-width, this is used to properly calculate the TextScale.
 		$("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
 		Current = $("#TextTestDiv");
 		Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
@@ -804,15 +819,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		var TextSize = Current.width();
 		Current.remove();
 		
+		//Calculate the text size based on various factors.
 		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
 		TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
 		
-		$('#ButSG').width(160);
-		$('#ButSG').height(44);
-		$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
-		$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
-		$('#ButSG').css('font-size', 21*ScaleUI+'px');
 		
+		//Now resize  the divs in hte UI, to the appropriate size, and re-center them.
 		current = $('#PointHUD');
 		current.css("font-size", Math.floor(220* TScale)+'%');
 		current.css({ left: Math.floor((ButSpace*3+	10)-Math.floor(current.width()/2)- ButSpace/2) , top: 10});
@@ -828,17 +840,27 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
 		
 		
+		//Resize the startbutton, should that be present.
+		if ($("#startbutton").length)
+		{
+			$('#ButSG').width(160);
+			$('#ButSG').height(44);
+			$("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
+			$("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
+			$('#ButSG').css('font-size', 21*ScaleUI+'px');
+		}
+		
+		//If HighscoreHUD exists
 		if ($("#HighscoreHUD").length)
 		{
 			Current = $("#HighscoreHUD");
 			
-			//Possibly optimize to make wider when y-axis is problem TODO
-			//TODO Possibly center on y-axis
+			//First, calculate hte scale, the numbers 1100 and 1400 are hardcoded.
 			scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400);
-			//Could be optimized, but is used very rarely!
+			//Adjusts the width. It can never be more than 50%, for various reasons.
 			Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
 			
-				
+			//Finds all the paragraphs and changes their textsize properly.
 			for (i=0; i<=HSLines; i++)
 			{
 				if (i==0)
@@ -857,9 +879,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				
 			}
 			
+			//Centers hte div on hte screen.
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
 		}
-
+		
+		//Of NameEnterHUD exists, scale it to the screen and resize it properly. Again 1100 is a hardcoded number.
 		if ($("#NameEnterHUD").length)
 		{
 			Current = $("#NameEnterHUD");
@@ -870,6 +894,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 		}
 		
+		//If Blureffect exists stretch it to fit the screen.
 		if ($("#Blureffect").length)
 		{
 			Current = $("#Blureffect");
@@ -878,6 +903,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Current.height(PLAYGROUND_HEIGHT);
 		}
 		
+		//If inputhud exists, streacht it to the size of the screen.
 		if ($("#inputHUD").length)
 		{
 			Current = $("#inputBox");
@@ -886,14 +912,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Current.height(PLAYGROUND_HEIGHT);
 		}
 		
-		
+		//Recalculate scale to use for background scaling, and hten scale hte background.
 		scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
 		$("#BG").scale(scale);
 		$("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
-    };
-	//end of problem
+    }
 	
-	
+	//TODO: remove
 		MuteMusic();
 	//Function to end the game
 	function EndGame()
@@ -903,12 +928,14 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		Name = "";
 
 		$("#popup").append("<span id='NameEnterHUD'></span>");
+		//Blurs the background.
 		$("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
 
 		
 		//Generate a string based on the name varaible, which is changed in onkeypress
 		var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
 		
+		//If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
 		if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		{
 			$("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
@@ -921,7 +948,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		var Current = $("#NameEnterHUD");
 		//Apply the string to the div, and recenter it.
 		Current.html(string);
-			
+		
+		//Calculate scaling for the text size.
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
 
@@ -934,7 +962,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		{
 			$("#Card_"+i).remove();
 		}
-			
+		
+		//Calculate scaling for the dic.
 		scale = Math.min(1,PLAYGROUND_WIDTH/1100);
 		Current.width(800*scale);
 		Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
@@ -946,34 +975,27 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		$("#HighscoreHUD").remove();
 		$("#inputHUD").remove();
 		
-		
+		//Reset loaded scores.
 		Scores = new Array();
 		
-		/*//Create a line containing the 10 best scores, and apply them to the div.
-		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
-			for (i=0; i<data.length/2; i++)
-			{
-				Scores[i] = {score: data[i*2+1], name: data[i*2]};
-			}
-		}, 'json');
-		
-		Scores.sort(CustomSort);
-		*/
-
+		//Remove hte blur effect
 		$("#Blureffect").remove();
 		
+		//Reset all important varaibles.
 		Points = 0;
 		PointsV = 0;
 		Ended = 0;
 		CurGameTime = CoreGameTime;
 		//This is the easiest way to reset the levelmanager.
 		LM.Create(IM.Faces.length*2,25);
+		//Create the first level against.
 		CreateLevel();
 	}
 	
+	//If hte browser is firefox, we need to run some special code for the key press events.
 	if (bbDetect != "Firefox")
 	{	
-	//Used only when entering your name for the highscore.
+		//Used only when entering your name for the highscore.
 		document.onkeypress = function(event)
 		{
 			var key_press = String.fromCharCode(event.keyCode);
@@ -1075,7 +1097,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		});
 	}
 	
-	
+	//Function to show highscore
 	function ShowHighscore()
 	{
 		if (Ended!=1)
@@ -1091,39 +1113,34 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		}
 		Ended=2;
 		HSLines=0;
+		//Create hte div for the highscore.
 		Line = "<p id='para_"+HSLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
 		HSLines++;
 		
+		//Load the highscores from localstoage, and split them into an array.
 		SplitScores = localStorage.LocalStorageScores.split(" ");
 		var j = 0;
 		if (SplitScores.length>1)
 		for(i=0;i<(SplitScores.length-1)/2;i++)
 		{
+			//Loop through the array to put all the scores into the appropriate array.
 			Scores[i]={name: SplitScores[j], score: SplitScores[j+1]};
 			
 			j+=2;
 		}
 		
-		/*Scores[1]={name: "sander", score: 400};
-		Scores[2]={name: "sander", score: 400};
-		Scores[3]={name: "sander", score: 400};
-		Scores[4]={name: "sander", score: 400};
-		Scores[5]={name: "sander", score: 400};
-		Scores[6]={name: "sander", score: 400};
-		Scores[7]={name: "sander", score: 400};
-		Scores[8]={name: "sander", score: 400};
-		Scores[9]={name: "sander", score: 400};
-		Scores[10 ]={name: "sander", score: 400};*/
-		
 		var n = true;
 		//Create a line containing the 10 best scores, and apply them to the div.
 		$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
+			//This code runs when the scores are loaded, and they need to be reformatted.
+			//TODO: Remove if online highscore is not needed.
 			for (i=0; i<Math.min(10, Scores.length); i++)
 			{
+				//Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
 				if (i<3) 
-				txtsz = 100+35/(i+1);
+					txtsz = 100+35/(i+1);
 				else
-				txtsz = 100;
+					txtsz = 100;
 				if (n)
 					Line+="<p id='para_"+HSLines+"' style='background: #EAB344; padding: 7px 30px; font-size: "+txtsz+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
 				else
@@ -1138,11 +1155,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 			Current = $("#HighscoreHUD");
 			
+			//Calculate new scaling.
 			scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
-			//Could be optimized, but is used very rarely!
 			Current.width(800*scale);
 			
-				
+			//Apply the correct scaling to the text in all the paragraphs.
 			for (i=0; i<=HSLines; i++)
 			{
 				if (i==0)
@@ -1161,16 +1178,17 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				
 			}
 			
+			//Center the div.
 			Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
 			
 		}, 'json');
 		
-		
+		//Create a scale for the text.
+		//TODO: Remove
 		scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
 		
 		
 		//Create new div for high score.
-		
 		$("#popup").append("<div id='HighscoreHUD'></div>");	
 		$("#inputbox").append("<div id='inputHUD'></div>");
 		$.ajax
@@ -1182,15 +1200,16 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			}
 		});
 		
+		//set some basic html until the data has been loaded.
 		$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
 		
 		Current = $("#HighscoreHUD");
-			
-		scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
 		
+		//Calculate the div scale and apply it
+		scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
 		Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
 		
-			
+		//Apply the scaling to all paragraphs
 		for (i=0; i<=HSLines; i++)
 		{
 			if (i==0)
@@ -1209,12 +1228,14 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			
 		}
 		
+		//Center the div.
 		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height()-60)/2});
 	}
 	
 	//This is called with an object containing name and score, can be used to send to the database.
 	function ApplyHighscore(object)
 	{
+		//Places the score in the array for the highscore
 		Scores[Scores.length] = object;
 		Scores.sort(CustomSort);
 		
@@ -1223,15 +1244,15 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 		for(i=0;i<Scores.length;i++)
 		{
-			
+			//Creates a string for the scores so they can be used for localstorage
 			StringScores += Scores[i].name + " " + Scores[i].score + " ";
 		}
-		//ResetHighscore();
 		localStorage.LocalStorageScores = StringScores; 
 	}
 	
 	function ResetHighscore()
 	{
+		//Resets the highscore to a default value. This also creates local highscores for palyers to beat.
 		localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
 	}
 	
@@ -1266,7 +1287,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	
 	//Setup UI
 	//Add borders.
-	//TODO: Remove background code!!
 	$("#background").addSprite("BG", {animation: IM.GetMisc(BackI), width: BGSIZE.x, height: BGSIZE.y});
 	
 	$("#overlay").append("<div id='BorderTop'></div>");
@@ -1323,28 +1343,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	CreateLevel();
 	
 	Scores = new Array();
-	
-	/*//Create a line containing the 10 best scores, and apply them to the div.
-	$.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
-		for (i=0; i<data.length/2; i++)
-		{
-			Scores[i] = {score: data[i*2+1], name: data[i*2]};
-			console.log( data[i*2+1]);
-		}
-	}, 'json');*/
-	
 	Scores.sort(CustomSort);
-					
-    //initialize the start button
-    /*
-	$("#startbutton").click(function(){
-        $.playground().startGame(function(){
-			Then = new Date().getTime();
-			GameStart = true;
-			soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
-            $("#welcomeScreen").remove();
-        });
-    })*/
+	
+	//Starts the game. Much of it is actually gamequery specific code.
 	function StartGame()
 	{
 		$.playground().startGame(function(){
@@ -1357,6 +1358,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         });
 	}
 	// Debug code is for debug
+	//TODO: Remove
 	$("#TrykEnter").click(function(){
 		if (Ended == 1)
 			{
@@ -1365,7 +1367,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				
 				//Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
 				//both off.line and online.
-				
 				ShowHighscore();
 			}
 			else
@@ -1387,7 +1388,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     //THIS IS THE MAIN LOOP
     $("#playground").registerCallback(function()
 	{
-		
+		//Calcualte how many miliseconds passed since last frame, to get smoother animations.
 		Now = new Date().getTime();
 		Delta = Now - Then;
 		if (!ShowingMessage)
@@ -1425,9 +1426,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			{
 				//Basic Game Engine!!
 				
-				//Use this to get delta (The amount of milliseconds since last frame).
-				
-				
+				//Resize time hud, because the values change while playing.
 				current = $("#TimeHUD");
 				current.html("Time: "+Math.ceil(CurGameTime/1000));
 				current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
@@ -1441,7 +1440,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				
 				ForEachGFX(function()
 				{
-					//For each card, perform their step event.
+					//For each GFX, perform their step event.
 					this.GFX.Step();
 				});
 				
@@ -1456,7 +1455,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				}
 				else
 					LastA=false;
-					
+				
+				//TODO: Remove
 				if ($.gQ.keyTracker[80])
 				{
 					if (LastP==false)
@@ -1469,6 +1469,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				else
 					LastP=false;
 					
+				//TODO: Remove
 				if ($.gQ.keyTracker[79])
 				{
 					if (LastO==false)
@@ -1495,7 +1496,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					Turned++;
 				});
 				
-				
+				//Count down the game time. but only once the game has started
 				if(GameStart = true)
 				{
 					if (Turned < LM.NumberOfCards)
@@ -1508,6 +1509,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					DoneTimer+=Delta;
 					Done = true;
 					
+					//if Leveldiv does not exist, create it and show the next level we get to.
 					if ($("#Leveldiv").length==0)
 					{
 						ForEachCard(function()
@@ -1525,6 +1527,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					
 					if (DoneTimer>1500)
 					{
+						//About 0.5 seconds before creating next level, fade it out.
 						$("#Leveldiv").fadeOut();
 					}
 					if (DoneTimer>2000)
@@ -1549,36 +1552,41 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			}
 		}
 		
-		
+		//Reset then, so that we can calculate delta-time next frame.
 		Then = Now;
+		
+		//Counts the points up, The further away they are, the more they will count up.
 		if (PointsV<Points)
 		{
 			PointsV+=((Points - PointsV)/300+0.33) * (Delta);
+		
+			//Make sure they don't count up too much.
+			if (PointsV>Points) PointsV=Points;
+			
+			//Creates a div to test text width.
+			//This is a repition of the code at line: 815
+			//It is only here because the game could theoretically count up points each frame, and this needs to be accounted for.
+			$("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
+			Current = $("#TextTestDiv");
+			Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
+			Current.html("Points: "+Math.round(PointsV));
+			var TextSize = Current.width();
+			Current.remove();
+			
+			var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+			TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
+			
+			current = $('#PointHUD');
+			current.html("Points: "+Math.round(PointsV));
+			current.css("font-size", Math.floor(220* TScale)+'%');
+			current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+			
+			current = $("#TimeHUD");
+			current.css("font-size", Math.floor(220* TScale)+'%');
+			
+			current = $("#LevelHUD");
+			current.css("font-size", Math.floor(220* TScale)+'%');
 		}
-		
-		if (PointsV>Points) PointsV=Points;
-		
-		
-		$("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
-		Current = $("#TextTestDiv");
-		Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
-		Current.html("Points: "+Math.round(PointsV));
-		var TextSize = Current.width();
-		Current.remove();
-		
-		var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
-		TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
-		
-		current = $('#PointHUD');
-		current.html("Points: "+Math.round(PointsV));
-		current.css("font-size", Math.floor(220* TScale)+'%');
-		current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
-		
-		current = $("#TimeHUD");
-		current.css("font-size", Math.floor(220* TScale)+'%');
-		
-		current = $("#LevelHUD");
-		current.css("font-size", Math.floor(220* TScale)+'%');
 		
 		EndedL=Ended;
 	//Loop

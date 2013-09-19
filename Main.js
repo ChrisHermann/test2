@@ -396,7 +396,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 50 * 1000;
+  var CoreGameTime = 1 * 1000;
   
   var CurGameTime = CoreGameTime;
   
@@ -979,10 +979,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     //If inputhud exists, streacht it to the size of the screen.
     if ($("#inputHUD").length)
     {
-      Current = $("#inputBox");
+	  if (!Focused)
+	  {
+        Current = $("#inputBox");
       
-      Current.width(PLAYGROUND_WIDTH);
-      Current.height(PLAYGROUND_HEIGHT);
+        Current.width(PLAYGROUND_WIDTH);
+        Current.height(PLAYGROUND_HEIGHT);
+	  }
     }
     
     //Recalculate scale to use for background scaling, and hten scale hte background.
@@ -1011,15 +1014,24 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
     
     //If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
-    if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
-    {
-      $("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
-      Name = document.getElementById("inputBox").value;
-      
-      $("#inputBox").focus();
-      
-
-    }
+	if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
+	{
+	  FocusFunction = function(me)
+	  {
+	    $(me).height(0);
+		Focused = true;
+	  }
+		
+	  UnfocusFunction = function(me)
+	  {
+		$(me).height(PLAYGROUND_HEIGHT);
+		Focused = false;
+	  }
+	  
+	  $("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text' style='filter:alpha(opacity=00);  height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+		
+	  Name = document.getElementById("inputBox").value;
+	}
     var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
     Current.html(string);
@@ -1465,6 +1477,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       else
       if (Ended == 1)
       {
+		//TODO: DO IT USING KEYPRESSES HOPEFULLY
+		if (pppDetect[0,0] == "Android")
+		{
+			Name = $("#inputBox").val();
+		}
         /**
 		 * If we are entering our name:
          * Generate a string based on the name varaible, which is changed in onkeypress

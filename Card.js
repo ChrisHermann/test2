@@ -360,7 +360,7 @@ function Cards(node)
     this.Turning = true;
     this.changed = false;
     
-    if(ppDetect[0,0] != "iPad" ||  pDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+    if(ppDetect[0,0] != "iPad" ||  pDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
     soundFlipCard.play();
   }
   

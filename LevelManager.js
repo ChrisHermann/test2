@@ -37,7 +37,7 @@ function LevelManager(node)
     this.ActualyMaxCards = ActualyMaxCards;
   }
   /**
-   * Sets up hte next level.
+   * Sets up the next level.
    */
   this.NextLevel = function()
   {
@@ -78,7 +78,7 @@ function LevelManager(node)
         this.NumberOfCards = (this.ActualyMaxCards * this.Difficulty) - 1;
     }
     
-    //Make sure it doesn't exceed the mazimum.
+    //Make sure it doesn't exceed the maximum.
     if (this.NumberOfCards > this.MaxCards)
     {
       if (this.MaxCards/2 == Math.ceil(this.MaxCards/2))

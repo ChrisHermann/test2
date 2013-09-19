@@ -40,7 +40,6 @@ function ImageManager()
   
   /**
    * Loads a new image, and stores it as a misc Image.
-   * 
    * @param string URL
    *   the path to the image
    * 
@@ -94,10 +93,10 @@ function ImageManager()
   }
   
   /**
-   * @todo explain
+   * @todo Get the total amount of normal cards.
    * 
    * @return integer
-   *   Returns 
+   *   Returns the total amount of normal cards.
    */
   this.GetTotal = function()
   {

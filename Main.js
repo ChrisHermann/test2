@@ -107,22 +107,25 @@ function PauseResume()
  */
 function MuteMusic()
 {
-  function MuteMusic()
+  if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
   {
-    soundBG.setMute(true);
-    MMusic = true;
-  }
-  function UnMuteMusic()
-  {
-    soundBG.setMute(false);
-    MMusic = false;
-  }
+    function MuteMusic()
+    {
+      soundBG.setMute(true);
+      MMusic = true;
+    }
+    function UnMuteMusic()
+    {
+      soundBG.setMute(false);
+      MMusic = false;
+    }
   
-  //This is the actual call.
-  if(MMusic == false)
-    MuteMusic();
-  else
-    UnMuteMusic();
+    //This is the actual call.
+    if(MMusic == false)
+      MuteMusic();
+    else
+      UnMuteMusic();
+  }
 }
 
 /**
@@ -290,12 +293,13 @@ var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
 
-// if Explorer 8 DO
-if(bDetect == "Explorer8")
+
+// if Explorer 8 DO...
+if(bDetect == "Explorer8" )
 {
   //Not necessary right now.
 }
-// if iPad DO
+// if iProduct DO...
 else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 {
   //Not necessary right now.
@@ -382,7 +386,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   PointsV = 0;
   Autocomplete = false;
   Restarted = false;
-
+  
   Now = 0;
   
   Delta = 0;
@@ -502,9 +506,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     
     //Append the needed containers.
     $("#popup").append("<span id='MessageHUD'></span>");
-    $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
-
-    
+    $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");  
     
     //Add the control buttons to the UI
     myButton = document.createElement("input");
@@ -1024,7 +1026,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     //Calculate scaling for the text size.
     scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
     
-
     Current.css('font-size',scale*200+'%');
   
     //Delete all cards currently on the field.
@@ -1123,13 +1124,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     $(document).keydown(function (e) {
       //FF needs event
       var event = e;
-
-        
       var key_press = String.fromCharCode(event.keyCode);
       key_press = key_press.toLowerCase()
       if (e.which === 8)
       {
-
         Name = Name.substring(0, Name.length - 1);
         return false;
       }
@@ -1340,7 +1338,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
   }
   
-  
     // Initialize the game:
     $("#playground").playground({
         height: PLAYGROUND_HEIGHT, 
@@ -1353,7 +1350,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     $.playground()
         .addGroup("background", {width: PLAYGROUND_WIDTH, 
                                  height: PLAYGROUND_HEIGHT});
-    
+	
   //Setup groups
   $.playground()
   .addGroup("popup", {width: PLAYGROUND_WIDTH, 
@@ -1378,15 +1375,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   //Create a div for the Point UI.
   $("#overlay").append("<div id='PointHUD' style='text-align:center'></div>");
   
+  //Create a div for the Time UI.
   $("#overlay").append("<div id='TimeHUD' style='text-align:center'></div>");
   
-  $("#overlay").append("<div id='LevelHUD' style='text-align:center'></div>");
   //Create a div for the Level UI.
+  $("#overlay").append("<div id='LevelHUD' style='text-align:center'></div>");
+  
+  current = $('#PointHUD');
+  current.html("Points: "+Math.round(PointsV));
   
   //Add div for control buttons
   $("#overlay").append("<div id='PauseBut'></div>");
   $("#overlay").append("<div id='MuteMBut'></div>");
   $("#overlay").append("<div id='MuteSBut'></div>");
+
 
   
   //Add the control buttons to the UI
@@ -1409,6 +1411,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   placeHolder = document.getElementById("MuteMBut");
   placeHolder.appendChild(myButton);
   
+  
   myButton = document.createElement("input");
   myButton.type = "button";
   myButton.value = "Mute Sound";
@@ -1417,10 +1420,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   myButton.onclick = MuteSound;
   placeHolder = document.getElementById("MuteSBut");
   placeHolder.appendChild(myButton);
-  
-  
-  
-  
   
   
   //Create the first level.

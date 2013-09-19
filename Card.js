@@ -359,7 +359,7 @@ function Cards(node)
   {
     this.Turning = true;
     this.changed = false;
-    //createjs.Sound.play("sound");
+    
     if(ppDetect[0,0] != "iPad" ||  pDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
     soundFlipCard.play();
   }
@@ -435,16 +435,16 @@ function Cards(node)
   /**
    * Updates the card visually, and applies whatever options you want to it.
    * 
-   * @param pfff options2
-   * @todo explain
+   * @param object options
+   *   updates the current options, look at gameQuery for more detail.
    */
-  this.Update = function(options2)
+  this.Update = function(options)
   {
     //Again, ugly code, this is how gamequery does it though.
     var spriteDOMObject = this.node[0];
         
     var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
-    options = $.extend(spriteDOMObject.gameQuery, options2);
+    options = $.extend(spriteDOMObject.gameQuery, options);
     
     
     if(spriteDOMObject != undefined){

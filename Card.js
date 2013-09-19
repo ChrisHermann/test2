@@ -443,12 +443,12 @@ function Cards(node)
     //Again, ugly code, this is how gamequery does it though.
     var spriteDOMObject = this.node[0];
         
-    var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
-    options = $.extend(spriteDOMObject.gameQuery, options);
+    var options_final = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+    options_final = $.extend(spriteDOMObject.gameQuery, options);
     
     
     if(spriteDOMObject != undefined){
-      spriteDOMObject.gameQuery = options;
+      spriteDOMObject.gameQuery = options_final;
       }
       
     this.node.transform();

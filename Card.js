@@ -43,31 +43,34 @@ function Cards(node)
   
   this.Hiding = 0;
   
+  /**
+   * Changes the face of the card.
+   * The face needs to be preloaded.
+   * 
+   * @param string face
+   *   the path to the image
+   */
   this.ChangeFace = function(face)
   {
-    /**
-   * Changes the face of the card.
-     * The face needs to be preloaded.
-     */
   this.node.setAnimation(face, null);
   }
   
   /**
   * Used to set up the necessary attributes of a card.
   * 
-    * @param integer Value
+  * @param integer Value
   *   Value is the value of the card.
-    * @param string FaceF
+  * @param string FaceF
   *   FaceF is the image for the front-side of the card.
   * @param string FaceS
   *   FaceS is the image that is used for the swartz bonus card.
-    * @param string FaceB
+  * @param string FaceB
   *   FaceB is the image that will make up the back-side of the card.
-    * @param bool Bonus
+  * @param bool Bonus
   *   Bonus is if the card is a bonus card or not.
-    * @param integer scale
+  * @param integer scale
   *   Scale is the overall scale of the card. All other scalings will take base in this one.
-    *   This should mainly be changed for resizing, if not, it should be left unchanged.
+  *   This should mainly be changed for resizing, if not, it should be left unchanged.
   */
   this.Create = function(Value, FaceF, FaceS, FaceB, Bonus, scale)
   {
@@ -94,7 +97,7 @@ function Cards(node)
   }
   /**
    * Executes the effects of the bonus cards
-  */
+   */
   this.RunBonus = function()
   {
     //Runs the bonus effect of the card (If there is one).
@@ -119,11 +122,12 @@ function Cards(node)
     }
     if (this.value == POINTID)
     {
-      //Simple add 500 points to the players score.
-      
-      //Create the GFX for the points!
-      //The points won't be awarded until het GFX is actually gone.
-      $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+      /**
+	   * Simple add 500 points to the players score.
+       * Create the GFX for the points!
+       * The points won't be awarded until het GFX is actually gone.
+       */
+	  $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
       
 	  //Set up the parameters used
       var Current = $("#GFX_"+GFXCount)[0];
@@ -200,10 +204,12 @@ function Cards(node)
     }
     if (this.value == CONFUSEID)
     {
-      //Search through eligible cards. Cannot chose cards of hte same type.
-      //This code will actually run twice, the first time is when the card is first flipped
-      //it will then be told to flip back. The second time is when the card flips back, it will then
-      //be told to execute the actual effect.
+      /**
+	   * Search through eligible cards. Cannot chose cards of hte same type.
+       * This code will actually run twice, the first time is when the card is first flipped
+       * it will then be told to flip back. The second time is when the card flips back, it will then
+       * be told to execute the actual effect.
+	   */
       if (this.FlippedV)
       {
         this.Turn();

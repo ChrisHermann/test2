@@ -51,6 +51,7 @@ function PauseGame()
 	if(GameStart)
 	{
 		$.playground().pauseGame();
+		if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		soundBG.pause();
 		Paused = true;
 		
@@ -84,22 +85,25 @@ function PauseResume()
 //This function has two functions to mute and unmute music. It will detect what the music currently is, and do the opposite.
 function MuteMusic()
 {
-	function MuteMusic()
+	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 	{
-		soundBG.setMute(true);
-		MMusic = true;
+		function MuteMusic()
+		{
+			soundBG.setMute(true);
+			MMusic = true;
+		}
+		function UnMuteMusic()
+		{
+			soundBG.setMute(false);
+			MMusic = false;
+		}
+		
+		//This is the actual call.
+		if(MMusic == false)
+			MuteMusic();
+		else
+			UnMuteMusic();
 	}
-	function UnMuteMusic()
-	{
-		soundBG.setMute(false);
-		MMusic = false;
-	}
-	
-	//This is the actual call.
-	if(MMusic == false)
-		MuteMusic();
-	else
-		UnMuteMusic();
 }
 
 //This function has two functions to mute and unmute Sound. It will detect what the music currently is, and do the opposite.
@@ -357,7 +361,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 50 * 1000;
+	var CoreGameTime = 5 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -369,7 +373,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	var LastO=false;
 	
 
-	//Cahnge this if image resolution changes
+	//Change this if image resolution changes
 	var CardSize = {x: 208,y: 303};
 
 	CoreLevel = 0;
@@ -388,7 +392,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
 	
 	
-		
 	//Sounds
 	//no bg music on iPad
 	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
@@ -1297,6 +1300,11 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	$("#overlay").append("<div id='TimeHUD' style='text-align:center'></div>");
 	
 	$("#overlay").append("<div id='LevelHUD' style='text-align:center'></div>");
+	
+	
+	current = $('#PointHUD');
+	current.html("Points: "+Math.round(PointsV));
+	
 	//Create a div for the Level UI.
 	
 	//Add div for control buttons

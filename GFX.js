@@ -110,7 +110,7 @@ function GFX(node)
   
   /**
    * Calls the function when the object is about to Despawn
-   *This is if you want a functino to run once the object despawns.
+   * This is if you want a functino to run once the object despawns.
    */
   this.EndCall = function(Function)
   {

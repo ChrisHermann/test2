@@ -264,11 +264,7 @@ if(bDetect == "Explorer8" )
 // if iProduct DO...
 else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 {
-<<<<<<< HEAD
-	alert("Du er på et apple produkt");
-=======
 	//Not necessary right now.
->>>>>>> 130f6ac811e6df4205b16a0845d209448dffa8ac
 }
 
 
@@ -402,21 +398,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//no bg music on iPad
 	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 	{
-		soundBG = createjs.Sound.createInstance("./music.mp3");
-	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
+	soundBG = createjs.Sound.createInstance("./music.mp3");
+	soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 	}
-<<<<<<< HEAD
-	 
-	/*IM.LoadCard("peter.png");
-=======
-	
-	//Loads the faces for the cards.
-	IM.LoadCard("peter.png");
->>>>>>> 130f6ac811e6df4205b16a0845d209448dffa8ac
-	IM.LoadCard("nicolaus.png");
-	IM.LoadCard("schwartz.png");*/
-	
-	 
+
 	//Loads the normal card faces
 	var Face = new Array();
 	IM.LoadCard("peter.png");

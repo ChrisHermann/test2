@@ -260,12 +260,12 @@ var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
 
-// if Explorer 8 DO
+// if Explorer 8 DO...
 if(bDetect == "Explorer8" )
 {
 	//Not necessary right now.
 }
-// if iPad DO
+// if iProduct DO...
 else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 {
 	//Not necessary right now.
@@ -396,16 +396,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//no bg music on iPad
 	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 	{
-		soundBG = createjs.Sound.createInstance("./music.mp3");
-	 soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
+	soundBG = createjs.Sound.createInstance("./music.mp3");
+	soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 	}
-	
-	//Loads the faces for the cards.
-	IM.LoadCard("peter.png");
-	IM.LoadCard("nicolaus.png");
-	IM.LoadCard("schwartz.png");
-	
-	 
+
 	//Loads the normal card faces
 	var Face = new Array();
 	IM.LoadCard("peter.png");
@@ -810,6 +804,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		current = $('#MuteSBut');
 		current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
 		
+		
 		//Scales the pointHUD before everything else, this is used to properly calculate the TextScale.
 		current = $('#PointHUD');
 		current.width((PLAYGROUND_WIDTH-20)/3);
@@ -977,6 +972,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	{
 		$("#HighscoreHUD").remove();
 		$("#inputHUD").remove();
+		$("#inputBox").remove();
+
 		
 		//Reset loaded scores.
 		Scores = new Array();
@@ -1074,7 +1071,14 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			//Press enter to go to next screen.
 			if (event.keyCode==13)
 			{
-				if (Ended == 1)
+				Enter();
+			}
+			//event.preventDefault();
+		});
+	}
+	function Enter()
+	{
+		if (Ended == 1)
 				{
 					//If we are entering our name show the highscore
 					//$("#HighscoreHUD").remove();
@@ -1095,9 +1099,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 					RestartGame();
 				}
 				return false;
-			}
-			//event.preventDefault();
-		});
 	}
 	
 	//Function to show highscore
@@ -1152,7 +1153,39 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 				HSLines++;
 				n = !n;
 			}
+			//if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+			
+			//$("#overlay").append("<div id='PauseBut'></div>");
+
+	
+			if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+			{
+			$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='para_"+HSLines+"' style='padding: 0 30px;'></p><div id='RestartBut'></div>");
+			
+			myButton = document.createElement("input");
+			myButton.type = "button";
+			myButton.value = "Klik for at starte";
+			myButton.id = "ButReG";
+			Current = $(myButton);
+			myButton.onclick = Enter;
+			placeHolder = document.getElementById("RestartBut");
+			placeHolder.appendChild(myButton);
+			
+			current = $('#ButReG');
+			current.width(320*Math.min(ScaleUI,ButScal));
+			current.height(88*Math.min(ScaleUI,ButScal));
+			current.css('font-size', 40*Math.min(ScaleUI,ButScal)+'px');
+			current = $('#RestartBut');
+			current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
+			
+			}
+			
+			
+
+			
+			else
 			$("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='para_"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+			
 			HSLines++;
 			
 			

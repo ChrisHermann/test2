@@ -51,7 +51,7 @@ function PauseGame()
 	if(GameStart)
 	{
 		$.playground().pauseGame();
-		if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+		if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
 		soundBG.pause();
 		Paused = true;
 		
@@ -85,7 +85,7 @@ function PauseResume()
 //This function has two functions to mute and unmute music. It will detect what the music currently is, and do the opposite.
 function MuteMusic()
 {
-	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
 	{
 		function MuteMusic()
 		{
@@ -259,6 +259,7 @@ var bbDetect = BrowserDetect.browser;
 var pDetect = pTemp[0,1] + " " + pTemp[0,0];
 pDetect = pDetect.substring(1);
 ppDetect = pDetect.split(";");
+pppDetect = pDetect.split(")");
 
 // if Explorer 8 DO...
 if(bDetect == "Explorer8" )
@@ -317,7 +318,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//Create a button to start the game with.
 	myButton = document.createElement("input");
 	myButton.type = "button";
-	myButton.value = "Start Game";
+	myButton.value = "Start Spillet";
 	myButton.id = "ButSG";
 	Current = $(myButton);
 	myButton.onclick = StartGame;
@@ -348,6 +349,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	var HSLines;
 	var ShowingMessage = false;
 	var ScaleUI = 0;
+	var Focused = false;
 	GFXCount = 0;
 	Points = 0;
 	PointsV = 0;
@@ -361,7 +363,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 5 * 1000;
+	var CoreGameTime = 1 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	
@@ -394,10 +396,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	
 	//Sounds
 	//no bg music on iPad
-	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+	if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
 	{
-	soundBG = createjs.Sound.createInstance("./music.mp3");
-	soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
+	  soundBG = createjs.Sound.createInstance("./music.mp3");
+	  soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
 	}
 
 	//Loads the normal card faces
@@ -431,7 +433,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	//Change this and lines: 636-681, to change the UI.
 	var BackI = IM.LoadMisc("BG.png");
 		
-	//Sets the amountn of bonus cards loaded.
+	//Sets the amounnt of bonus cards loaded.
 	BONUSES = 4;	
 	
 	
@@ -902,7 +904,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		}
 		
 		//If inputhud exists, streacht it to the size of the screen.
-		if ($("#inputHUD").length)
+		if ($("#inputHUD").length && !Focused)
 		{
 			Current = $("#inputBox");
 			
@@ -936,12 +938,22 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		//If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
 		if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
 		{
-			$("#inputbox").append("<div id='inputHUD'><input id = 'inputBox' autocorrect='off' type = 'text' style='height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+			FocusFunction = function(me)
+			{
+				$(me).height(0);
+				Focused = true;
+			}
+			
+			UnfocusFunction = function(me)
+			{
+				$(me).height(PLAYGROUND_HEIGHT);
+				Focused = false;
+			}
+			
+			
+			$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text' style='filter:alpha(opacity=00);  height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+			
 			Name = document.getElementById("inputBox").value;
-			
-			$("#inputBox").focus();
-			
-
 		}
 		var Current = $("#NameEnterHUD");
 		//Apply the string to the div, and recenter it.
@@ -1308,9 +1320,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 		
 	//Setup groups
 	$.playground()
-	.addGroup("popup", {width: PLAYGROUND_WIDTH, 
-							height: PLAYGROUND_HEIGHT})
 	.addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
+							height: PLAYGROUND_HEIGHT})
+	.addGroup("popup", {width: PLAYGROUND_WIDTH, 
 							height: PLAYGROUND_HEIGHT})
 	.addGroup("blur", {width: PLAYGROUND_WIDTH, 
 							 height: PLAYGROUND_HEIGHT})
@@ -1393,7 +1405,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Then = new Date().getTime();
 			GameStart = true;
 			//no BG music if iPad
-			if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+			if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
 				soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
             $("#welcomeScreen").remove();
         });

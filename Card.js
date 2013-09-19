@@ -81,7 +81,7 @@ function Cards(node)
     
     this.internalw = this.Size/this.node.w();
     this.internalh = this.Size/this.node.h();
-    //Applies the correct scale to the card. The code seems messy, but that's how game engine does it.
+    //Applies the correct scale to the card. The code seems messy, but that's how the game engine does it.
     var spriteDOMObject = this.node[0];
         
     var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.internalw * this.scale, factorv: this.internalh * this.scale});
@@ -104,14 +104,15 @@ function Cards(node)
        * Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
        * Swarts face. If they are already flipped, change their face to swartzs immediately.
        */
-    ForEachCard(function()
-      {
-        this.Cards.Swartzed = true;
-        this.Cards.SwartzedTimer = 5*1000;
-        
-        if (this.Cards.Flipped==true && this.Cards.changed==true)
-          this.Cards.ChangeFace(this.Cards.FaceS);
-      });
+      ForEachCard(function()
+	  {
+		this.Cards.Swartzed = true;
+		//Set an internal timer to 5 seconds, so that the card will return to normal after that time.
+		this.Cards.SwartzedTimer = 5*1000;
+		
+		if (this.Cards.Flipped==true && this.Cards.changed==true)
+		  this.Cards.ChangeFace(this.Cards.FaceS);
+	  });
     
       node.fadeOut();
       this.visible=false;
@@ -121,17 +122,19 @@ function Cards(node)
       //Simple add 500 points to the players score.
       
       //Create the GFX for the points!
-      
+      //The points won't be awarded until het GFX is actually gone.
       $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
       
+	  //Set up the parameters used
       var Current = $("#GFX_"+GFXCount)[0];
       
       Current.GFX = new GFX($("#GFX_"+GFXCount));
       Current.GFX.Create(1, 1, 1, 1, {x: this.node.x()+this.node.w()/2, y: this.node.y()}, {x: this.node.x()+this.node.w()/2, y: this.node.y()-50}, 1);
       
-      
-      Current.GFX.EndCall(function() {
-      
+      //When it despawns call this function.
+      Current.GFX.EndCall(function()
+	  {
+		//The reason to create two effects after each other is to make a fancier animation.
         $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
         
         var Current = $("#GFX_"+GFXCount)[0];
@@ -142,8 +145,9 @@ function Cards(node)
         //Limit it to 70, to make sure it will never overlap the "score:" caption
         Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 1);
         
-        
-        Current.GFX.EndCall(function() {
+        //When this GFX despawns award the 500 poitns.
+        Current.GFX.EndCall(function()
+		{
           Points+=500;
         });
         
@@ -396,7 +400,7 @@ function Cards(node)
    * Effectively deletes the card by making it invisible.
    * 
    * @param bool Visible
-   * @todo explain
+   *   True if the card should be visible, false if it should be "deleted"
    */
   this.SetVisible = function(Visible)
   {

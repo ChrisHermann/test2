@@ -25,19 +25,19 @@ function GFX(node)
    * Sets up the functions.
    *
    * @param var SS
-   *   explain
+   *   Starting size as a decimal number. 1 for 100%.
    * @param var ES
-   *   explain
+   *   End size.
    * @param var SA
-   *   explain
+   *   Starting alpha, as decimal number. 1 for 100%.
    * @param var EA
-   *   explain
+   *   End alpha.
    * @param var SP
-   *   explain
+   *   Starting position as an object e.g. {x: 5, y: 5}
    * @param var EP
-   *   explain
+   *   End position.
    * @param var steps
-   *   explain
+   *   How many seconds the transition should take.
    */
   this.Create = function(SS, ES, SA, EA, SP, EP, steps)
   {
@@ -68,7 +68,7 @@ function GFX(node)
    * The step function that transitions stuff.
    * It all does the same, just with different variables.
    * take the base amount, and increase it by the step amount.
-   * If the base amount is greater htan the end-amount, then hard-set the step amount to the end-amount.
+   * If the base amount is greater than the end-amount, then hard-set the step amount to the end-amount.
    */
   this.Step = function()
   {
@@ -89,7 +89,6 @@ function GFX(node)
     this.node.scale(this.StartSize).xy(this.StartPosition.x, this.StartPosition.y).css({opacity: this.StartAlpha});
     
     
-    //NEEDS TO BE ABLE TO DELETE ITSELF
     if (this.StartSize == this.EndSize
     && this.StartAlpha == this.EndAlpha
     && this.StartPosition.x == this.EndPosition.x
@@ -99,7 +98,7 @@ function GFX(node)
     }
   }
   /**
-   * Despawns the animation?
+   * Despawns the animation.
    */
   this.Despawn = function()
   {
@@ -107,12 +106,11 @@ function GFX(node)
     this.Callback.apply(this);
     
     this.node.remove();
-    //Unsure if this part is necessary?
-    $(this.node.id).remove();
   }
   
   /**
    * Calls the function when the object is about to Despawn
+   *This is if you want a functino to run once the object despawns.
    */
   this.EndCall = function(Function)
   {

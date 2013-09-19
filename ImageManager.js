@@ -28,7 +28,7 @@ function ImageManager()
    *   the path to the cardface image
    * 
    * @return integer
-   *   returns @todo expain
+   *   returns the id of the newly loaded image. 
    */
   this.LoadCard = function(URL)
   {
@@ -45,7 +45,7 @@ function ImageManager()
    *   the path to the image
    * 
    * @return integer
-   *   returns @todo expain
+   *   returns the id of the newly loaded image. 
    */
   this.LoadMisc = function(URL)
   {

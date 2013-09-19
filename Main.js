@@ -345,7 +345,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	var ShowingMessage = false;
 	var ScaleUI = 0;
 	GFXCount = 0;
-	Points = 10000;
+	Points = 0;
 	PointsV = 0;
 	Autocomplete = false;
 	Restarted = false;
@@ -357,7 +357,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	Then = new Date().getTime();
 	
 	
-	var CoreGameTime = 1 * 1000;
+	var CoreGameTime = 50 * 1000;
 	
 	var CurGameTime = CoreGameTime;
 	

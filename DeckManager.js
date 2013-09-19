@@ -35,7 +35,7 @@ function DeckManager()
    * Gets the next card and removes it from the deck. 
    * Next val is determined beforehand so we can also peek at it without removing it from the deck.
    * @return integer
-   *   @todo explain
+   *   Returns the ID of hte next card in the stack.
    */
   this.PushCard = function()
   {
@@ -47,7 +47,7 @@ function DeckManager()
       this.LastB = true;
     
       //Then we need to remove the drawn card from the deck.
-      this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
+		this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
     }
     else
     {

@@ -918,6 +918,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 			Name = document.getElementById("inputBox").value;
 			
 			$("#inputBox").focus();
+			$("#inputBox").select();
 			
 
 		}

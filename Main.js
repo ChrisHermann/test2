@@ -299,17 +299,6 @@ ppDetect = pDetect.split(";");
 pppDetect = pDetect.split(")");
 
 
-// if Explorer 8 DO...
-if(bDetect == "Explorer8" )
-{
-  //Not necessary right now.
-}
-// if iProduct DO...
-else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
-{
-  //Not necessary right now.
-}
-
 /** 
  * --------------------------------------------------------------------
  * --                      the main declaration:                     --
@@ -440,7 +429,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
   {
     soundBG = createjs.Sound.createInstance("./music.mp3");
-   soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
+    soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
   }
   
   //Loads the normal card faces
@@ -478,6 +467,38 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   BONUSES = 4;  
   
   
+  // Initialize the game:
+  $("#playground").playground({
+    height: PLAYGROUND_HEIGHT, 
+    width: PLAYGROUND_WIDTH, 
+    keyTracker: true,
+  mouseTracker: true});
+
+  // Initialize the background
+  $.playground()
+  .addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("popup", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("blur", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("overlay", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("Cards", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+  .addGroup("background", {width: PLAYGROUND_WIDTH, 
+    height: PLAYGROUND_HEIGHT})
+	
+	
+	// if Explorer 8 DO...
+	if(bDetect == "Explorer8" )
+	{
+		ShowMessage("Du spiller lige nu i internet explorer 8.0. Da dette er en forældet version anbefaler vi at du opdaterer din browser for bedste ydeevne","Spil alligevel");
+	}
+	
+  
   //Check what kind of eventlisteners the browser supports. and apply them the correct way.
   if(!window.addEventListener)
   {
@@ -511,7 +532,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     ShowingMessage = true;
     
     //Append the needed containers.
-    $("#popup").append("<span id='MessageHUD'></span>");
+    $("#popup").append("<span id='MessageHUD' align='center'></span>");
     $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");  
     
     //Add the control buttons to the UI
@@ -519,7 +540,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     myButton.type = "button";
     myButton.value = ButtonMessage;
     myButton.id = "MessageButton";
-    Current = $(myButton);
     myButton.onclick = UnshowMessage;
     
     
@@ -530,13 +550,16 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
     
     placeHolder = document.getElementById("MessageHUD");
-    placeHolder.appendChild(myButton);
+    placeHolder.appendChild(myButton);;
 
     Current.css('font-size',scale*200+'%');
       
     scale = Math.min(1,PLAYGROUND_WIDTH/1100);
     if (Current.width()>800*scale)
     Current.width(800*scale);
+	$("#MessageButton").css('position', 'absolute');
+	$("#MessageButton").css('left', ($("#MessageHUD").width()/2-$("#MessageButton").width()/2+30)+'px')
+	$("#MessageButton").css('top', ($("#MessageHUD").height())+'px')
     Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
   }
   
@@ -925,7 +948,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       $('#ButSG').height(44);
       $("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
       $("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
-      $('#ButSG').css('font-size', 21*ScaleUI+'px');
+      $('#ButSG').css('font-size', 21+'px');
     }
     
     //If HighscoreHUD exists
@@ -1358,33 +1381,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
   }
   
-  // Initialize the game:
-  $("#playground").playground({
-    height: PLAYGROUND_HEIGHT, 
-    width: PLAYGROUND_WIDTH, 
-    keyTracker: true,
-  mouseTracker: true});
-
-  // Initialize the background
-  //TODO: Make it on long chain of groups?
-  $.playground()
-    .addGroup("background", {width: PLAYGROUND_WIDTH, 
-                                 height: PLAYGROUND_HEIGHT});
-		
-  //Setup groups
-  $.playground()
-  .addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("popup", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("blur", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("overlay", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("Cards", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
 	
   //Setup UI
   //Add borders.

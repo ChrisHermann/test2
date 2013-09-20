@@ -50,11 +50,14 @@ function ForEachGFX(Function)
 function PauseGame()
 {
   //Do not pause hte game before it has started, as this creates weird bugs.
-  if(GameStart)
+  if(GameStart && !Paused)
   {
+	Paused=true;
     $.playground().pauseGame();
     soundBG.pause();
     Paused = true;
+	
+	console.log("HEJ");
     
     $("#playground").append("<div id='ResumeBut'></div>");
     
@@ -80,8 +83,9 @@ function PauseGame()
 function ResumeGame()
 {
   //Don't run hte function if the game has not yet started, this creates weird bugs.
-  if(GameStart)
+  if(GameStart && Paused)
   {
+	Paused=false;
     //This is used to reset delta, so hte game thinks no time has passed between the pause.
     Then = new Date().getTime();
     $.playground().resumeGame();  
@@ -383,6 +387,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   var ShowingMessage = false;
   var ScaleUI = 0;
   var Focused = false;
+  var Paused = false;
   GFXCount = 0;
   Points = 0;
   PointsV = 0;

@@ -19,7 +19,7 @@ var MSound = false;
  * We avoid $("#Card").each because it's very slow in ie8.
  *
  * @param function Function
- *   explain @Sander
+ *   The function that each card needs to run. the card will refer to itself as this.
  */
 function ForEachCard(Function)
 {
@@ -33,7 +33,7 @@ function ForEachCard(Function)
  * Similar to ForEachCard, but with all GFX cards.
  * 
  * @param function Function
- * explain @Sander
+ *   Tje fimctopm that eacj GFX needs to run, the GFX will refer to itself as this.
  */
 function ForEachGFX(Function)
 {

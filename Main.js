@@ -618,9 +618,9 @@ pppDetect = pDetect.split(")");
     var TurnedMax = 2;
     
     /**
-   * This will ensure that two cards of each are added to the deck
-     * This will then be fed to the Deckmanager.
-     */
+     * This will ensure that two cards of each are added to the deck
+       * This will then be fed to the Deckmanager.
+       */
     for (var i = 0; i < LM.NumberOfCards; ++i)
     {
       Vals[i] = Math.floor(i/2);
@@ -628,9 +628,9 @@ pppDetect = pDetect.split(")");
     
     
     /**
-   * This will ensure that bonus cards are added to the stage.
-     * This will then be fed to the Deckmanager.
-     */
+     * This will ensure that bonus cards are added to the stage.
+       * This will then be fed to the Deckmanager.
+       */
     for (var i = 0; i < LM.NumberOfCardsBonus; ++i)
     {
       Vals2[i] = DM.GetRandomBonus();
@@ -641,9 +641,9 @@ pppDetect = pDetect.split(")");
     DM.Create(Vals, Vals2);
     
     /**
-   * In this stage we spawn the actual cards, right now this is a huge function.
-     * Imagemanager and deckmanager will make this function a lot smaller.
-   */
+     * In this stage we spawn the actual cards, right now this is a huge function.
+       * Imagemanager and deckmanager will make this function a lot smaller.
+     */
     for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
     {
       //Generate unique ID for the card
@@ -661,10 +661,10 @@ pppDetect = pDetect.split(")");
       
       
       /**
-     * Add a mousedown event for the card, this mousedown will be run in the main
-       * environment rather than the class environment to make sure that we have access
-       * to all the data we need access to.
-       */
+        * Add a mousedown event for the card, this mousedown will be run in the main
+        * environment rather than the class environment to make sure that we have access
+        * to all the data we need access to.
+      */
     $("#"+name).mousedown(function(e)
       {
         //Finds pit how many cards have already been turned around, so you can't turn more than 2
@@ -684,9 +684,9 @@ pppDetect = pDetect.split(")");
           //Run the clicked event for the card, this will start events etc.
           this.Cards.Clicked();
           /**
-       * Increase the turned counter, if we have turned the correct amount of cards to be compared
-           * then compare them.
-       */
+           * Increase the turned counter, if we have turned the correct amount of cards to be compared
+               * then compare them.
+           */
           if (this.Cards.Bonus == false)
           {
             Turned++;
@@ -712,19 +712,19 @@ pppDetect = pDetect.split(")");
             if (Turned==TurnedMax)
             {
               /**
-         * We have turned the amount of cards needed
-               * Find out which value the first card has, and use this as a base to compare if cards match.
-               * Also instantiate a counter for the amount of cards actually matching.
-               * It's done this way if you want a variable number of cards needed for a match.
-         */
+             * We have turned the amount of cards needed
+                 * Find out which value the first card has, and use this as a base to compare if cards match.
+                 * Also instantiate a counter for the amount of cards actually matching.
+                 * It's done this way if you want a variable number of cards needed for a match.
+             */
               var Correct = this.Cards.value;
               var CorrectAmount = 0;
               ForEachCard(function()
               {
                 /**
-         * For each card, if they are flipped, are not going into hiding/deletion, and has the
-                 * Correct value, increase the counter for the number of cards matching.
-         */
+               * For each card, if they are flipped, are not going into hiding/deletion, and has the
+                   * Correct value, increase the counter for the number of cards matching.
+               */
                 if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
                   CorrectAmount++;
                 

@@ -11,19 +11,19 @@ function Cards(node)
   
   this.value = 0;
   
-  this.FaceF;
-  this.FaceB;
-  this.FaceS;
+  this.FaceFront;
+  this.FaceBack;
+  this.FaceSchwartz;
   
-  this.Swartzed = false;
-  this.SwartzedTimer = 0;
+  this.Schwartzed = false;
+  this.SchwartzedTimer = 0;
   
   this.Bonus;
   
   this.visible=true;
   
   this.Flipped=false;
-  this.FlippedV=false;
+  this.FlippedVisual=false;
   
   this.Turning=false;
   this.changed = false;
@@ -32,9 +32,9 @@ function Cards(node)
   
   this.factor = 1;
   this.scale  = 1;
-  this.internalw;
-  this.internalh ;
-  this.Dir = 3.14/2;
+  this.InternalWidth;
+  this.InternalHeight;
+  this.Direction = 3.14/2;
   
   //Seconds times 1000
   this.TurnSteps = 0.7*1000;
@@ -72,22 +72,22 @@ function Cards(node)
   *   Scale is the overall scale of the card. All other scalings will take base in this one.
   *   This should mainly be changed for resizing, if not, it should be left unchanged.
   */
-  this.Create = function(Value, FaceF, FaceS, FaceB, Bonus, scale)
+  this.Create = function(Value, FaceFront, FaceSchwartz, FaceBack, Bonus, scale)
   {
     this.value = Value;
-    this.FaceB = FaceB;
-    this.FaceF = FaceF;
-    this.FaceS = FaceS;
+    this.FaceBack = FaceBack;
+    this.FaceFront = FaceFront;
+    this.FaceSchwartz = FaceSchwartz;
     this.scale = scale;
     this.Bonus = Bonus;
     
     
-    this.internalw = this.Size/this.node.w();
-    this.internalh = this.Size/this.node.h();
+    this.InternalWidth = this.Size/this.node.w();
+    this.InternalHeight = this.Size/this.node.h();
     //Applies the correct scale to the card. The code seems messy, but that's how the game engine does it.
     var spriteDOMObject = this.node[0];
         
-    var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.internalw * this.scale, factorv: this.internalh * this.scale});
+    var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.scale, factorv: this.InternalHeight * this.scale});
       
     if(spriteDOMObject != undefined){
       spriteDOMObject.gameQuery = options;
@@ -101,7 +101,7 @@ function Cards(node)
   this.RunBonus = function()
   {
     //Runs the bonus effect of the card (If there is one).
-    if (this.value == SWARTZID)
+    if (this.value == SCHWARTZID)
     {
       /**
        * Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
@@ -109,12 +109,12 @@ function Cards(node)
        */
       ForEachCard(function()
 	  {
-		this.Cards.Swartzed = true;
+		this.Cards.Schwartzed = true;
 		//Set an internal timer to 5 seconds, so that the card will return to normal after that time.
-		this.Cards.SwartzedTimer = 5*1000;
+		this.Cards.SchwartzedTimer = 5*1000;
 		
 		if (this.Cards.Flipped==true && this.Cards.changed==true)
-		  this.Cards.ChangeFace(this.Cards.FaceS);
+		  this.Cards.ChangeFace(this.Cards.FaceSchwartz);
 	  });
     
       node.fadeOut();
@@ -127,7 +127,7 @@ function Cards(node)
        * Create the GFX for the points!
        * The points won't be awarded until het GFX is actually gone.
        */
-	  $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+	  $("#GFXG").addSprite("GFX_"+GFXCount, {animation: ImageManagerObject.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
       
 	  //Set up the parameters used
       var Current = $("#GFX_"+GFXCount)[0];
@@ -139,7 +139,7 @@ function Cards(node)
       Current.GFX.EndCall(function()
 	  {
 		//The reason to create two effects after each other is to make a fancier animation.
-        $("#GFXG").addSprite("GFX_"+GFXCount, {animation: IM.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+        $("#GFXG").addSprite("GFX_"+GFXCount, {animation: ImageManagerObject.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
         
         var Current = $("#GFX_"+GFXCount)[0];
         
@@ -210,14 +210,14 @@ function Cards(node)
        * it will then be told to flip back. The second time is when the card flips back, it will then
        * be told to execute the actual effect.
 	   */
-      if (this.FlippedV)
+      if (this.FlippedVisual)
       {
         this.Turn();
         this.Flipped=false;
       }
       else
       {
-        var PCards = new Array();
+        var PotentialCards = new Array();
         var n = 0;
         
         ForEachCard(function()
@@ -225,7 +225,7 @@ function Cards(node)
           //Search through eligible cards. Cannot chose cards of the same type.
           if (this.Cards.visible == true && this.Cards.value != CONFUSEID && this.Cards.Flipped==false)
           {
-            PCards[n] = this.Cards;
+            PotentialCards[n] = this.Cards;
             n++;
           }
         });
@@ -256,8 +256,8 @@ function Cards(node)
    */
   this.Step = function()
   {
-    this.SwartzedTimer-=Delta;
-    if (this.SwartzedTimer<=0 && this.Swartzed)
+    this.SchwartzedTimer-=Delta;
+    if (this.SchwartzedTimer<=0 && this.Schwartzed)
     {
       this.ResetBonus();
     }
@@ -283,20 +283,20 @@ function Cards(node)
 	  if(this.Turning == true)
       {
         //This adds to the direction of the card, based on the time that passed by.
-        this.Dir += 3.14*(Delta/this.TurnSteps);
+        this.Direction += 3.14*(Delta/this.TurnSteps);
         
           //This code fires if it's over halfway, and changes the face of the card at that point.
-          if(this.Dir>=3.14 && this.changed==false){
+          if(this.Direction>=3.14 && this.changed==false){
             this.changed=true;
-            if(this.FlippedV==false)
+            if(this.FlippedVisual==false)
             {
-              if (this.Swartzed && this.Bonus==false)
-                this.ChangeFace(this.FaceS);
+              if (this.Schwartzed && this.Bonus==false)
+                this.ChangeFace(this.FaceSchwartz);
               else
-                this.ChangeFace(this.FaceF);
+                this.ChangeFace(this.FaceFront);
             }
             else
-            this.ChangeFace(this.FaceB);
+            this.ChangeFace(this.FaceBack);
           }
           /**
 		   * //this calculates the factor of the card, based on direction and sin. If the face has changed though
@@ -304,14 +304,14 @@ function Cards(node)
            * //reverse.
 		   */
           if (this.changed==true)
-            this.factor=-Math.sin(this.Dir);
+            this.factor=-Math.sin(this.Direction);
           else
-            this.factor=Math.sin(this.Dir);
+            this.factor=Math.sin(this.Direction);
           
           //This applies to factor to the width of the gamequery sprite.
           var spriteDOMObject = this.node[0];
           
-          var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+          var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.factor * this.scale + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale, factorv: this.InternalHeight * this.scale  + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale});
             
           if(spriteDOMObject != undefined){
             spriteDOMObject.gameQuery = options;
@@ -321,12 +321,12 @@ function Cards(node)
         this.node.transform();
         
         //This code runs when the card is done turning.
-        if(this.Dir>=3.14*1.5){
+        if(this.Direction>=3.14*1.5){
           //Reset the factor.
           this.factor=1;
           
           //This applies to factor to the width of the gamequery sprite.
-          var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale, factorv: this.internalh * this.scale});
+          var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.InternalWidth * this.factor * this.scale, factorv: this.InternalHeight * this.scale});
             
           if(spriteDOMObject != undefined){
             spriteDOMObject.gameQuery = options;
@@ -339,8 +339,8 @@ function Cards(node)
           
           //Resets all the variables, and sets VFlipped, which keeps track of what state the card is visually in.
           this.Turning = false;
-          this.Dir=3.14/2;
-          if (this.FlippedV==true) this.FlippedV=false; else this.FlippedV=true;
+          this.Direction=3.14/2;
+          if (this.FlippedVisual==true) this.FlippedVisual=false; else this.FlippedVisual=true;
           if (this.Bonus==true)
             this.RunBonus();
         }
@@ -360,8 +360,8 @@ function Cards(node)
     this.Turning = true;
     this.changed = false;
     
-    if(ppDetect[0,0] != "iPad" ||  pDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
-    soundFlipCard.play();
+    if(AppleDetect[0,0] != "iPad" ||  AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
+    FlipCardSound.play();
   }
   
   /**
@@ -427,9 +427,9 @@ function Cards(node)
    */
   this.ResetBonus = function()
   {
-    this.Swartzed = false;
+    this.Schwartzed = false;
     if (this.Flipped==true && this.changed==true)
-    this.ChangeFace(this.FaceF);
+    this.ChangeFace(this.FaceFront);
   }
   
   /**
@@ -443,7 +443,7 @@ function Cards(node)
     //Again, ugly code, this is how gamequery does it though.
     var spriteDOMObject = this.node[0];
         
-    var options_final = $.extend(spriteDOMObject.gameQuery, {factorh: this.internalw * this.factor * this.scale + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale, factorv: this.internalh * this.scale  + Math.sin((this.Dir-3.14/2)) * 0.1 * this.scale});
+    var options_final = $.extend(spriteDOMObject.gameQuery, {factorh: this.InternalWidth * this.factor * this.scale + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale, factorv: this.InternalHeight * this.scale  + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale});
     options_final = $.extend(spriteDOMObject.gameQuery, options);
     
     

@@ -6,7 +6,7 @@
 function ImageManager()
 {
   this.Faces = new Array();
-  this.BFace;
+  this.BackFace;
   this.Misc = new Array();
   
   /**
@@ -17,7 +17,7 @@ function ImageManager()
   this.Create = function(BackFaceURL)
   {
     //This only takes the backface as argument.
-    this.BFace = new $.gameQuery.Animation({
+    this.BackFace = new $.gameQuery.Animation({
       imageURL: BackFaceURL});
   }
 
@@ -89,7 +89,7 @@ function ImageManager()
    */
   this.GetBack = function()
   {
-    return(this.BFace);
+    return(this.BackFace);
   }
   
   /**

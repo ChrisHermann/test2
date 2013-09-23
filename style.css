@@ -7,14 +7,14 @@
   padding: 0;
 }
 
-#ResumeBut{
+#ResumeButton{
   color: white; 
   position: absolute; 
   left: 0px; 
   top: 0px;
 }
 
-#ButRG{
+#ButtonResumeGame{
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   font-size: 21px;
   font-weight: bold;
@@ -31,7 +31,7 @@
   border-radius: 48px;
 }
 
-#ButRG:hover{
+#ButtonResumeGame:hover{
   background-color: #ffd258;
 }
 
@@ -149,28 +149,28 @@
   font-size:150%;
 }
 
-#PauseBut{
+#PauseButton{
   color: white; 
   position: absolute; 
   left: 10px; 
   top: 120px;
 }
 
-#MuteMBut{
+#MuteMusicButton{
   color: white; 
   position: absolute; 
   left: 100px; 
   top: 70px;
 }
 
-#MuteSBut{
+#MuteSoundButton{
   color: white; 
   position: absolute; 
   left: 10px; 
   top: 70px;
 }
 
-#ButP{
+#ButtonPause{
 	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
 	font-size: 21px;
 	font-weight: bold;
@@ -207,10 +207,10 @@
 #MessageButton:hover{
 	background-color: #ffd258;
 }
-#ButP:hover{
+#ButtonPause:hover{
   background-color: #ffd258;
 }
-#ButMM{
+#ButtonMuteMusic{
   font-family: Helvetica Neue,Helvetica Arial,sans-serif;
   font-size: 21px;
   font-weight: bold;
@@ -227,11 +227,11 @@
   border-radius: 48px;
 }
 
-#ButMM:hover{
+#ButtonMuteMusic:hover{
   background-color: #ffd258;
 }
 
-#ButMS{
+#ButtonMuteSound{
   font-family: Helvetica Neue,Helvetica Arial,sans-serif;
   font-size: 21px;
   font-weight: bold;
@@ -247,7 +247,7 @@
   border-color: #402a20;
   border-radius: 48px;
 }
-#ButReG{
+#ButtonResumeGame{
 	font-family: Helvetica Neue,Helvetica Arial,sans-serif;
 	font-size: 21px;
 	font-weight: bold;
@@ -264,11 +264,11 @@
 	border-radius: 48px;
 }
 
-#ButMS:hover{
+#ButtonMuteSound:hover{
   background-color: #ffd258;
 }
 
-#ButSG{
+#ButtonStartGame{
   font-family: Helvetica Neue,Helvetica Arial,sans-serif;
   font-size: 21px;
   font-weight: bold;
@@ -285,7 +285,7 @@
   border-radius: 48px;
 }
 
-#ButSG:hover{
+#ButtonStartGame:hover{
   background-color: #ffd258;
 }
 

@@ -19,27 +19,27 @@ function GFX(node)
   this.StepAlpha;
   this.StepPosition;
   this.Callback;
-  this.Hascb = false;
+  this.HasCallback = false;
   
   /**
    * Sets up the functions.
    *
-   * @param var SS
+   * @param var StartSize
    *   Starting size as a decimal number. 1 for 100%.
-   * @param var ES
+   * @param var EndSize
    *   End size.
-   * @param var SA
+   * @param var StartAlpha
    *   Starting alpha, as decimal number. 1 for 100%.
-   * @param var EA
+   * @param var EndAlpha
    *   End alpha.
-   * @param var SP
+   * @param var StartPosition
    *   Starting position as an object e.g. {x: 5, y: 5}
-   * @param var EP
+   * @param var EndPosition
    *   End position.
    * @param var steps
    *   How many seconds the transition should take.
    */
-  this.Create = function(SS, ES, SA, EA, SP, EP, steps)
+  this.Create = function(StartSize, EndSize, StartAlpha, EndAlpha, StartPosition, EndPosition, steps)
   {
     /**
 	 * the three first arguments has a starting value and an end value.
@@ -51,17 +51,17 @@ function GFX(node)
      */
 	this.Steps = (steps * 1000);
     
-    this.StartSize = SS;
-    this.EndSize = ES;
-    this.StepSize = (ES-SS)/this.Steps;
+    this.StartSize = StartSize;
+    this.EndSize = EndSize;
+    this.StepSize = (EndSize-StartSize)/this.Steps;
     
-    this.StartAlpha= SA;
-    this.EndAlpha = EA;
-    this.StepAlpha = (EA-SA)/this.Steps;
+    this.StartAlpha= StartAlpha;
+    this.EndAlpha = EndAlpha;
+    this.StepAlpha = (EndAlpha-StartAlpha)/this.Steps;
     
-    this.StartPosition = SP;
-    this.EndPosition = EP;
-    this.StepPosition = {x: (EP.x-SP.x)/this.Steps, y: (EP.y-SP.y)/this.Steps};
+    this.StartPosition = StartPosition;
+    this.EndPosition = EndPosition;
+    this.StepPosition = {x: (EndPosition.x-StartPosition.x)/this.Steps, y: (EndPosition.y-StartPosition.y)/this.Steps};
   }
   
   /**
@@ -102,7 +102,7 @@ function GFX(node)
    */
   this.Despawn = function()
   {
-    if (this.Hascb)
+    if (this.HasCallback)
     this.Callback.apply(this);
     
     this.node.remove();
@@ -115,6 +115,6 @@ function GFX(node)
   this.EndCall = function(Function)
   {
     this.Callback = Function;
-    this.Hascb = true;
+    this.HasCallback = true;
   }
 }

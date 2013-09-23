@@ -7,14 +7,14 @@
  */
 function DeckManager()
 {
-  this.NOC = 0;
-  this.NOBC = 0;
+  this.NumberOfCards = 0;
+  this.NumberOfBonusCards = 0;
   
   
   this.CardPool = new Array();
   this.BonusCardPool = new Array();
   this.NextVal;
-  this.LastB;
+  this.LastBonusBool;
   
   /**
    * Sets the class up properly.
@@ -33,26 +33,26 @@ function DeckManager()
   
   /**
    * Gets the next card and removes it from the deck. 
-   * Next val is determined beforehand so we can also peek at it without removing it from the deck.
+   * NextVal is determined beforehand so we can also peek at it without removing it from the deck.
    * @return integer
    *   Returns the ID of hte next card in the stack.
    */
   this.PushCard = function()
   {
-    var val;
-    //Calculates which of the pools the card is from, and assigns the result to val, which is then returned.
+    var PushValue;
+    //Calculates which of the pools the card is from, and assigns the result to PushValue, which is then returned.
     if (this.NextVal>=this.CardPool.length)
     {
-      val = this.BonusCardPool[this.NextVal - this.CardPool.length];
-      this.LastB = true;
+      PushValue = this.BonusCardPool[this.NextVal - this.CardPool.length];
+      this.LastBonusBool = true;
     
       //Then we need to remove the drawn card from the deck.
 		this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
     }
     else
     {
-      val = this.CardPool[this.NextVal];
-      this.LastB = false;
+      PushValue = this.CardPool[this.NextVal];
+      this.LastBonusBool = false;
       
       //Then we need to remove the drawn card from the deck.
       this.CardPool.splice(this.NextVal,1);
@@ -61,7 +61,7 @@ function DeckManager()
     //Determine the next card to be drawn.
     this.NextVal=Math.floor(Math.random()*(this.CardPool.length + this.BonusCardPool.length));
     
-    return (val);
+    return (PushValue);
   }
   
   /**
@@ -69,14 +69,14 @@ function DeckManager()
    */
   this.PeekCard = function()
   {
-    var val;
+    var PeekValue;
     if (NextVal>CardPool.length)
     {
-      val = this.BonusCardPool[this.NextVal - this.CardPool.length];
+      PeekValue = this.BonusCardPool[this.NextVal - this.CardPool.length];
     }
     else
     {
-      val = this.CardPool[this.NextVal];
+      PeekValue = this.CardPool[this.NextVal];
     }
   }
   
@@ -95,7 +95,7 @@ function DeckManager()
    */
   this.LastBonus = function()
   {
-    return(this.LastB);
+    return(this.LastBonusBool);
   }
   
   /**
@@ -121,6 +121,6 @@ function DeckManager()
   this.GetRandomBonus = function()
   {
     //return(POINTID);
-    return(SWARTZID+Math.floor(Math.random()*BONUSES));
+    return(SCHWARTZID+Math.floor(Math.random()*BONUSES));
   }
 }

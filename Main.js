@@ -8,11 +8,9 @@ var PLAYGROUND_WIDTH    = 1000;
 var PLAYGROUND_HEIGHT    = 1000;
 var REFRESH_RATE        = 30;
 
-var percent = 1;
-
 Paused = false;
-var MMusic = false;
-var MSound = false;
+var MuteMusicBool = false;
+var MuteSoundBool = false;
 
 /**
  * Global function that applies a function to all cards.
@@ -23,7 +21,7 @@ var MSound = false;
  */
 function ForEachCard(Function)
 {
-  for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+  for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
   {
     Function.apply($("#Card_"+i)[0]);
   }
@@ -53,24 +51,24 @@ function PauseGame()
   if(GameStart)
   {
     $.playground().pauseGame();
-    soundBG.pause();
+    BackgroundMusic.pause();
     Paused = true;
     
-    $("#playground").append("<div id='ResumeBut'></div>");
+    $("#playground").append("<div id='ResumeButton'></div>");
     
     //Create a button, which is hten used to resume the game.
     myButton = document.createElement("input");
     myButton.type = "button";
     myButton.value = "Resume Game";
-    myButton.id = "ButRG";
+    myButton.id = "ButtonResumeGame";
     Current = $(myButton);
     myButton.onclick = ResumeGame;
-    placeHolder = document.getElementById("ResumeBut");
+    placeHolder = document.getElementById("ResumeButton");
     placeHolder.appendChild(myButton);
     
     
-    $("#ResumeBut").css('left', (PLAYGROUND_WIDTH/2-$("#ButRG").width()/2)+'px')
-    $("#ResumeBut").css('top',( PLAYGROUND_HEIGHT/2-$("#ButRG").height()/2)+'px')
+    $("#ResumeButton").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonResumeGame").width()/2)+'px')
+    $("#ResumeButton").css('top',( PLAYGROUND_HEIGHT/2-$("#ButtonResumeGame").height()/2)+'px')
   }
 }
 
@@ -85,9 +83,9 @@ function ResumeGame()
     //This is used to reset delta, so hte game thinks no time has passed between the pause.
     Then = new Date().getTime();
     $.playground().resumeGame();  
-    soundBG.resume();
+    BackgroundMusic.resume();
     Paused = false;
-    $("#ResumeBut").remove();
+    $("#ResumeButton").remove();
   }
 }
 
@@ -107,21 +105,21 @@ function PauseResume()
  */
 function MuteMusic()
 {
-  if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
+  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
   {
     function MuteMusic()
     {
-      soundBG.setMute(true);
-      MMusic = true;
+      BackgroundMusic.setMute(true);
+      MuteMusicBool = true;
     }
     function UnMuteMusic()
     {
-      soundBG.setMute(false);
-      MMusic = false;
+      BackgroundMusic.setMute(false);
+      MuteMusicBool = false;
     }
   
     //This is the actual call.
-    if(MMusic == false)
+    if(MuteMusicBool == false)
       MuteMusic();
     else
       UnMuteMusic();
@@ -135,17 +133,17 @@ function MuteSound()
 {
   function MuteSound()
   {
-    soundFlipCard.setMute(true);
-    MSound = true;
+    FlipCardSound.setMute(true);
+    MuteSoundBool = true;
   }
   function UnMuteSound()
   {
-    soundFlipCard.setMute(false);
-    MSound = false;
+    FlipCardSound.setMute(false);
+    MuteSoundBool = false;
   }
   
   //This is the actual call.
-  if(MSound == false)
+  if(MuteSoundBool == false)
     MuteSound();
   else
     UnMuteSound();
@@ -285,23 +283,23 @@ BrowserDetect.init();
  * segmenting the platform info
  * p & b, platform & browser detect.
  */
-var pTemp = navigator.appVersion;
-pTemp = pTemp.split(" ");
-var bDetect = BrowserDetect.browser + BrowserDetect.version;
-var bbDetect = BrowserDetect.browser;
-var pDetect = pTemp[0,1] + " " + pTemp[0,0];
-pDetect = pDetect.substring(1);
-ppDetect = pDetect.split(";");
-pppDetect = pDetect.split(")");
+var PlatformTemporary = navigator.appVersion;
+PlatformTemporary = PlatformTemporary.split(" ");
+var BrowserVersionDetect = BrowserDetect.browser + BrowserDetect.version;
+var BrowserDetect = BrowserDetect.browser;
+var PlatformDetect = PlatformTemporary[0,1] + " " + PlatformTemporary[0,0];
+PlatformDetect = PlatformDetect.substring(1);
+AppleDetect = PlatformDetect.split(";");
+AndroidDetect = PlatformDetect.split(")");
 
 
 // if Explorer 8 DO...
-if(bDetect == "Explorer8" )
+if(BrowserVersionDetect == "Explorer8" )
 {
   //Not necessary right now.
 }
 // if iProduct DO...
-else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+else if(AppleDetect[0,0] == "iPad" ||  AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone")
 {
   //Not necessary right now.
 }
@@ -323,12 +321,13 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   //Calculate playground width and height:
   PLAYGROUND_WIDTH = $(window).width();
   PLAYGROUND_HEIGHT = $(window).height();
-  var UISIZEY = 170;
+  var UserInterfaceSizeY = 170;
   
 
  
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
+   * TODO @SANDER
    */
   function CustomSort(a,b)
   {
@@ -352,41 +351,41 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   myButton = document.createElement("input");
   myButton.type = "button";
   myButton.value = "Start Game";
-  myButton.id = "ButSG";
+  myButton.id = "ButtonStartGame";
   Current = $(myButton);
   myButton.onclick = StartGame;
-  placeHolder = document.getElementById("startbutton");
+  placeHolder = document.getElementById("StartButton");
   placeHolder.appendChild(myButton);
   
   
   //Resize and center the div on the screen.
-  $('#ButSG').width(160);
-  $('#ButSG').height(44);
-  $("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
-  $("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
-  $('#ButSG').css('font-size', 21+'px');
+  $('#ButtonStartGame').width(160);
+  $('#ButtonStartGame').height(44);
+  $("#StartButton").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonStartGame").width()/2)+'px');
+  $("#StartButton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButtonStartGame").height()/2)+'px');
+  $('#ButtonStartGame').css('font-size', 21+'px');
   
 
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
   var CARDSIZEY = 208;
-  var BGSIZE = {x: 2362, y: 1403};
+  var BACKGROUNDSIZE = {x: 2362, y: 1403};
   var EMPTYSPACE = 5;
   var DoneTimer = 0;
   var Done = false;
   var Ended = 0;
-  var EndedL = 0;
+  var EndedLaster = 0;
   var Name = "";
   var Line;
   var Scores;
-  var HSLines;
+  var HighscoreLines;
   var ShowingMessage = false;
-  var ScaleUI = 0;
+  var ScaleUserInterface = 0;
   var Focused = false;
   GFXCount = 0;
   Points = 0;
-  PointsV = 0;
-  Autocomplete = false;
+  PointsVisual = 0;
+  AutoComplete = false;
   Restarted = false;
   
   Now = 0;
@@ -396,78 +395,78 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 40 * 1000;
   
-  var CurGameTime = CoreGameTime;
+  var CurrentGameTime = CoreGameTime;
   
   GameStart = false;
   
-  
+  //TODO REMOVE
   var LastA=false;
   var LastP=false;
   var LastO=false;
 
-  //Cahnge this if image resolution changes
+  //Change this if image resolution changes
   var CardSize = {x: 208,y: 303};
 
   CoreLevel = 0;
   
-  CurLevel = CoreLevel;
+  CurrentLevel = CoreLevel;
   
   
   /**
    * Animations declaration: 
    * The background:
    */   
-  var DM = new DeckManager();
-  IM = new ImageManager();
-  LM = new LevelManager();
+  var DeckManagerObject = new DeckManager();
+  ImageManagerObject = new ImageManager();
+  LevelManagerObject = new LevelManager();
   
-  //Creates the imagem anager and loads the backcard.
-  IM.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
+  //Creates the imagemanager and loads the backcard.
+  ImageManagerObject.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
   
   
     
   /**
    * Sounds
-   * no bg music on iPad
+   * no background music on iPad
    */
-  if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone")
+  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone")
   {
-    soundBG = createjs.Sound.createInstance("./music.mp3");
-   soundFlipCard = createjs.Sound.createInstance("./flipcard.wav");
+    BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
+    FlipCardSound = createjs.Sound.createInstance("./flipcard.wav");
   }
   
   //Loads the normal card faces
   var Face = new Array();
-  IM.LoadCard("peter.png");
-  IM.LoadCard("nicolaus.png");
-  IM.LoadCard("schwartz.png");
-  IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  IM.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  IM.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
-  IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
-  IM.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
-  IM.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
-  IM.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+  ImageManagerObject.LoadCard("peter.png");
+  ImageManagerObject.LoadCard("nicolaus.png");
+  ImageManagerObject.LoadCard("schwartz.png");
+  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
+  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
+  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+  ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
+  ImageManagerObject.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
+  ImageManagerObject.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
+  ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
   
   
   //Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-  SWARTZID = IM.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
-  POINTID = IM.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-  PAIRID = IM.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
-  CONFUSEID = IM.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+  SCHWARTZID = ImageManagerObject.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+  POINTID = ImageManagerObject.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
+  PAIRID = ImageManagerObject.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
+  CONFUSEID = ImageManagerObject.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
   
   //Loads the images for GFX
-  POINTS1 = IM.LoadMisc("http://starship-games.com/500.png");
-  POINTS2 = IM.LoadMisc("http://starship-games.com/500.png");
+  POINTS1 = ImageManagerObject.LoadMisc("http://starship-games.com/500.png");
+  POINTS2 = ImageManagerObject.LoadMisc("http://starship-games.com/500.png");
   
   //Creates the levemanager object. Giving it the amount of faces, and telling it that the amount of cards must never exceed 25 cards.
-  LM.Create(IM.Faces.length,25);
+  LevelManagerObject.Create(ImageManagerObject.Faces.length,25);
   
   
   //Change this and lines: 636-681, to change the UI.
-  var BackI = IM.LoadMisc("BG.png");
+  var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
     
   //Sets the amountn of bonus cards loaded.
   BONUSES = 4;  
@@ -507,7 +506,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     
     //Append the needed containers.
     $("#popup").append("<span id='MessageHUD'></span>");
-    $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");  
+    $("#blur").append("<div id='BlurEffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");  
     
     //Add the control buttons to the UI
     myButton = document.createElement("input");
@@ -543,7 +542,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     ShowingMessage = false;
     
     $("#MessageHUD").remove();
-    $("#Blureffect").remove();
+    $("#BlurEffect").remove();
     
   }
 
@@ -556,36 +555,36 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   function CreateLevel()
   {
     //First go to next level to increase the difficulty.
-    LM.NextLevel();
+    LevelManagerObject.NextLevel();
     
     // Resets clock.
     Then = new Date().getTime();
-    CurGameTime = CoreGameTime;
+    CurrentGameTime = CoreGameTime;
     
     // Level goes up or Restarts
     if(Restarted == false)
     {
-      CurLevel++;
+      CurrentLevel++;
     }
     else
     {
-      CurLevel = 1;
+      CurrentLevel = 1;
     }
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("Level: "+CurLevel);
+    current.html("Level: "+CurrentLevel);
     
     
     current = $("#TimeHUD");
-    current.html("Time: "+Math.ceil(CurGameTime/1000));
+    current.html("Time: "+Math.ceil(CurrentGameTime/1000));
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
     
     //Setup Card data so they can be reached randomly
-    var Vals = new Array();
-    var Vals2 = new Array();
+    var CardDataArray = new Array();
+    var CardDataArrayTwo = new Array();
     Turned = 0;
     var TurnedMax = 2;
     
@@ -593,9 +592,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
    * This will ensure that two cards of each are added to the deck
      * This will then be fed to the Deckmanager.
      */
-    for (var i = 0; i < LM.NumberOfCards; ++i)
+    for (var i = 0; i < LevelManagerObject.NumberOfCards; ++i)
     {
-      Vals[i] = Math.floor(i/2);
+      CardDataArray[i] = Math.floor(i/2);
     };
     
     
@@ -603,33 +602,33 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
    * This will ensure that bonus cards are added to the stage.
      * This will then be fed to the Deckmanager.
      */
-    for (var i = 0; i < LM.NumberOfCardsBonus; ++i)
+    for (var i = 0; i < LevelManagerObject.NumberOfCardsBonus; ++i)
     {
-      Vals2[i] = DM.GetRandomBonus();
+      CardDataArrayTwo[i] = DeckManagerObject.GetRandomBonus();
     };
     
     
     //Creates the Deckmanager for this level.
-    DM.Create(Vals, Vals2);
+    DeckManagerObject.Create(CardDataArray, CardDataArrayTwo);
     
     /**
    * In this stage we spawn the actual cards, right now this is a huge function.
      * Imagemanager and deckmanager will make this function a lot smaller.
    */
-    for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+    for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
     {
       //Generate unique ID for the card
       var name = "Card_"+i;
       
-      val = DM.PushCard();
+      NextCard = DeckManagerObject.PushCard();
         
       //Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-      $("#Cards").addSprite(name, {animation: IM.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
+      $("#Cards").addSprite(name, {animation: ImageManagerObject.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
       
       //Create the actual class for the card, this will add logic to the object.
       var Current = $("#"+name)[0];
       Current.Cards = new Cards($("#"+name));
-      Current.Cards.Create(val, IM.GetCard(val), IM.GetCard(SWARTZID), IM.GetBack(), DM.LastBonus(), Scale);
+      Current.Cards.Create(NextCard, ImageManagerObject.GetCard(NextCard), ImageManagerObject.GetCard(SCHWARTZID), ImageManagerObject.GetBack(), DeckManagerObject.LastBonus(), Scale);
       
       
       /**
@@ -643,7 +642,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         var Ready = 0;
         ForEachCard(function()
         {
-          if (this.Cards.visible && (this.Cards.Turning==true || this.Cards.FlippedV==true))
+          if (this.Cards.visible && (this.Cards.Turning==true || this.Cards.FlippedVisual==true))
           {
             Ready++;
           }
@@ -656,17 +655,17 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
           //Run the clicked event for the card, this will start events etc.
           this.Cards.Clicked();
           /**
-       * Increase the turned counter, if we have turned the correct amount of cards to be compared
+           * Increase the turned counter, if we have turned the correct amount of cards to be compared
            * then compare them.
-       */
+           */
           if (this.Cards.Bonus == false)
           {
             Turned++;
-            //Check if the autocomplete bonus card is currently in effect
-            if (Autocomplete)
+            //Check if the AutoComplete bonus card is currently in effect
+            if (AutoComplete)
             {
               //End the effect and save the card for comparison
-              Autocomplete = false;
+              AutoComplete = false;
               var Card = this.Cards;
               
               var Someflip=false;
@@ -765,21 +764,21 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
      * Gets the square root of the number of cards. This is because we would attempt to make a square, should the
      * ratio be 1:1
      */
-    noc = Math.sqrt(LM.NumberOfCards + LM.NumberOfCardsBonus);
+    NumberOfCards = Math.sqrt(LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus);
     
     /**
      * Calculates how much space there needs to be in between each card to make a proper layout.
      * It will add to extra empty rows, to make room for UI.
      * Calulate number of rows based on ratio.
      */
-    SpaceY = PLAYGROUND_HEIGHT/(Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    )  + 1));
+    SpaceY = PLAYGROUND_HEIGHT/(Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) / ((Math.ceil(NumberOfCards*Ratio )))    )  + 1));
     
-    //Now recalulate noc, so it will make a more even distribution of the cards, based on the amount of rows it has.
-    noc = (LM.NumberOfCards + LM.NumberOfCardsBonus)/(Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) / ((Math.ceil(noc*Ratio )))    ) ));
+    //Now recalulate NumberOfCards, so it will make a more even distribution of the cards, based on the amount of rows it has.
+    NumberOfCards = (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)/(Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) / ((Math.ceil(NumberOfCards*Ratio )))    ) ));
     
     //Calculate the number of columns based on the new even distribution.
     
-    SpaceX = PLAYGROUND_WIDTH/ Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1));
+    SpaceX = PLAYGROUND_WIDTH/ Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) ,Math.ceil(NumberOfCards + 1));
     
     
     LastYOff = 0;
@@ -788,9 +787,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
      * If there is an uneven amount of cards at the last column, it will calculate the offset to center that column
      * Specifically
      */
-    if (Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) !=  Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))
+    if (Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) ,Math.ceil(NumberOfCards + 1)) !=  Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) % ((Math.ceil(NumberOfCards )))    )  + 1))
     {
-      LastYOff = (Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) ,Math.ceil(noc + 1)) -  Math.min((LM.NumberOfCards + LM.NumberOfCardsBonus + 1) , Math.ceil( (LM.NumberOfCards + LM.NumberOfCardsBonus) % ((Math.ceil(noc )))    )  + 1))/2 * SpaceX;
+      LastYOff = (Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) ,Math.ceil(NumberOfCards + 1)) -  Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) % ((Math.ceil(NumberOfCards )))    )  + 1))/2 * SpaceX;
     }
     
     /**
@@ -832,53 +831,53 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
      * Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
      * Finds all cards, if they exist, updates their position and scaling. 
      */
-    for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+    for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
     {
       var Card = $("#Card_"+i)
       
       if (Card.length>0)
       {
       Card[0].Cards.scale = Scale;
-      Card[0].Cards.Update({posx: (i%(Math.ceil(noc))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LM.NumberOfCards + LM.NumberOfCardsBonus) - ((LM.NumberOfCards + LM.NumberOfCardsBonus)%(Math.ceil(noc))) ) , posy: Math.floor( i / (Math.ceil(noc))  ) * SpaceY + SpaceY - 152 });
+      Card[0].Cards.Update({posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
        }
     
     }
     
     //Calculate how much space is in between hte buttons.
-    ButSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
+    ButtonSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
     
     //Use this to calculate the UI.
-    ScaleUI = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UISIZEY + 10), Math.min(ButSpace/(320+20), 1), 1);
+    ScaleUserInterface = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UserInterfaceSizeY + 10), Math.min(ButtonSpace/(320+20), 1), 1);
     
     $("#BorderTop").width(PLAYGROUND_WIDTH-20);
     
-    $("#BorderTop").height(Math.floor(UISIZEY*ScaleUI));
+    $("#BorderTop").height(Math.floor(UserInterfaceSizeY*ScaleUserInterface));
     
     
     /**
-     * Resizes the button, according to the variable ScaleUI.
+     * Resizes the button, according to the variable ScaleUserInterface.
      * Also centers them in the UI.
      */
-    current = $('#ButP');
-    current.width(320*ScaleUI);
-    current.height(88*ScaleUI);
-    current.css('font-size', 40*ScaleUI+'px');
-    current = $('#PauseBut');
-    current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
+    current = $('#ButtonPause');
+    current.width(320*ScaleUserInterface);
+    current.height(88*ScaleUserInterface);
+    current.css('font-size', 40*ScaleUserInterface+'px');
+    current = $('#PauseButton');
+    current.css({ left: Math.floor((ButtonSpace+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});
     
-    current = $('#ButMM');
-    current.width(320*ScaleUI);
-    current.height(88*ScaleUI);
-    current.css('font-size', 40*ScaleUI+'px');
-    current = $('#MuteMBut');
-    current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
+    current = $('#ButtonMuteMusic');
+    current.width(320*ScaleUserInterface);
+    current.height(88*ScaleUserInterface);
+    current.css('font-size', 40*ScaleUserInterface+'px');
+    current = $('#MuteMusicButton');
+    current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});
     
-    current = $('#ButMS');
-    current.width(320*ScaleUI);
-    current.height(88*ScaleUI);
-    current.css('font-size', 40*ScaleUI+'px');
-    current = $('#MuteSBut');
-    current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButSpace/2), top: 10+Math.floor(70 * ScaleUI)});
+    current = $('#ButtonMuteSound');
+    current.width(320*ScaleUserInterface);
+    current.height(88*ScaleUserInterface);
+    current.css('font-size', 40*ScaleUserInterface+'px');
+    current = $('#MuteSoundButton');
+    current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});
     
     //Scales the pointHUD before everything else, this is used to properly calculate the TextScale.
     current = $('#PointHUD');
@@ -887,40 +886,40 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     //Append a textdiv which is used to test text-width, this is used to properly calculate the TextScale.
     $("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
     Current = $("#TextTestDiv");
-    Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
-    Current.html("Points: "+Math.round(PointsV));
+    Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUserInterface))+'%');
+    Current.html("Points: "+Math.round(PointsVisual));
     var TextSize = Current.width();
     Current.remove();
     
     //Calculate the text size based on various factors.
-    var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+    var TScale = Math.min($('#PointHUD').width()/215, ScaleUserInterface);
     TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
     
     
     //Now resize  the divs in hte UI, to the appropriate size, and re-center them.
     current = $('#PointHUD');
     current.css("font-size", Math.floor(220* TScale)+'%');
-    current.css({ left: Math.floor((ButSpace*3+  10)-Math.floor(current.width()/2)- ButSpace/2) , top: 10});
+    current.css({ left: Math.floor((ButtonSpace*3+  10)-Math.floor(current.width()/2)- ButtonSpace/2) , top: 10});
     
     current = $("#TimeHUD");
     current.css("font-size", Math.floor(220* TScale)+'%');
     current.width((PLAYGROUND_WIDTH-20)/3);
-    current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+    current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
     
     current = $("#LevelHUD");
     current.css("font-size", Math.floor(220* TScale)+'%');
     current.width((PLAYGROUND_WIDTH-20)/3);
-    current.css({ left: Math.floor((ButSpace+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+    current.css({ left: Math.floor((ButtonSpace+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
     
     
     //Resize the startbutton, should that be present.
-    if ($("#startbutton").length)
+    if ($("#StartButton").length)
     {
-      $('#ButSG').width(160);
-      $('#ButSG').height(44);
-      $("#startbutton").css('left', (PLAYGROUND_WIDTH/2-$("#ButSG").width()/2)+'px');
-      $("#startbutton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButSG").height()/2)+'px');
-      $('#ButSG').css('font-size', 21*ScaleUI+'px');
+      $('#ButtonStartGame').width(160);
+      $('#ButtonStartGame').height(44);
+      $("#StartButton").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonStartGame").width()/2)+'px');
+      $("#StartButton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButtonStartGame").height()/2)+'px');
+      $('#ButtonStartGame').css('font-size', 21*ScaleUserInterface+'px');
     }
     
     //If HighscoreHUD exists
@@ -934,20 +933,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
       
       //Finds all the paragraphs and changes their textsize properly.
-      for (i=0; i<=HSLines; i++)
+      for (i=0; i<=HighscoreLines; i++)
       {
       if (i==0)
-        $("#para_"+i).css('font-size',scale*150+'%');
+        $("#Paragraph"+i).css('font-size',scale*150+'%');
       else
-      if (i==HSLines)
-        $("#para_"+i).css('font-size',scale*150+'%');
+      if (i==HighscoreLines)
+        $("#Paragraph"+i).css('font-size',scale*150+'%');
       else
       {
         if (i<3) 
-        txtsz = 80+35/(i+1);
+        LineTextSize = 80+35/(i+1);
         else
-        txtsz = 80;
-        $("#para_"+i).css('font-size',scale*txtsz+'%');
+        LineTextSize = 80;
+        $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
       }
       
       }
@@ -967,10 +966,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
     }
     
-    //If Blureffect exists stretch it to fit the screen.
-    if ($("#Blureffect").length)
+    //If BlurEffect exists stretch it to fit the screen.
+    if ($("#BlurEffect").length)
     {
-      Current = $("#Blureffect");
+      Current = $("#BlurEffect");
       
       Current.width(PLAYGROUND_WIDTH);
       Current.height(PLAYGROUND_HEIGHT);
@@ -988,10 +987,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	  }
     }
     
-    //Recalculate scale to use for background scaling, and hten scale hte background.
-    scale = Math.max(PLAYGROUND_WIDTH/BGSIZE.x, PLAYGROUND_HEIGHT/BGSIZE.y);
-    $("#BG").scale(scale);
-    $("#BG").xy(BGSIZE.x*(scale-1)/2 - (BGSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BGSIZE.y*(scale-1))/2  - (BGSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
+    //Recalculate scale to use for background scaling, and then scale the background.
+    scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
+    $("#Background").scale(scale);
+    $("#Background").xy(BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
   }
   
   //TODO: remove
@@ -1007,21 +1006,21 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 
     $("#popup").append("<span id='NameEnterHUD'></span>");
     //Blurs the background.
-    $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
+    $("#blur").append("<div id='BlurEffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
 
     
     //Generate a string based on the name varaible, which is changed in onkeypress
     var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
     
     //If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
-	if (ppDetect[0,0] == "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
-	{
+	if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
+	{ //TODO Comment 
 	  FocusFunction = function(me)
 	  {
 	    $(me).height(0);
 		Focused = true;
 	  }
-		
+		//TODO Comment
 	  UnfocusFunction = function(me)
 	  {
 		$(me).height(PLAYGROUND_HEIGHT);
@@ -1042,7 +1041,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     Current.css('font-size',scale*200+'%');
   
     //Delete all cards currently on the field.
-    for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+    for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
     {
       $("#Card_"+i).remove();
     }
@@ -1059,42 +1058,41 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	
   function RestartGame()
   {
-    $("#HighscoreHUD").remove();
-    $("#inputHUD").remove();
+  $("#HighscoreHUD").remove();
+  $("#inputHUD").remove();
 	$("#inputBox").remove();
     
     //Reset loaded scores.
     Scores = new Array();
     
     //Remove hte blur effect
-    $("#Blureffect").remove();
+    $("#BlurEffect").remove();
     
     //Reset all important varaibles.
     Points = 0;
-    PointsV = 0;
+    PointsVisual = 0;
     Ended = 0;
-    CurGameTime = CoreGameTime;
+    CurrentGameTime = CoreGameTime;
     //This is the easiest way to reset the levelmanager.
-    LM.Create(IM.Faces.length*2,25);
+    LevelManagerObject.Create(ImageManagerObject.Faces.length*2,25);
     //Create the first level against.
     CreateLevel();
   }
   
   //If the browser is firefox, we need to run some special code for the key press events.
-  if (bbDetect != "Firefox")
+  if (BrowserDetect != "Firefox")
   {  
     //Used only when entering your name for the highscore.
     document.onkeypress = function(event)
     {
       var key_press = String.fromCharCode(event.keyCode);
       
-      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedL==1)
+      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedLaster==1)
       Name += key_press;
     }
     
     //Used for highscore screens in general.
     $(document).keydown(function (e) {
-      //alert('You pressed '+event.keyCode);
       //Delete chars when entering name
       if (e.which === 8)
       {
@@ -1104,17 +1102,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         return false;
       }
       //Press enter to go to next screen.
-      //var event = window.event || event;
-      //var event = e;
       if (event.keyCode==13)
       {
         if (Ended == 1)
         {
           //If we are entering our name show the highscore
-          //$("#HighscoreHUD").remove();
           $("#NameEnterHUD").remove();
-          //Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
-          //both off.line and online.
           
           //Send the highscore to the database.
           ShowHighscore();
@@ -1146,7 +1139,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         Name = Name.substring(0, Name.length - 1);
         return false;
       }
-      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedL==1)
+      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedLaster==1)
       {
         if (event.shiftKey)
           Name += key_press.toUpperCase();
@@ -1159,13 +1152,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         if (Ended == 1)
         {
           //If we are entering our name show the highscore
-          //$("#HighscoreHUD").remove();
           $("#NameEnterHUD").remove();
-          //Consider loading this earlier, possibly when starting the game, and than manually inserting the player score
-          //both off.line and online.
         
           //Send the highscore to the database.
-          
           ShowHighscore();
           ApplyHighscore( {name: Name, score: Points} );
         }
@@ -1178,7 +1167,6 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         }
         return false;
       }
-      //event.preventDefault();
     });
   }
   
@@ -1193,32 +1181,29 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	   * If we were not send from name entering screen, delete all objects first
        * Delete all cards currently on the field.
 	   */
-      for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+      for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
       {
         $("#Card_"+i).remove();
       }
-      $("#blur").append("<div id='Blureffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
+      $("#blur").append("<div id='BlurEffect' style='width: "+PLAYGROUND_WIDTH+"px; height: "+PLAYGROUND_HEIGHT+"px;'></div>");
 
     }
     Ended=2;
-    HSLines=0;
+    HighscoreLines=0;
     //Create hte div for the highscore.
-    Line = "<p id='para_"+HSLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
-    HSLines++;
+    Line = "<p id='Paragraph"+HighscoreLines+"' id= style='padding: 0 30px; font-size: 200%;text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;'>Highscore</p><br>";
+    HighscoreLines++;
     
     //Load the highscores from localstoage, and split them into an array.
     SplitScores = localStorage.LocalStorageScores.split(" ");
-    var j = 0;
     if (SplitScores.length>1)
     for(i=0;i<(SplitScores.length-1)/2;i++)
     {
       //Loop through the array to put all the scores into the appropriate array.
-      Scores[i]={name: SplitScores[j], score: SplitScores[j+1]};
-      
-      j+=2;
+      Scores[i]={name: SplitScores[i*2], score: SplitScores[i*2+1]};
     }
     
-    var n = true;
+    var LineBool = true;
     //Create a line containing the 10 best scores, and apply them to the div.
     $.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
       //This code runs when the scores are loaded, and they need to be reformatted.
@@ -1227,19 +1212,19 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       {
         //Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
         if (i<3) 
-          txtsz = 100+35/(i+1);
+          LineTextSize = 100+35/(i+1);
         else
-          txtsz = 100;
-        if (n)
-          Line+="<p id='para_"+HSLines+"' style='background: #EAB344; padding: 7px 30px; font-size: "+txtsz+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+          LineTextSize = 100;
+        if (LineBool)
+          Line+="<p id='Paragraph"+HighscoreLines+"' style='background: #EAB344; padding: 7px 30px; font-size: "+LineTextSize+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         else
-          Line+="<p id='para_"+HSLines+"' style='padding: 7px   30px; font-size: "+txtsz+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+          Line+="<p id='Paragraph"+HighscoreLines+"' style='padding: 7px   30px; font-size: "+LineTextSize+"%;'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         
-        HSLines++;
-        n = !n;
+        HighscoreLines++;
+        LineBool = !LineBool;
       }
-      $("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='para_"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
-      HSLines++;
+      $("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='Paragraph"+HighscoreLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+      HighscoreLines++;
       
       
       Current = $("#HighscoreHUD");
@@ -1249,20 +1234,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       Current.width(800*scale);
       
       //Apply the correct scaling to the text in all the paragraphs.
-      for (i=0; i<=HSLines; i++)
+      for (i=0; i<=HighscoreLines; i++)
       {
         if (i==0)
-          $("#para_"+i).css('font-size',scale*150+'%');
+          $("#Paragraph"+i).css('font-size',scale*150+'%');
         else
-        if (i==HSLines)
-          $("#para_"+i).css('font-size',scale*150+'%');
+        if (i==HighscoreLines)
+          $("#Paragraph"+i).css('font-size',scale*150+'%');
         else
         {
           if (i<3) 
-            txtsz = 80+35/(i+1);
+            LineTextSize = 80+35/(i+1);
           else
-            txtsz = 80;
-          $("#para_"+i).css('font-size',scale*txtsz+'%');
+            LineTextSize = 80;
+          $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
         }
         
       }
@@ -1290,7 +1275,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     });
     
     //set some basic html until the data has been loaded.
-    $("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+    $("#HighscoreHUD").html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HighscoreLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
     
     Current = $("#HighscoreHUD");
     
@@ -1299,20 +1284,20 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
     
     //Apply the scaling to all paragraphs
-    for (i=0; i<=HSLines; i++)
+    for (i=0; i<=HighscoreLines; i++)
     {
       if (i==0)
-        $("#para_"+i).css('font-size',scale*150+'%');
+        $("#Paragraph"+i).css('font-size',scale*150+'%');
       else
-      if (i==HSLines)
-        $("#para_"+i).css('font-size',scale*150+'%');
+      if (i==HighscoreLines)
+        $("#Paragraph"+i).css('font-size',scale*150+'%');
       else
       {
         if (i<3) 
-          txtsz = 80+35/(i+1);
+          LineTextSize = 80+35/(i+1);
         else
-          txtsz = 80;
-        $("#para_"+i).css('font-size',scale*txtsz+'%');
+          LineTextSize = 80;
+        $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
       }
       
     }
@@ -1383,7 +1368,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	
   //Setup UI
   //Add borders.
-  $("#background").addSprite("BG", {animation: IM.GetMisc(BackI), width: BGSIZE.x, height: BGSIZE.y});
+  $("#background").addSprite("Background", {animation: ImageManagerObject.GetMisc(BackgroundImage), width: BACKGROUNDSIZE.x, height: BACKGROUNDSIZE.y});
   
   $("#overlay").append("<div id='BorderTop'></div>");
   
@@ -1397,42 +1382,42 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
   $("#overlay").append("<div id='LevelHUD' style='text-align:center'></div>");
   
   current = $('#PointHUD');
-  current.html("Points: "+Math.round(PointsV));
+  current.html("Points: "+Math.round(PointsVisual));
   
   //Add div for control buttons
-  $("#overlay").append("<div id='PauseBut'></div>");
-  $("#overlay").append("<div id='MuteMBut'></div>");
-  $("#overlay").append("<div id='MuteSBut'></div>");
+  $("#overlay").append("<div id='PauseButton'></div>");
+  $("#overlay").append("<div id='MuteMusicButton'></div>");
+  $("#overlay").append("<div id='MuteSoundButton'></div>");
 
   
   //Add the control buttons to the UI
   myButton = document.createElement("input");
   myButton.type = "button";
   myButton.value = "Pause";
-  myButton.id = "ButP";
+  myButton.id = "ButtonPause";
   Current = $(myButton);
   myButton.onclick = PauseGame;
-  placeHolder = document.getElementById("PauseBut");
+  placeHolder = document.getElementById("PauseButton");
   placeHolder.appendChild(myButton);
   
   
   myButton = document.createElement("input");
   myButton.type = "button";
   myButton.value = "Mute Music";
-  myButton.id = "ButMM";
+  myButton.id = "ButtonMuteMusic";
   Current = $(myButton);
   myButton.onclick = MuteMusic;
-  placeHolder = document.getElementById("MuteMBut");
+  placeHolder = document.getElementById("MuteMusicButton");
   placeHolder.appendChild(myButton);
   
   
   myButton = document.createElement("input");
   myButton.type = "button";
   myButton.value = "Mute Sound";
-  myButton.id = "ButMS";
+  myButton.id = "ButtonMuteSound";
   Current = $(myButton);
   myButton.onclick = MuteSound;
-  placeHolder = document.getElementById("MuteSBut");
+  placeHolder = document.getElementById("MuteSoundButton");
   placeHolder.appendChild(myButton);
   
   
@@ -1450,9 +1435,9 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     $.playground().startGame(function(){
       Then = new Date().getTime();
       GameStart = true;
-      //no BG music if iPad
-      if (ppDetect[0,0] != "iPad" || ppDetect[0,0] == "Macintosh" || ppDetect[0,0] == "iPhone" || pppDetect[0,0] == "Android")
-        soundBG.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
+      //no Background music if iPad
+      if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
+        BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
             $("#welcomeScreen").remove();
         });
   }
@@ -1470,7 +1455,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         var Current = $("#HighscoreHUD");
         /**
 		 * If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-         * Current.html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HSLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
+         * Current.html(Line+"<hr style='color: #EAB344; background-color: #EAB344; height: 5px; border: 0;'><br><p id='"+HighscoreLines+"' style='padding: 0 30px;'>Tryk Enter for at starte et nyt spil</p>");
          */
 		Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
       }
@@ -1478,7 +1463,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       if (Ended == 1)
       {
 		//TODO: DO IT USING KEYPRESSES HOPEFULLY
-		if (pppDetect[0,0] == "Android")
+		if (AndroidDetect[0,0] == "Android")
 		{
 			Name = $("#inputBox").val();
 		}
@@ -1509,8 +1494,8 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("Time: "+Math.ceil(CurGameTime/1000));
-        current.css({ left: Math.floor((ButSpace*2+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+        current.html("Time: "+Math.ceil(CurrentGameTime/1000));
+        current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
         
         
         ForEachCard(function()
@@ -1563,7 +1548,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
           LastO=false;
 
         //Ends game if GameTime hits 0
-        if (CurGameTime <= 0)
+        if (CurrentGameTime <= 0)
         {
           $("#TimeHUD").html("Time: 0");
           EndGame();
@@ -1580,12 +1565,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
         //Count down the game time. but only once the game has started
         if(GameStart = true)
         {
-          if (Turned < LM.NumberOfCards)
-          CurGameTime= CurGameTime-Delta;
+          if (Turned < LevelManagerObject.NumberOfCards)
+          CurrentGameTime= CurrentGameTime-Delta;
         }
         
         //If we have matched all the cards.
-        if (Turned >= LM.NumberOfCards)
+        if (Turned >= LevelManagerObject.NumberOfCards)
         {
           DoneTimer+=Delta;
           Done = true;
@@ -1599,7 +1584,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
             });
             
             $("#popup").append("<div id='Leveldiv''></div>");
-            $("#Leveldiv").html("Level: "+(CurLevel+1));
+            $("#Leveldiv").html("Level: "+(CurrentLevel+1));
           }
           Current = $("#Leveldiv");
           Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
@@ -1614,10 +1599,10 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
           if (DoneTimer>2000)
           {
             DoneTimer=0;
-            Points+=Math.round(CurGameTime/100) + CurLevel * 100;
+            Points+=Math.round(CurrentGameTime/100) + CurrentLevel * 100;
             Done = false;
             //Once done, reset the control variables, and remove all cards.
-            for (var i = 0; i < LM.NumberOfCards+LM.NumberOfCardsBonus; ++i)
+            for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
             {
               $("#Card_"+i).remove();
             }
@@ -1635,12 +1620,12 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
     Then = Now;
     
     //Counts the points up, The further away they are, the more they will count up.
-    if (PointsV<Points)
+    if (PointsVisual<Points)
     {
-      PointsV+=((Points - PointsV)/300+0.33) * (Delta);
+      PointsVisual+=((Points - PointsVisual)/300+0.33) * (Delta);
     
       //Make sure they don't count up too much.
-      if (PointsV>Points) PointsV=Points;
+      if (PointsVisual>Points) PointsVisual=Points;
       
       /**
 	   * Creates a div to test text width.
@@ -1649,18 +1634,18 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
 	   */
       $("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
       Current = $("#TextTestDiv");
-      Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUI))+'%');
-      Current.html("Points: "+Math.round(PointsV));
+      Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUserInterface))+'%');
+      Current.html("Points: "+Math.round(PointsVisual));
       var TextSize = Current.width();
       Current.remove();
       
-      var TScale = Math.min($('#PointHUD').width()/215, ScaleUI);
+      var TScale = Math.min($('#PointHUD').width()/215, ScaleUserInterface);
       TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
       
       current = $('#PointHUD');
-      current.html("Points: "+Math.round(PointsV));
+      current.html("Points: "+Math.round(PointsVisual));
       current.css("font-size", Math.floor(220* TScale)+'%');
-      current.css({ left: Math.floor((ButSpace*3+10)-Math.floor(current.width()/2)- ButSpace/2), top: 10});
+      current.css({ left: Math.floor((ButtonSpace*3+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
       
       current = $("#TimeHUD");
       current.css("font-size", Math.floor(220* TScale)+'%');
@@ -1669,7 +1654,7 @@ else if(ppDetect[0,0] == "iPad" ||  ppDetect[0,0] == "Macintosh" || ppDetect[0,0
       current.css("font-size", Math.floor(220* TScale)+'%');
     }
     
-    EndedL=Ended;
+    EndedLaster=Ended;
   //Loop
     }, Math.min(0,REFRESH_RATE-Delta));
   

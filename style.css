@@ -2,9 +2,19 @@
  * The Style Sheet
  */
 
+
+.image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 *{
-  margin: 0;
-  padding: 0;
+    -WEBKIT-USER-SELECT: NONE; /* SAFARI, CHROME */
+    -KHTML-USER-SELECT: NONE; /* KONQUEROR */
+    -MOZ-USER-SELECT: NONE; /* FIREFOX */
+    -MS-USER-SELECT: NONE; /* IE */
+    USER-SELECT: NONE; /* CSS3 */
 }
 
 #ResumeButton{

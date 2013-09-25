@@ -120,7 +120,7 @@ function DeckManager()
    */
   this.GetRandomBonus = function()
   {
-    //return(POINTID);
+    return(SCHWARTZID+3);
     return(SCHWARTZID+Math.floor(Math.random()*BONUSES));
   }
 }

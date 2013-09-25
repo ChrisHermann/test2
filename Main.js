@@ -50,12 +50,11 @@ function PauseGame()
   //Do not pause hte game before it has started, as this creates weird bugs.
   if(GameStart && !Paused)
   {
-	Paused=true;
-    $.playground().pauseGame();
+    Paused=true;
     BackgroundMusic.pause();
     Paused = true;
-	
-	console.log("HEJ");
+    
+    $("#inputbox").hide();
     
     $("#playground").append("<div id='ResumeButton'></div>");
     
@@ -80,13 +79,13 @@ function PauseGame()
  */
 function ResumeGame()
 {
-  //Don't run hte function if the game has not yet started, this creates weird bugs.
+  //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused)
   {
-	Paused=false;
+    $("#inputbox").show();
+    Paused=false;
     //This is used to reset delta, so hte game thinks no time has passed between the pause.
     Then = new Date().getTime();
-    $.playground().resumeGame();  
     BackgroundMusic.resume();
     Paused = false;
     $("#ResumeButton").remove();
@@ -309,11 +308,14 @@ AndroidDetect = PlatformDetect.split(")");
  */
 
   $(function(){
+  
   document.body.style.overflow = "hidden";
   //Calculate playground width and height:
   PLAYGROUND_WIDTH = $(window).width();
   PLAYGROUND_HEIGHT = $(window).height();
   var UserInterfaceSizeY = 170;
+  
+  $("#inputbox").hide();
 
 
 
@@ -357,6 +359,7 @@ AndroidDetect = PlatformDetect.split(")");
   $("#StartButton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButtonStartGame").height()/2)+'px');
   $('#ButtonStartGame').css('font-size', 21+'px');
   
+  
 
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
@@ -374,7 +377,6 @@ AndroidDetect = PlatformDetect.split(")");
   var ShowingMessage = false;
   var ScaleUserInterface = 0;
   var Focused = false;
-  var Paused = false;
   GFXCount = 0;
   Points = 0;
   PointsVisual = 0;
@@ -454,40 +456,32 @@ AndroidDetect = PlatformDetect.split(")");
   LevelManagerObject.Create(ImageManagerObject.Faces.length,25);
   
   
+  for (var i = 0; i < 25; ++i){
+	  //Generate unique ID for the card
+	  var name = "Card_"+i;
+	  var nameImg = "Img_"+i;
+	  $("#Cards").append("<div id='"+name+"' style='position: absolute ; width: 208; height: 208;'></div>");
+	  $("#"+name).append("<img id='"+nameImg+"' draggable='false' class='image'/>");
+    $("#"+name).hide();
+	}
+  
+  
   //Change this and lines: 636-681, to change the UI.
-  var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
+  //var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
     
   //Sets the amountn of bonus cards loaded.
   BONUSES = 4;  
 
 
   // Initialize the game:
-  $("#playground").playground({
+  /*$("#playground").playground({
     height: PLAYGROUND_HEIGHT, 
     width: PLAYGROUND_WIDTH, 
     keyTracker: true,
-  mouseTracker: true});
-
-  // Initialize the background
-  $.playground()
-  .addGroup("inputbox", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("popup", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("blur", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("overlay", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("GFXG", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("Cards", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  .addGroup("background", {width: PLAYGROUND_WIDTH, 
-    height: PLAYGROUND_HEIGHT})
-  
+  mouseTracker: true});*/
 
   // if Explorer 8 DO...
-  if(bDetect == "Explorer8" )
+  if(BrowserDetect == "Explorer8" )
   {
     ShowMessage("Du spiller lige nu i internet explorer 8.0. Da dette er en forældet version anbefaler vi at du opdaterer din browser for bedste ydeevne","Spil alligevel");
   }
@@ -641,15 +635,25 @@ AndroidDetect = PlatformDetect.split(")");
       var name = "Card_"+i;
       
       NextCard = DeckManagerObject.PushCard();
+      console.log(NextCard);
         
-      //Add the actual card to the playground, we spawn them in a responsive awy based on the resolution of the game.
-      $("#Cards").addSprite(name, {animation: ImageManagerObject.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
-      
+      //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
+      //$("#Cards").addSprite(name, {animation: ImageManagerObject.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
+	  
+      $("#Img_"+i).load(function()
+      {
+        $(this).parent().width($(this).width());
+      });
+      $("#Img_"+i).attr("src", ImageManagerObject.GetBack());
+      $("#"+name).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , top: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
+	  
       //Create the actual class for the card, this will add logic to the object.
+      console.log($("#"+name));
       var Current = $("#"+name)[0];
-      Current.Cards = new Cards($("#"+name));
+	  
+      Current.Cards = new Cards($("#"+name), $("#Img_"+i), CARDSIZEX, CARDSIZEY);
       Current.Cards.Create(NextCard, ImageManagerObject.GetCard(NextCard), ImageManagerObject.GetCard(SCHWARTZID), ImageManagerObject.GetBack(), DeckManagerObject.LastBonus(), Scale);
-      
+      $("#"+name).show();
       
       /**
        * Add a mousedown event for the card, this mousedown will be run in the main
@@ -821,10 +825,10 @@ AndroidDetect = PlatformDetect.split(")");
     
     
     //Set the width and height of the div.
-    $("#playground").playground({
+    /*$("#playground").playground({
       height: PLAYGROUND_HEIGHT, 
       width: PLAYGROUND_WIDTH
-    });
+    });/*
     
     
     
@@ -833,12 +837,15 @@ AndroidDetect = PlatformDetect.split(")");
      * Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
      * Finds all cards, if they exist, updates their position and scaling. 
      */
+     console.log(LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus);
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       var Card = $("#Card_"+i)
       
-      if (Card.length>0){
+      if (Card.length>0 && Card[0].Cards){
       Card[0].Cards.scale = Scale;
-      Card[0].Cards.Update({posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
+      $(Card).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ), top: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152})
+      $(Card).show();
+      //Card[0].Cards.Update({posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
       }
     }
     
@@ -881,6 +888,8 @@ AndroidDetect = PlatformDetect.split(")");
     //Scales the pointHUD before everything else, this is used to properly calculate the TextScale.
     current = $('#PointHUD');
     current.width((PLAYGROUND_WIDTH-20)/3);
+	
+	MuteMusic();
     
     //Append a textdiv which is used to test text-width, this is used to properly calculate the TextScale.
     $("#overlay").append("<div id='TextTestDiv' style='text-align:center; left: 0; top: 0;'></div>");
@@ -982,8 +991,10 @@ AndroidDetect = PlatformDetect.split(")");
     
     //Recalculate scale to use for background scaling, and then scale the background.
     scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
-    $("#Background").scale(scale);
-    $("#Background").xy(BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
+    //$("#Background").scale(scale);
+    //$("#Background").xy(BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
+    Current = $("#RealBG");
+	Current.css({width: Current.width()*scale,height: Current.height()*scale,  left: BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2, top: (BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2});
   }
   /**
    * Function to end the game
@@ -1306,7 +1317,10 @@ AndroidDetect = PlatformDetect.split(")");
 
   //Setup UI
   //Add borders.
-  $("#background").addSprite("Background", {animation: ImageManagerObject.GetMisc(BackgroundImage), width: BACKGROUNDSIZE.x, height: BACKGROUNDSIZE.y});
+  //$("#background").addSprite("Background", {animation: ImageManagerObject.GetMisc(BackgroundImage), width: BACKGROUNDSIZE.x, height: BACKGROUNDSIZE.y});
+  
+  //TODO: Better name
+  $("#background").append("<div id='RealBG'></div>");
   
   $("#overlay").append("<div id='BorderTop'></div>");
   
@@ -1359,8 +1373,6 @@ AndroidDetect = PlatformDetect.split(")");
   placeHolder.appendChild(myButton);
 
 
-  //Create the first level.
-  CreateLevel();
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -1369,23 +1381,46 @@ AndroidDetect = PlatformDetect.split(")");
    * Starts the game. Much of it is actually gamequery specific code.
    */
   function StartGame(){
-    $.playground().startGame(function(){
       Then = new Date().getTime();
       GameStart = true;
+      $("#inputbox").show();
+      
+      //Create the first level.
+      CreateLevel();
       //no Background music if iPad
       if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){
         BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
       }
       $("#welcomeScreen").remove();
-    });
   }
 
-  //THIS IS THE MAIN LOOP
-  $("#playground").registerCallback(function(){
+  (function() {
+    var onEachFrame;
+    if (window.webkitRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); webkitRequestAnimationFrame(_cb); }
+      _cb();
+    };
+    } else if (window.mozRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+      _cb();
+    };
+    } else {
+    onEachFrame = function(cb) {
+      setInterval(cb, 1000 / 60);
+    }
+    }
+    
+    window.onEachFrame = onEachFrame;
+  })();
+  
+  
+    Step = function(){
     //Calcualte how many miliseconds passed since last frame, to get smoother animations.
     Now = new Date().getTime();
     Delta = Now - Then;
-    if (!ShowingMessage){
+    if (GameStart && !Paused && !ShowingMessage){
       if (Ended == 2){
       var Current = $("#HighscoreHUD");
       /**
@@ -1482,7 +1517,7 @@ AndroidDetect = PlatformDetect.split(")");
             Done = false;
             //Once done, reset the control variables, and remove all cards.
             for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
-              $("#Card_"+i).remove();
+              //$("#Card_"+i).remove();
             }
           
             //Then create next level.
@@ -1536,7 +1571,9 @@ AndroidDetect = PlatformDetect.split(")");
   
   EndedLaster=Ended;
   //Loop
-  }, Math.min(0,REFRESH_RATE-Delta));
+  }
+  
+  window.onEachFrame(Step);
 
   /**
    * This function is used for the loading spinner.

@@ -648,7 +648,6 @@ AndroidDetect = PlatformDetect.split(")");
       $("#"+name).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , top: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
 	  
       //Create the actual class for the card, this will add logic to the object.
-      console.log($("#"+name));
       var Current = $("#"+name)[0];
 	  
       Current.Cards = new Cards($("#"+name), $("#Img_"+i), CARDSIZEX, CARDSIZEY);
@@ -1040,7 +1039,7 @@ AndroidDetect = PlatformDetect.split(")");
   
     //Delete all cards currently on the field.
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
-      $("#Card_"+i).remove();
+      $("#Card_"+i).hide();
     }
     
     //Calculate scaling for the dic.

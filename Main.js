@@ -397,7 +397,7 @@ AndroidDetect = PlatformDetect.split(")");
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 50 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -467,7 +467,7 @@ AndroidDetect = PlatformDetect.split(")");
 	  //Generate unique ID for the card
 	  var name = "Card_"+i;
 	  var nameImg = "Img_"+i;
-	  $("#Cards").append("<div id='"+name+"' style='position: absolute ; width: 208; height: 208;'></div>");
+	  $("#Cards").append("<div id='"+name+"' style='position: absolute; width: 208; height: 208;'></div>");
 	  $("#"+name).append("<img id='"+nameImg+"' draggable='false' class='image'/>");
     $("#"+name).hide();
 	}
@@ -496,7 +496,7 @@ AndroidDetect = PlatformDetect.split(")");
 
 
   //Check what kind of eventlisteners the browser supports. and apply them the correct way.
-  if(!window.addEventListener)
+  /*if(!window.addEventListener)
   {
     window.attachEvent("focus", function(event){} );
     window.attachEvent("blur", function(event){} );
@@ -511,7 +511,7 @@ AndroidDetect = PlatformDetect.split(")");
       { 
         PauseGame();
     }, false);
-  }
+  }*/
 
   /**
    * This function shows a message, with the proper css.
@@ -996,13 +996,13 @@ AndroidDetect = PlatformDetect.split(")");
     }*/
     
     //Recalculate scale to use for background scaling, and then scale the background.
-    scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
+    //scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
     //$("#Background").scale(scale);
     //$("#Background").xy(BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2,(BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2);
     
     //TODO MOVE TO .CSS
-    Current = $("#RealBG");
-	Current.css({width: Current.width()*scale,height: Current.height()*scale,  left: BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2, top: (BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2});
+    //Current = $("#RealBG");
+	  //Current.css({width: Current.width()*scale,height: Current.height()*scale,  left: BACKGROUNDSIZE.x*(scale-1)/2 - (BACKGROUNDSIZE.x*scale - PLAYGROUND_WIDTH)/2, top: (BACKGROUNDSIZE.y*(scale-1))/2  - (BACKGROUNDSIZE.y*scale - PLAYGROUND_HEIGHT)/2});
 
   }
 
@@ -1330,13 +1330,13 @@ AndroidDetect = PlatformDetect.split(")");
   //$("#overlay").append("<div id='BorderTop'></div>");
   
   //Create a div for the Point UI.
-  $("#BorderTop").append("<div id='PointHUD'></div>");
+  //$("#BorderTop").append("<div id='PointHUD'></div>");
   
   //Create a div for the Time UI.
-  $("#BorderTop").append("<div id='TimeHUD'></div>");
+  //$("#BorderTop").append("<div id='TimeHUD'></div>");
     
   //Create a div for the Level UI.
-  $("#BorderTop").append("<div id='LevelHUD'></div>");
+  //$("#BorderTop").append("<div id='LevelHUD'></div>");
   
   current = $('#PointHUD');
   current.html("Points: "+Math.round(PointsVisual));
@@ -1508,8 +1508,8 @@ AndroidDetect = PlatformDetect.split(")");
             $("#popup").append("<div id='Leveldiv''></div>");
             $("#Leveldiv").html("Level: "+(CurrentLevel+1));
           }
-          Current = $("#Leveldiv");
-          Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
+          //Current = $("#Leveldiv");
+          //Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
         
           //If done, count the timer up to create a delay before next level.
           if (DoneTimer>1500){

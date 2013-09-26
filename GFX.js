@@ -45,7 +45,7 @@ function GFX(node, image)
   this.Create = function(StartSize, EndSize, StartAlpha, EndAlpha, StartPosition, EndPosition, steps)
   {
     /**
-	 * the three first arguments has a starting value and an end value.
+     * the three first arguments has a starting value and an end value.
      * They will transition from the first value to the second one over time.
      * Size is the size of the object.
      * Alpha is the opacity
@@ -95,17 +95,20 @@ function GFX(node, image)
     this.StartPosition.y+=this.StepPosition.y * Delta;
     if ((this.StartPosition.y>this.EndPosition.y && this.StepPosition.y>0) || (this.StartPosition.y<this.EndPosition.y && this.StepPosition.y<0)) this.StartPosition.y=this.EndPosition.y;
     
+    //Check if hte internal image has been loaded
     if (this.WIDTH!=0)
     {
+      //If it has, apply the appropriate css to both
       this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH, height: this.HEIGHT});
       this.image.css({width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
       
     }
     else
     {
+      //if not, apply it only to the div
       this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
     }
-    
+    //Check if the object has reached it's end state, if it has, depsawn the object.
     if (this.StartSize == this.EndSize
     && this.StartAlpha == this.EndAlpha
     && this.StartPosition.x == this.EndPosition.x
@@ -116,6 +119,7 @@ function GFX(node, image)
   }
   /**
    * Despawns the animation.
+   * Also runs a function which can be specified to run on despawn.
    */
   this.Despawn = function()
   {

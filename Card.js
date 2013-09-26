@@ -81,6 +81,7 @@ function Cards(node, image, sizeX, sizeY)
   */
   this.Create = function(Value, FaceFront, FaceSchwartz, FaceBack, Bonus, scale)
   {
+    //Set base values.
     this.value = Value;
     this.FaceBack = FaceBack;
     this.FaceFront = FaceFront;
@@ -88,25 +89,13 @@ function Cards(node, image, sizeX, sizeY)
     this.scale = scale;
     this.Bonus = Bonus;
     
-    
     this.InternalWidth = this.Size/this.node.width();
     this.InternalHeight = this.Size/this.node.height();
-    //Applies the correct scale to the card. The code seems messy, but that's how the game engine does it.
-    var spriteDOMObject = this.node[0];
-    
     
     this.image.width(this.WIDTH);
     this.image.height(this.HEIGHT);
     this.node.width(this.WIDTH);
     this.node.height(this.HEIGHT);
-        
-    //var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.scale, factorv: this.InternalWidth * this.scale});
-      
-    //if(spriteDOMObject != undefined){
-      //spriteDOMObject.gameQuery = options;
-     // }
-      
-    //this.node.transform();
   }
   /**
    * Executes the effects of the bonus cards
@@ -121,15 +110,17 @@ function Cards(node, image, sizeX, sizeY)
        * Swarts face. If they are already flipped, change their face to swartzs immediately.
        */
       ForEachCard(function()
-	  {
-		this.Cards.Schwartzed = true;
-		//Set an internal timer to 5 seconds, so that the card will return to normal after that time.
-		this.Cards.SchwartzedTimer = 5*1000;
-		
-		if (this.Cards.Flipped==true && this.Cards.changed==true)
-		  this.Cards.ChangeFace(this.Cards.FaceSchwartz);
-	  });
+      {
+        this.Cards.Schwartzed = true;
+        //Set an internal timer to 5 seconds, so that the card will return to normal after that time.
+        this.Cards.SchwartzedTimer = 5*1000;
+        
+        //Change the face of hte card if it is flipped.
+        if (this.Cards.Flipped==true && this.Cards.changed==true)
+          this.Cards.ChangeFace(this.Cards.FaceSchwartz);
+      });
     
+      //Fate out the original bonus card (The bonus has been activated now.
       node.fadeOut();
       this.visible=false;
     }
@@ -149,22 +140,24 @@ function Cards(node, image, sizeX, sizeY)
       Current.GFX = new GFX($("#GFX_"+GFXCount), $("#IGFX_"+GFXCount));
       
       
-      
+      //Run a function once the image is done loading.
       $("#IGFX_"+GFXCount).load(function()
       {
         this.parentNode.GFX.SetSize($(this).width(), $(this).height());
       });
       $("#IGFX_"+GFXCount).attr('src',ImageManagerObject.GetMisc(POINTS1));
       
+      //Create the GFX with the appropriate parameters
       Current.GFX.Create(1, 1, 1, 1, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top}, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top-50}, 1);
         
       //When it despawns call this function.
       Current.GFX.EndCall(function()
       {
         //The reason to create two effects after each other is to make a fancier animation.
-      $("#GFXG").append("<div id='GFX_"+GFXCount+"' style='position: absolute'></div>");
-      $("#GFX_"+GFXCount).append("<img id='IGFX_"+GFXCount+"' draggable='false' class='image'/>");
+        $("#GFXG").append("<div id='GFX_"+GFXCount+"' style='position: absolute'></div>");
+        $("#GFX_"+GFXCount).append("<img id='IGFX_"+GFXCount+"' draggable='false' class='image'/>");
         
+        //The next code does the same as the code above.
         var Current = $("#GFX_"+GFXCount)[0];
         
         Current.GFX = new GFX($("#GFX_"+GFXCount), $("#IGFX_"+GFXCount));

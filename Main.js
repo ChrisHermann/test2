@@ -3,9 +3,6 @@
  * The this file is main javascript file
  */
 
-// Global constants:
-/*var PLAYGROUND_WIDTH = 1000;
-var PLAYGROUND_HEIGHT = 700;*/
 var REFRESH_RATE = 30;
 
 Paused = false;
@@ -67,10 +64,6 @@ function PauseGame()
     myButton.onclick = ResumeGame;
     placeHolder = document.getElementById("ResumeButtonDiv");
     placeHolder.appendChild(myButton);
-    
-    
-    /*$("#ResumeButtonDiv").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonResumeGame").width()/2)+'px')
-    $("#ResumeButtonDiv").css('top',( PLAYGROUND_HEIGHT/2-$("#ButtonResumeGame").height()/2)+'px')*/
   }
 }
 
@@ -310,9 +303,6 @@ AndroidDetect = PlatformDetect.split(")");
   $(function(){
   
   document.body.style.overflow = "hidden";
-  //Calculate playground width and height:
-  //PLAYGROUND_WIDTH = $(window).width();
-  //PLAYGROUND_HEIGHT = $(window).height();
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
   PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
   console.log(PLAYGROUND_WIDTH);
@@ -335,13 +325,6 @@ AndroidDetect = PlatformDetect.split(")");
   {
     return(b.score-a.score);
   }
-
-  /*//Calculate playground width and height:
-  PLAYGROUND_WIDTH = $(window).width() - 20;
-  PLAYGROUND_HEIGHT = $(window).height() - 20;*/
-    
-  /*$("#spin").css('left', PLAYGROUND_WIDTH/2+'px')
-  $("#spin").css('top', (PLAYGROUND_HEIGHT/2-120)+'px')*/
   
   //Initiates a default highscore if there is none.
   if(!localStorage.LocalStorageScores)
@@ -365,15 +348,6 @@ AndroidDetect = PlatformDetect.split(")");
   myButton.onclick = StartGame;
   placeHolder = document.getElementById("StartButtonDiv");
   placeHolder.appendChild(myButton);
-  
-  
-  //Resize and center the div on the screen.
-  /*$('#ButtonStartGame').width(160);
-  $('#ButtonStartGame').height(44);
-  $("#StartButtonDiv").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonStartGame").width()/2)+'px');
-  $("#StartButtonDiv").css('top', (PLAYGROUND_HEIGHT/2-$("#ButtonStartGame").height()/2)+'px');
-  $('#ButtonStartGame').css('font-size', 21+'px');*/
-  
   
 
   //Sets up all the variables needed for the game to run.
@@ -488,14 +462,6 @@ AndroidDetect = PlatformDetect.split(")");
   BONUSES = 4;  
 
 
-  // Initialize the game:
-
-  /*$("#MemoryGamePlayground").playground({
-    height: PLAYGROUND_HEIGHT, 
-    width: PLAYGROUND_WIDTH, 
-    keyTracker: true,
-  mouseTracker: true});*/
-
   // if Explorer 8 DO...
   if(BrowserDetect == "Explorer8" )
   {
@@ -555,16 +521,7 @@ AndroidDetect = PlatformDetect.split(")");
     scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
     
     placeHolder = document.getElementById("MessageHUD");
-    placeHolder.appendChild(myButton);;
-
-    //Current.css('font-size',scale*200+'%');
-      
-    //scale = Math.min(1,PLAYGROUND_WIDTH/1100);
-    //if (Current.width()>800*scale)
-    //Current.width(800*scale);
-  //$("#MessageButton").css('left', ($("#MessageHUD").width()/2-$("#MessageButton").width()/2+30)+'px')
-  //$("#MessageButton").css('top', ($("#MessageHUD").height())+'px')
-    //Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
+    placeHolder.appendChild(myButton);
   }
 
   /**
@@ -655,8 +612,6 @@ AndroidDetect = PlatformDetect.split(")");
       console.log(NextCard);
         
       //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
-      //$("#Cards").addSprite(name, {animation: ImageManagerObject.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
-	  
       $("#Img_"+i).load(function()
       {
         $(this).parent().width($(this).width());
@@ -760,28 +715,12 @@ AndroidDetect = PlatformDetect.split(")");
       });
     }
   }
-
-
-
-  //var resizeTimer;
  
-  /**
-   * Event to handle resizing
-   * This event should fire under any circimstance, except when safari is NOT maximized, and windows resolution is changed (WTF?)
-   */
-  /*$(window).resize(function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(Resized, 1);
-  });*/
 
   /**
-   * Actual Resizing Event
+   * Resizing Event
    */
   function Resized(){  
-    //Calculate playground width and height:
-    /*PLAYGROUND_WIDTH = $(window).width();
-    PLAYGROUND_HEIGHT = $(window).height();*/
-    
     //Calculates the screen ratio, so we can organize the deck in a manner that makes sense to the ratio.
     Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
     Ratio =  (Ratio+1)/2;
@@ -799,11 +738,10 @@ AndroidDetect = PlatformDetect.split(")");
      */
     SpaceY = PLAYGROUND_HEIGHT/(Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) / ((Math.ceil(NumberOfCards*Ratio )))    )  + 1));
     
-    //Now recalulate NumberOfCards, so it will make a more even distribution of the cards, based on the amount of rows it has.
+    //Now recalculate NumberOfCards, so it will make a more even distribution of the cards, based on the amount of rows it has.
     NumberOfCards = (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)/(Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) / ((Math.ceil(NumberOfCards*Ratio )))    ) ));
     
     //Calculate the number of columns based on the new even distribution.
-    
     SpaceX = PLAYGROUND_WIDTH/ Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) ,Math.ceil(NumberOfCards + 1));
     
     
@@ -839,16 +777,6 @@ AndroidDetect = PlatformDetect.split(")");
     //Now choose the lesser of the scalings, because this one will be the one to actually be applied.
     Scale = Math.min(Scale1, Scale2);
     
-    
-    //Set the width and height of the div.
-    /*$("#playground").playground({
-      height: PLAYGROUND_HEIGHT, 
-      width: PLAYGROUND_WIDTH
-    });/*
-    
-    
-    
-    
     /**
      * Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
      * Finds all cards, if they exist, updates their position and scaling. 
@@ -861,147 +789,22 @@ AndroidDetect = PlatformDetect.split(")");
       Card[0].Cards.scale = Scale;
       $(Card).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ), top: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152})
       $(Card).show();
-      //Card[0].Cards.Update({posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
-      }
+       }
     }
     
     //Calculate how much space is in between hte buttons.
     ButtonSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
     
-    //Use this to calculate the UI.
-    //ScaleUserInterface = Math.min((SpaceY - 10  - (CARDSIZEY+EMPTYSPACE)/2*Scale)/(UserInterfaceSizeY + 10), Math.min(ButtonSpace/(320+20), 1), 1);
-    
-    //$("#BorderTop").width(PLAYGROUND_WIDTH-20);
-    
-    //$("#BorderTop").height(Math.floor(UserInterfaceSizeY*ScaleUserInterface));
-    
-    
     /**
      * Resizes the button, according to the variable ScaleUserInterface.
      * Also centers them in the UI.
      */
-    /*current = $('#ButtonPause');
-    current.width(320*ScaleUserInterface);
-    current.height(88*ScaleUserInterface);
-    current.css('font-size', 40*ScaleUserInterface+'px');
-    current = $('#PauseButton');
-    current.css({ left: Math.floor((ButtonSpace+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});
-    
-    current = $('#ButtonMuteMusic');
-    current.width(320*ScaleUserInterface);
-    current.height(88*ScaleUserInterface);
-    current.css('font-size', 40*ScaleUserInterface+'px');
-    current = $('#MuteMusicButton');
-    current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});
-    
-    current = $('#ButtonMuteSound');
-    current.width(320*ScaleUserInterface);
-    current.height(88*ScaleUserInterface);
-    current.css('font-size', 40*ScaleUserInterface+'px');
-    current = $('#MuteSoundButton');
-    current.css({ left: Math.floor(((PLAYGROUND_WIDTH-20)+10)-Math.floor(current.width()/2) - ButtonSpace/2), top: 10+Math.floor(70 * ScaleUserInterface)});*/
-    
-    //Scales the pointHUD before everything else, this is used to properly calculate the TextScale.
-    /*current = $('#PointHUD');
-    current.width((PLAYGROUND_WIDTH-20)/3);*/
     
     //Append a textdiv which is used to test text-width, this is used to properly calculate the TextScale.
     $("#overlay").append("<div id='TextTestDiv'></div>");
     Current = $("#TextTestDiv");
-    //Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUserInterface))+'%');
     Current.html("Points: "+Math.round(PointsVisual));
-    //var TextSize = Current.width();
     Current.remove();
-    
-    //Calculate the text size based on various factors.
-    /*var TScale = Math.min($('#PointHUD').width()/215, ScaleUserInterface);
-    TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);*/
-    
-    
-    //Now resize  the divs in hte UI, to the appropriate size, and re-center them.
-    /*current = $('#PointHUD');
-    current.css("font-size", Math.floor(220* TScale)+'%');
-    current.css({ left: Math.floor((ButtonSpace*3+  10)-Math.floor(current.width()/2)- ButtonSpace/2) , top: 10});
-    
-    current = $("#TimeHUD");
-    current.css("font-size", Math.floor(220* TScale)+'%');
-    current.width((PLAYGROUND_WIDTH-20)/3);
-    current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
-    
-    current = $("#LevelHUD");
-    current.css("font-size", Math.floor(220* TScale)+'%');
-    current.width((PLAYGROUND_WIDTH-20)/3);
-    current.css({ left: Math.floor((ButtonSpace+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});*/
-    
-    
-    //Resize the startbutton, should that be present.
-    /*if ($("#StartButton").length){
-      $('#ButtonStartGame').width(160);
-      $('#ButtonStartGame').height(44);
-      $("#StartButton").css('left', (PLAYGROUND_WIDTH/2-$("#ButtonStartGame").width()/2)+'px');
-      $("#StartButton").css('top', (PLAYGROUND_HEIGHT/2-$("#ButtonStartGame").height()/2)+'px');
-      $('#ButtonStartGame').css('font-size', 21*ScaleUserInterface+'px');
-    }*/
-    
-    //If HighscoreHUD exists
-    //if ($("#HighscoreHUD").length){
-      //Current = $("#HighscoreHUD");
-      
-      //First, calculate hte scale, the numbers 1100 and 1400 are hardcoded.
-      //scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400);
-      //Adjusts the width. It can never be more than 50%, for various reasons.
-      //Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
-      
-      //Finds all the paragraphs and changes their textsize properly.
-      /*for (i=0; i<=HighscoreLines; i++){
-        if (i==0){
-          $("#Paragraph"+i).css('font-size',scale*150+'%');
-        }
-        else if (i==HighscoreLines){
-          $("#Paragraph"+i).css('font-size',scale*150+'%');
-        }
-        else{
-          if (i<3){
-          LineTextSize = 80+35/(i+1);
-          }
-          else{
-          LineTextSize = 80;
-          }
-        $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
-        }
-      }*/
-      
-      //Centers hte div on hte screen.
-      //Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
-    //}
-    
-    //Of NameEnterHUD exists, scale it to the screen and resize it properly. Again 1100 is a hardcoded number.
-    /*if ($("#NameEnterHUD").length){
-      Current = $("#NameEnterHUD");
-      
-      scale = Math.min(1,PLAYGROUND_WIDTH/1100);
-      Current.width(800*scale);
-      Current.css('font-size',scale*200+'%');
-      Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-    }*/
-    
-    //If BlurEffect exists stretch it to fit the screen.
-    /*if ($("#BlurEffect").length){
-      Current = $("#BlurEffect");
-      
-      Current.width(PLAYGROUND_WIDTH);
-      Current.height(PLAYGROUND_HEIGHT);
-    }*/
-    
-    //If inputhud exists, streacht it to the size of the screen.
-    /*if ($("#inputHUD").length){
-      if (!Focused){
-          Current = $("#inputBox");
-        
-          Current.width(PLAYGROUND_WIDTH);
-          Current.height(PLAYGROUND_HEIGHT);
-      }
-    }*/
     
     //Recalculate scale to use for background scaling, and then scale the background.
     scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
@@ -1050,21 +853,10 @@ AndroidDetect = PlatformDetect.split(")");
     var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
     Current.html(string);
-    
-    //Calculate scaling for the text size.
-    //scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
-    
-    //Current.css('font-size',scale*200+'%');
   
     //Delete all cards currently on the field.
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       $("#Card_"+i).hide();
-    }
-    
-    //Calculate scaling for the dic.
-    //scale = Math.min(1,PLAYGROUND_WIDTH/1100);
-    //Current.width(800*scale);
-    //Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
   }
 
   /**
@@ -1079,7 +871,7 @@ AndroidDetect = PlatformDetect.split(")");
     //Reset loaded scores.
     Scores = new Array();
     
-    //Remove hte blur effect
+    //Remove the blur effect
     $("#BlurEffect").hide();
     
     //Reset all important varaibles.
@@ -1185,7 +977,7 @@ AndroidDetect = PlatformDetect.split(")");
       $("#BlurEffect").show();
     }
     Ended=2;
-    //Create hte div for the highscore.
+    //Create the div for the highscore.
     Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
     
     //Load the highscores from localstoage, and split them into an array.
@@ -1222,37 +1014,7 @@ AndroidDetect = PlatformDetect.split(")");
       
       Current = $("#HighscoreHUD");
       
-      //Calculate new scaling.
-      //scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
-      //Current.width(800*scale);
-      
-      //Apply the correct scaling to the text in all the paragraphs.
-      /*for (i=0; i<=HighscoreLines; i++){
-        if (i==0){
-          $("#Paragraph"+i).css('font-size',scale*150+'%');
-         }
-        else if (i==HighscoreLines){
-          $("#Paragraph"+i).css('font-size',scale*150+'%');
-        }
-        else{
-          if (i<3){
-            LineTextSize = 80+35/(i+1);
-          }
-          else{
-            LineTextSize = 80;
-          }
-          $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
-        }
-      }*/
-      
-      //Center the div.
-      //Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
-      
     }, 'json');
-    
-    //Create a scale for the text.
-    //TODO: Remove
-    //scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
     
     
     //Create new div for high score.
@@ -1270,32 +1032,6 @@ AndroidDetect = PlatformDetect.split(")");
     $("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
     
     Current = $("#HighscoreHUD");
-    
-    //Calculate the div scale and apply it
-    //scale = Math.min(1,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1700);
-    //Current.width(Math.max(800*Math.min(0.5,PLAYGROUND_WIDTH/1100, PLAYGROUND_HEIGHT/1400+0.3) ));
-    
-    //Apply the scaling to all paragraphs
-    /*for (i=0; i<=HighscoreLines; i++){
-      if (i==0){
-        $("#Paragraph"+i).css('font-size',scale*150+'%');
-      }
-      else if (i==HighscoreLines){
-        $("#Paragraph"+i).css('font-size',scale*150+'%');
-      }
-      else{
-        if (i<3){
-          LineTextSize = 80+35/(i+1);
-        }
-        else{
-          LineTextSize = 80;
-        }
-        $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
-      }
-    }*/
-    
-    //Center the div.
-    //Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top:  (PLAYGROUND_HEIGHT - Current.height()-60)/2});
   }
 
   /**
@@ -1334,8 +1070,6 @@ AndroidDetect = PlatformDetect.split(")");
   
   //TODO: Better name
   $("#RealBG").show();
-  
-  //$("#overlay").append("<div id='BorderTop'></div>");
   
   //Create a div for the Point UI.
   $("#PointHUD").show();
@@ -1454,10 +1188,8 @@ AndroidDetect = PlatformDetect.split(")");
          */
         var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
         var Current = $("#NameEnterHUD");
-        //Apply the string to the div, and recenter it.
+        //Apply the string to the div.
         Current.html(string);
-        //TODO: Find a way to get the padding possibly.
-        //Current.css({left: (PLAYGROUND_WIDTH - Current.width()  - 60)/2, top:  (PLAYGROUND_HEIGHT - Current.height())/2});
         
         
         ForEachGFX(function(){
@@ -1471,7 +1203,6 @@ AndroidDetect = PlatformDetect.split(")");
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
         current.html("Time: "+Math.ceil(CurrentGameTime/1000));
-        //current.css({ left: Math.floor((ButtonSpace*2+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
       
       
         ForEachCard(function(){
@@ -1567,20 +1298,6 @@ AndroidDetect = PlatformDetect.split(")");
       Current.html("Points: "+Math.round(PointsVisual));
       var TextSize = Current.width();
       Current.remove();
-      
-      //var TScale = Math.min($('#PointHUD').width()/215, ScaleUserInterface);
-      //TScale*=Math.min($('#PointHUD').width()/(TextSize+10),1);
-      
-      /*current = $('#PointHUD');
-      current.html("Points: "+Math.round(PointsVisual));
-      current.css("font-size", Math.floor(220* TScale)+'%');
-      current.css({ left: Math.floor((ButtonSpace*3+10)-Math.floor(current.width()/2)- ButtonSpace/2), top: 10});
-      
-      current = $("#TimeHUD");
-      current.css("font-size", Math.floor(220* TScale)+'%');
-      
-      current = $("#LevelHUD");
-      current.css("font-size", Math.floor(220* TScale)+'%');*/
     }
   
   EndedLaster=Ended;

@@ -171,7 +171,6 @@
 
 #MemoryGamePlayground #inputBox {
   opacity:0;
-  filter:alpha(opacity=00);
   height: 100%;
   width: 100%;
 }

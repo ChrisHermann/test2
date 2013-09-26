@@ -385,7 +385,7 @@ $('#ButtonStartGame').css('font-size', 21+'px');*/
   var ScaleUserInterface = 0;
   var Focused = false;
   GFXCount = 0;
-  Points = 0;
+  Points = 100000;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -1009,12 +1009,13 @@ Current.css({width: Current.width()*scale,height: Current.height()*scale, left: 
 
     
     //Generate a string based on the name varaible, which is changed in onkeypress
-    var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+    //var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+    var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
     
     //If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
-    if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){
+    //if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){
      //TODO Comment
-      FocusFunction = function(me){
+      /*FocusFunction = function(me){
         $(me).height(0);
       Focused = true;
       }
@@ -1022,12 +1023,15 @@ Current.css({width: Current.width()*scale,height: Current.height()*scale, left: 
       UnfocusFunction = function(me){
       $(me).height(PLAYGROUND_HEIGHT);
       Focused = false;
-      }
+      }*/
       
-      $("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text'></div>");
-      
+      //$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text'></div>");
+      //$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' autocorrect='off' type = 'text'></div>");
+      $("#NameEnterHUD").append("<div id='inputHUD'><input id='inputBox' type = 'text' /></div>");
+      $("#inputBox").focus();
+      console.log("boxderp");
       Name = document.getElementById("inputBox").value;
-    }
+    //}
     var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
     Current.html(string);
@@ -1055,8 +1059,8 @@ Current.css({width: Current.width()*scale,height: Current.height()*scale, left: 
   function RestartGame(){
     $("#HighscoreHUD").remove();
     $("#inputHUD").remove();
-    $("#inputBox").remove();
-    
+    $("#inputBox").remove(); 
+    console.log("removederp");
     //Reset loaded scores.
     Scores = new Array();
     
@@ -1280,11 +1284,11 @@ $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
   }
 
   /**
-* This is called with an object containing name and score, can be used to send to the database.
-*
-* @param object object
-* An object with scores
-*/
+   * This is called with an object containing name and score, can be used to send to the database.
+   *
+   * @param object object
+   * An object with scores
+   */
   function ApplyHighscore(object){
     //Places the score in the array for the highscore
     Scores[Scores.length] = object;
@@ -1433,10 +1437,11 @@ $("#Paragraph"+i).css('font-size',scale*LineTextSize+'%');
 * If we are entering our name:
 * Generate a string based on the name varaible, which is changed in onkeypress
 */
-        var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+        //var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
+        var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
         var Current = $("#NameEnterHUD");
         //Apply the string to the div, and recenter it.
-        Current.html(string);
+        //Current.html(string); maybe not comment this out
         //TODO: Find a way to get the padding possibly.
         //Current.css({left: (PLAYGROUND_WIDTH - Current.width() - 60)/2, top: (PLAYGROUND_HEIGHT - Current.height())/2});
         

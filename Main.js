@@ -300,7 +300,7 @@ AndroidDetect = PlatformDetect.split(")");
  * It is purely made in the DOM and as such does not use canvas at all.
  */
 
-  $(function(){
+ $(function(){
   
   document.body.style.overflow = "hidden";
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();

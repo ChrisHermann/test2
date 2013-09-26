@@ -3,16 +3,28 @@
  * The Style Sheet
  */
 
+* {
+  margin: 0;
+  padding: 0;
+  -WEBKIT-USER-SELECT: NONE; /* SAFARI, CHROME */
+  -KHTML-USER-SELECT: NONE; /* KONQUEROR */
+  -MOZ-USER-SELECT: NONE; /* FIREFOX */
+  -MS-USER-SELECT: NONE; /* IE */
+  USER-SELECT: NONE; /* CSS3 */
+}
+
+.image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #MemoryGamePlayground {
   position: relative;
   width: 1600px; 
   height: 900px;  
   background: #000000;
-}
-
-#MemoryGamePlayground * {
-  margin: 0;
-  padding: 0;
+  /*padding-top: 0.1%;*/
 }
 
 #MemoryGamePlayground .ButtonStyle {
@@ -59,12 +71,11 @@
 }
 
 #MemoryGamePlayground #BorderTop {
-  background: #D27928;
+  background-color: #D27928;
   border-radius: 14px;
   position: relative;
-  width: 99%;
-  margin: 0.5%;
-  padding: 10px 0 10px 0;
+  width: 100%;
+  height: 10%;
 }
 
 #MemoryGamePlayground #PauseButtonDiv, #MemoryGamePlayground #MuteMusicButtonDiv, #MemoryGamePlayground #MuteSoundButtonDiv {
@@ -109,7 +120,7 @@
   font-family: verdana, sans-serif; 
   */
 	border-radius: 14px;
-	padding: 30px; 
+	padding: 30px;
 	vertical-align: middle; 
 	background: #D27928; 
 	overflow:hidden;
@@ -165,7 +176,7 @@
 }
 
 #MemoryGamePlayground #HighscoreHeadline {
-  padding: 0 30px; 
+  padding: 0 30px;
   font-size: 200%;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, 
@@ -188,11 +199,11 @@
 
 #MemoryGamePlayground #Highscore0 {
   background: #EAB344; 
-  padding: 7px 30px; 
+  padding: 7px 30px;
   font-size: 70%;
 }
 
 #MemoryGamePlayground #Highscore1 {
-  padding: 7px 30px; 
+  padding: 7px 30px;
   font-size: 70%;
 }

@@ -56,8 +56,7 @@ function PauseGame()
     
     $("#inputbox").hide();
     
-    $("#MemoryGamePlayground").append("<div id='ResumeButtonDiv'></div>");
-    
+    $("#ResumeButtonDiv").show();
     //Create a button, which is hten used to resume the game.
     myButton = document.createElement("input");
     myButton.type = "button";
@@ -89,7 +88,7 @@ function ResumeGame()
     Then = new Date().getTime();
     BackgroundMusic.resume();
     Paused = false;
-    $("#ResumeButtonDiv").remove();
+    $("#ResumeButtonDiv").hide();
   }
 }
 
@@ -327,7 +326,10 @@ AndroidDetect = PlatformDetect.split(")");
 
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
-   * TODO @SANDER
+   * @param a
+   *   object a to be sorted.
+   * @param b
+   *   object b to be sorted.
    */
   function CustomSort(a,b)
   {
@@ -346,6 +348,12 @@ AndroidDetect = PlatformDetect.split(")");
   {
     ResetHighscore();
   }
+  
+  
+    $("#MessageHUD").hide();
+    $("#Leveldiv").hide();
+    $("#HighscoreHUD").hide();
+    $("#NameEnterHUD").hide();
 
   //Create a button to start the game with.
   myButton = document.createElement("input");
@@ -528,15 +536,15 @@ AndroidDetect = PlatformDetect.split(")");
     ShowingMessage = true;
     
     //Append the needed containers.
-    $("#popup").append("<span id='MessageHUD'></span>");
-    $("#blur").append("<div id='BlurEffect'></div>");  
+    $("#MessageHUD").show();
+    $("#BlurEffect").show();
     
     //Add the control buttons to the UI
     myButton = document.createElement("input");
     myButton.type = "button";
     myButton.value = ButtonMessage;
     myButton.id = "MessageButton";
-  myButton.className = "ButtonStyle";
+    myButton.className = "ButtonStyle";
     myButton.onclick = UnshowMessage;
     
     
@@ -566,8 +574,8 @@ AndroidDetect = PlatformDetect.split(")");
   {
     ShowingMessage = false;
     
-    $("#MessageHUD").remove();
-    $("#BlurEffect").remove();
+    $("#MessageHUD").hide();
+    $("#BlurEffect").hide();
     
   }
 
@@ -1014,9 +1022,9 @@ AndroidDetect = PlatformDetect.split(")");
     Ended = 1;
     Name = "";
 
-    $("#popup").append("<div id='NameEnterHUD'></div>");
+    $("#NameEnterHUD").show();
     //Blurs the background.
-    $("#blur").append("<div id='BlurEffect'></div>");
+    $("#BlurEffect").show();
 
     
     //Generate a string based on the name varaible, which is changed in onkeypress
@@ -1064,15 +1072,15 @@ AndroidDetect = PlatformDetect.split(")");
    */
 
   function RestartGame(){
-    $("#HighscoreHUD").remove();
-    $("#inputHUD").remove();
-    $("#inputBox").remove();
+    $("#HighscoreHUD").hide();
+    $("#inputHUD").hide();
+    $("#inputBox").hide();
     
     //Reset loaded scores.
     Scores = new Array();
     
     //Remove hte blur effect
-    $("#BlurEffect").remove();
+    $("#BlurEffect").hide();
     
     //Reset all important varaibles.
     Points = 0;
@@ -1108,7 +1116,7 @@ AndroidDetect = PlatformDetect.split(")");
       if (event.keyCode==13){
         if (Ended == 1){
           //If we are entering our name show the highscore
-          $("#NameEnterHUD").remove();
+          $("#NameEnterHUD").hide();
           
           //Send the highscore to the database.
           ShowHighscore();
@@ -1146,7 +1154,7 @@ AndroidDetect = PlatformDetect.split(")");
       if (event.keyCode==13){
         if (Ended == 1){
           //If we are entering our name show the highscore
-          $("#NameEnterHUD").remove();
+          $("#NameEnterHUD").hide();
         
           //Send the highscore to the database.
           ShowHighscore();
@@ -1172,9 +1180,9 @@ AndroidDetect = PlatformDetect.split(")");
        * Delete all cards currently on the field.
      */
       for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
-        $("#Card_"+i).remove();
+        $("#Card_"+i).hide();
       }
-      $("#blur").append("<div id='BlurEffect'></div>");
+      $("#BlurEffect").show();
     }
     Ended=2;
     //Create hte div for the highscore.
@@ -1248,8 +1256,8 @@ AndroidDetect = PlatformDetect.split(")");
     
     
     //Create new div for high score.
-    $("#popup").append("<div id='HighscoreHUD'></div>");  
-    $("#inputbox").append("<div id='inputHUD'></div>");
+    $("#HighscoreHUD").show();
+    $("#inputHUD").show();
     $.ajax({
       data: "Name=" + Name + "&Score=" + Points,
       type: "POST",
@@ -1325,26 +1333,26 @@ AndroidDetect = PlatformDetect.split(")");
   //$("#background").addSprite("Background", {animation: ImageManagerObject.GetMisc(BackgroundImage), width: BACKGROUNDSIZE.x, height: BACKGROUNDSIZE.y});
   
   //TODO: Better name
-  $("#background").append("<div id='RealBG'></div>");
+  $("#RealBG").show();
   
   //$("#overlay").append("<div id='BorderTop'></div>");
   
   //Create a div for the Point UI.
-  $("#BorderTop").append("<div id='PointHUD'></div>");
+  $("#PointHUD").show();
   
   //Create a div for the Time UI.
-  $("#BorderTop").append("<div id='TimeHUD'></div>");
+  $("#TimeHUD").show();
     
   //Create a div for the Level UI.
-  $("#BorderTop").append("<div id='LevelHUD'></div>");
+  $("#LevelHUD").show();
   
   current = $('#PointHUD');
   current.html("Points: "+Math.round(PointsVisual));
   
   //Add div for control buttons
-  $("#BorderTop").append("<div id='PauseButtonDiv'></div>");
-  $("#BorderTop").append("<div id='MuteMusicButtonDiv'></div>");
-  $("#BorderTop").append("<div id='MuteSoundButtonDiv'></div>");
+  $("#PauseButtonDiv").show();
+  $("#MuteMusicButtonDiv").show();
+  $("#MuteSoundButtonDiv").show();
 
   
   //Add the control buttons to the UI
@@ -1505,7 +1513,7 @@ AndroidDetect = PlatformDetect.split(")");
               this.Cards.node.fadeOut();
             });
           
-            $("#popup").append("<div id='Leveldiv''></div>");
+            $("#Leveldiv").show();
             $("#Leveldiv").html("Level: "+(CurrentLevel+1));
           }
           Current = $("#Leveldiv");
@@ -1528,7 +1536,7 @@ AndroidDetect = PlatformDetect.split(")");
           
             //Then create next level.
             Restarted = false;
-            $("#Leveldiv").remove();
+            $("#Leveldiv").hide();
             CreateLevel();
           }
         }  

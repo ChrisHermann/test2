@@ -390,7 +390,7 @@ AndroidDetect = PlatformDetect.split(")");
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 40 * 1000;
+  var CoreGameTime = 5 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -635,7 +635,7 @@ AndroidDetect = PlatformDetect.split(")");
       var name = "Card_"+i;
       
       NextCard = DeckManagerObject.PushCard();
-      console.log(NextCard);
+      //console.log(NextCard);
         
       //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
       //$("#Cards").addSprite(name, {animation: ImageManagerObject.GetBack(), width: CardSize.x, height: CardSize.y, posx: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , posy: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
@@ -648,7 +648,7 @@ AndroidDetect = PlatformDetect.split(")");
       $("#"+name).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * (  i>=  (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , top: Math.floor( i / (Math.ceil(NumberOfCards))  ) * SpaceY + SpaceY - 152 });
 	  
       //Create the actual class for the card, this will add logic to the object.
-      console.log($("#"+name));
+      //console.log($("#"+name));
       var Current = $("#"+name)[0];
 	  
       Current.Cards = new Cards($("#"+name), $("#Img_"+i), CARDSIZEX, CARDSIZEY);
@@ -837,7 +837,7 @@ AndroidDetect = PlatformDetect.split(")");
      * Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
      * Finds all cards, if they exist, updates their position and scaling. 
      */
-     console.log(LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus);
+     //console.log(LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus);
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       var Card = $("#Card_"+i)
       
@@ -1013,7 +1013,7 @@ AndroidDetect = PlatformDetect.split(")");
     var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
     
     //If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
-    if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){ 
+    //if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){ 
      //TODO Comment 
       FocusFunction = function(me){
         $(me).height(0);
@@ -1025,10 +1025,10 @@ AndroidDetect = PlatformDetect.split(")");
       Focused = false;
       }
       
-      $("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text' style='filter:alpha(opacity=00);  height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
+      $("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text' height:"+PLAYGROUND_HEIGHT+"px;width:"+PLAYGROUND_WIDTH+"px;'></div>");
       
       Name = document.getElementById("inputBox").value;
-    }
+    //}
     var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
     Current.html(string);
@@ -1075,8 +1075,10 @@ AndroidDetect = PlatformDetect.split(")");
     CreateLevel();
   }
 
+  
+ 
   //If the browser is firefox, we need to run some special code for the key press events.
-  if (BrowserDetect != "Firefox"){  
+  //if (BrowserDetect != "Firefox"){  
     //Used only when entering your name for the highscore.
     document.onkeypress = function(event){
       var key_press = String.fromCharCode(event.keyCode);
@@ -1112,7 +1114,8 @@ AndroidDetect = PlatformDetect.split(")");
         return false;
       }
     });
-  }
+  //}
+   /* TO DO DELETE
   else{
     //Delete chars when entering name
     $(document).keydown(function (e) {
@@ -1149,8 +1152,8 @@ AndroidDetect = PlatformDetect.split(")");
         }
         return false;
       }
-    });
-  }
+    });*/
+  
 
   /**
    * Function to show highscore

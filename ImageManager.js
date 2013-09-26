@@ -17,8 +17,22 @@ function ImageManager()
   this.Create = function(BackFaceURL)
   {
     //This only takes the backface as argument.
-    this.BackFace = new $.gameQuery.Animation({
-      imageURL: BackFaceURL});
+    this.BackFace = new Image();
+	 $(this.BackFace)
+    // once the image has loaded, execute this code
+    .load(function () {
+      // set the image hidden by default    
+      $(this).hide();
+    })
+    
+    // if there was an error loading the image, react accordingly
+    .error(function () {
+      // notify the user that the image could not be loaded
+	  console.log("An error has occoured, during loading.");
+    })
+    
+    // *finally*, set the src attribute of the new image to our image
+    .attr('src', BackFaceURL);
   }
 
   /**
@@ -32,9 +46,23 @@ function ImageManager()
    */
   this.LoadCard = function(URL)
   {
-    this.Faces[this.Faces.length] = new $.gameQuery.Animation({
-      imageURL: URL});
+    this.Faces[this.Faces.length] = new Image();
+	  $(this.Faces[this.Faces.length-1])
+    // once the image has loaded, execute this code
+    .load(function () {
+      // set the image hidden by default    
+      $(this).hide();
+    })
     
+    // if there was an error loading the image, react accordingly
+    .error(function () {
+      // notify the user that the image could not be loaded
+      console.log("An error has occoured, during loading.");
+    })
+    
+    // *finally*, set the src attribute of the new image to our image
+    .attr('src', URL);
+	
     return(this.Faces.length-1);
   }
   
@@ -48,9 +76,23 @@ function ImageManager()
    */
   this.LoadMisc = function(URL)
   {
-    this.Misc[this.Misc.length] = new $.gameQuery.Animation({
-      imageURL: URL});
+    this.Misc[this.Misc.length] = new Image();
+	  $(this.Misc[this.Misc.length-1])
+    // once the image has loaded, execute this code
+    .load(function () {
+      // set the image hidden by default    
+      $(this).hide();
+    })
     
+    // if there was an error loading the image, react accordingly
+    .error(function () {
+      // notify the user that the image could not be loaded
+      console.log("An error has occoured, during loading.");
+    })
+    
+    // *finally*, set the src attribute of the new image to our image
+    .attr('src', URL);
+	
     return(this.Misc.length-1);
   }
   
@@ -65,7 +107,7 @@ function ImageManager()
    */
   this.GetCard = function(Number)
   {
-    return(this.Faces[Number]);
+    return(this.Faces[Number].src);
   }
   /**
    * Gets the image with a given index.
@@ -78,7 +120,7 @@ function ImageManager()
    */
   this.GetMisc = function(Number)
   {
-    return(this.Misc[Number]);
+    return(this.Misc[Number].src);
   }
   
   /**
@@ -89,7 +131,7 @@ function ImageManager()
    */
   this.GetBack = function()
   {
-    return(this.BackFace);
+    return(this.BackFace.src);
   }
   
   /**

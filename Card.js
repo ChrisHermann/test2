@@ -2,11 +2,11 @@
  * @file
  * The Card Class
  */
-function Cards(node)
+function Cards(node, image, sizeX, sizeY)
 {
   //These attributes may be obsolete atm.
-  this.WIDTH = 208;
-  this.HEIGHT = 303; 
+  this.WIDTH = sizeX;
+  this.HEIGHT = sizeY;
   this.Size = 208;
   
   this.value = 0;
@@ -29,6 +29,7 @@ function Cards(node)
   this.changed = false;
   
   this.node = $(node);
+  this.image = $(image);
   
   this.factor = 1;
   this.scale  = 1;
@@ -52,7 +53,13 @@ function Cards(node)
    */
   this.ChangeFace = function(face)
   {
-  this.node.setAnimation(face, null);
+    this.image.attr('src',face);
+    //Hackish method.
+    
+    this.image.load(function(){
+      $(this.parentNode).width(this.parentNode.Cards.WIDTH);
+      $(this.parentNode).height(this.parentNode.Cards.HEIGHT);
+    });
   }
   
   /**
@@ -82,18 +89,24 @@ function Cards(node)
     this.Bonus = Bonus;
     
     
-    this.InternalWidth = this.Size/this.node.w();
-    this.InternalHeight = this.Size/this.node.h();
+    this.InternalWidth = this.Size/this.node.width();
+    this.InternalHeight = this.Size/this.node.height();
     //Applies the correct scale to the card. The code seems messy, but that's how the game engine does it.
     var spriteDOMObject = this.node[0];
+    
+    
+    this.image.width(this.WIDTH);
+    this.image.height(this.HEIGHT);
+    this.node.width(this.WIDTH);
+    this.node.height(this.HEIGHT);
         
-    var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.scale, factorv: this.InternalHeight * this.scale});
+    //var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.scale, factorv: this.InternalWidth * this.scale});
       
-    if(spriteDOMObject != undefined){
-      spriteDOMObject.gameQuery = options;
-      }
+    //if(spriteDOMObject != undefined){
+      //spriteDOMObject.gameQuery = options;
+     // }
       
-    this.node.transform();
+    //this.node.transform();
   }
   /**
    * Executes the effects of the bonus cards
@@ -127,31 +140,48 @@ function Cards(node)
        * Create the GFX for the points!
        * The points won't be awarded until het GFX is actually gone.
        */
-	  $("#GFXG").addSprite("GFX_"+GFXCount, {animation: ImageManagerObject.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+      $("#GFXG").append("<div id='GFX_"+GFXCount+"' style='position: absolute'></div>");
+      $("#GFX_"+GFXCount).append("<img id='IGFX_"+GFXCount+"' draggable='false' class='image'/>");
       
-	  //Set up the parameters used
+      //Set up the parameters used
       var Current = $("#GFX_"+GFXCount)[0];
+        
+      Current.GFX = new GFX($("#GFX_"+GFXCount), $("#IGFX_"+GFXCount));
       
-      Current.GFX = new GFX($("#GFX_"+GFXCount));
-      Current.GFX.Create(1, 1, 1, 1, {x: this.node.x()+this.node.w()/2, y: this.node.y()}, {x: this.node.x()+this.node.w()/2, y: this.node.y()-50}, 1);
       
+      
+      $("#IGFX_"+GFXCount).load(function()
+      {
+        this.parentNode.GFX.SetSize($(this).width(), $(this).height());
+      });
+      $("#IGFX_"+GFXCount).attr('src',ImageManagerObject.GetMisc(POINTS1));
+      
+      Current.GFX.Create(1, 1, 1, 1, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top}, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top-50}, 1);
+        
       //When it despawns call this function.
       Current.GFX.EndCall(function()
-	  {
-		//The reason to create two effects after each other is to make a fancier animation.
-        $("#GFXG").addSprite("GFX_"+GFXCount, {animation: ImageManagerObject.GetMisc(POINTS1), width: 35, height: 21, posx: 0 , posy: 0 });
+      {
+        //The reason to create two effects after each other is to make a fancier animation.
+      $("#GFXG").append("<div id='GFX_"+GFXCount+"' style='position: absolute'></div>");
+      $("#GFX_"+GFXCount).append("<img id='IGFX_"+GFXCount+"' draggable='false' class='image'/>");
         
         var Current = $("#GFX_"+GFXCount)[0];
         
-        Current.GFX = new GFX($("#GFX_"+GFXCount));
+        Current.GFX = new GFX($("#GFX_"+GFXCount), $("#IGFX_"+GFXCount));
+        
+        $("#IGFX_"+GFXCount).load(function()
+        {
+          this.parentNode.GFX.SetSize($(this).width(), $(this).height());
+        });
+        $("#IGFX_"+GFXCount).attr('src',ImageManagerObject.GetMisc(POINTS1));
         var DIV = $("#PointHUD");
         
         //Limit it to 70, to make sure it will never overlap the "score:" caption
         Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 1);
         
-        //When this GFX despawns award the 500 poitns.
+        //When this GFX despawns award the 500 points.
         Current.GFX.EndCall(function()
-		{
+        {
           Points+=500;
         });
         
@@ -232,21 +262,21 @@ function Cards(node)
         
         
         //Here it exchanges the necessary variables to make the cards actually change place.
-        var val = Math.floor(Math.random()*(PCards.length));
+        var val = Math.floor(Math.random()*(PotentialCards.length));
         
         
         var Container =  this.value;
-        this.value = PCards[val].value;
-        PCards[val].value = Container;
+        this.value = PotentialCards[val].value;
+        PotentialCards[val].value = Container;
         
         
-        this.Bonus = PCards[val].Bonus;
-        PCards[val].Bonus = true;
+        this.Bonus = PotentialCards[val].Bonus;
+        PotentialCards[val].Bonus = true;
         
         
-        var Container =  this.FaceF;
-        this.FaceF = PCards[val].FaceF;
-        PCards[val].FaceF = Container;
+        var Container =  this.FaceFront;
+        this.FaceFront = PotentialCards[val].FaceFront;
+        PotentialCards[val].FaceFront = Container;
       }
     }
   }
@@ -318,7 +348,9 @@ function Cards(node)
         }
         
         //This updates the applied changes visually.
-        this.node.transform();
+          this.image.width(this.WIDTH * this.factor * this.scale + Math.sin(this.Direction-3.14/2) * 0.1 * this.scale);
+          this.image.height(this.HEIGHT * this.scale  + Math.sin(this.Direction-3.14/2) * 0.1 * this.scale);
+          
         
         //This code runs when the card is done turning.
         if(this.Direction>=3.14*1.5){
@@ -326,14 +358,17 @@ function Cards(node)
           this.factor=1;
           
           //This applies to factor to the width of the gamequery sprite.
-          var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.InternalWidth * this.factor * this.scale, factorv: this.InternalHeight * this.scale});
+          /*var options = $.extend(spriteDOMObject.gameQuery, {factorh: this.InternalWidth * this.factor * this.scale, factorv: this.InternalHeight * this.scale});
             
           if(spriteDOMObject != undefined){
             spriteDOMObject.gameQuery = options;
           }
           
           //This updates the applied changes visually.
-          this.node.transform();
+          this.node.transform();*/
+          
+          this.image.width(this.WIDTH * this.factor * this.scale);
+          this.image.height(this.HEIGHT * this.scale);
           
           
           

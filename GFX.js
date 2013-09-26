@@ -2,10 +2,11 @@
  * @file
  * @todo explain
  */
-function GFX(node)
+function GFX(node, image)
 {
   //This card is used to easily make
   this.node = node;
+  this.image = image;
   this.StartSize;
   this.EndSize;
   this.StartAlpha;
@@ -20,6 +21,8 @@ function GFX(node)
   this.StepPosition;
   this.Callback;
   this.HasCallback = false;
+  this.WIDTH=0;
+  this.HEIGHT=0;
   
   /**
    * Sets up the functions.
@@ -49,7 +52,7 @@ function GFX(node)
      * Position is an object given as: {x: , y:} with coordinates.
      * Steps is the amount of seconds the transaction should take.
      */
-	this.Steps = (steps * 1000);
+    this.Steps = (steps * 1000);
     
     this.StartSize = StartSize;
     this.EndSize = EndSize;
@@ -62,6 +65,12 @@ function GFX(node)
     this.StartPosition = StartPosition;
     this.EndPosition = EndPosition;
     this.StepPosition = {x: (EndPosition.x-StartPosition.x)/this.Steps, y: (EndPosition.y-StartPosition.y)/this.Steps};
+  }
+  
+  this.SetSize = function(w, h)
+  {
+    this.WIDTH=w;
+    this.HEIGHT=h;
   }
   
   /**
@@ -86,8 +95,16 @@ function GFX(node)
     this.StartPosition.y+=this.StepPosition.y * Delta;
     if ((this.StartPosition.y>this.EndPosition.y && this.StepPosition.y>0) || (this.StartPosition.y<this.EndPosition.y && this.StepPosition.y<0)) this.StartPosition.y=this.EndPosition.y;
     
-    this.node.scale(this.StartSize).xy(this.StartPosition.x, this.StartPosition.y).css({opacity: this.StartAlpha});
-    
+    if (this.WIDTH!=0)
+    {
+      this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH, height: this.HEIGHT});
+      this.image.css({width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
+      
+    }
+    else
+    {
+      this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
+    }
     
     if (this.StartSize == this.EndSize
     && this.StartAlpha == this.EndAlpha

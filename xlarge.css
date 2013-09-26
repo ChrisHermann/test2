@@ -8,9 +8,6 @@
   width: 1600px; 
   height: 900px;  
   background: #000000;
-  /*
-  border-radius: 24px;
-  */
 }
 
 #MemoryGamePlayground * {
@@ -64,10 +61,10 @@
 #MemoryGamePlayground #BorderTop {
   background: #D27928;
   border-radius: 14px;
-  height: 80px;
   position: relative;
   width: 99%;
   margin: 0.5%;
+  padding: 10px 0 10px 0;
 }
 
 #MemoryGamePlayground #PauseButtonDiv, #MemoryGamePlayground #MuteMusicButtonDiv, #MemoryGamePlayground #MuteSoundButtonDiv {

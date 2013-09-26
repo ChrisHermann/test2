@@ -838,15 +838,15 @@ AndroidDetect = PlatformDetect.split(")");
       
       //$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' onfocus='FocusFunction(this)' onblur='UnfocusFunction(this)' autocorrect='off' type = 'text'></div>");
       //$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' autocorrect='off' type = 'text'></div>");
-      $("#NameEnterHUD").append("<div id='inputHUD'><input id='inputBox' type = 'text' /></div>");
-      $("#inputBox").focus();
-      console.log("boxderp");
-      Name = document.getElementById("inputBox").value;
+     
     //}
     var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
     Current.html(string);
-  
+      $("#NameEnterHUD").append("<div id='inputHUD'><input id='inputBox' type = 'text' /></div>");
+      $("#inputBox").focus();
+      console.log("boxderp");
+      Name = document.getElementById("inputBox").value;
     //Delete all cards currently on the field.
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       $("#Card_"+i).hide();

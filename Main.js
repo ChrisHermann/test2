@@ -327,17 +327,6 @@ AndroidDetect = PlatformDetect.split(")");
     $("#Leveldiv").hide();
     $("#HighscoreHUD").hide();
     $("#NameEnterHUD").hide();
-
-  //Create a button to start the game with.
-  myButton = document.createElement("input");
-  myButton.type = "button";
-  myButton.value = "Start Game";
-  myButton.id = "ButtonStartGame";
-  myButton.className = "ButtonStyle";
-  Current = $(myButton);
-  myButton.onclick = StartGame;
-  placeHolder = document.getElementById("StartButtonDiv");
-  placeHolder.appendChild(myButton);
   
 
   //Sets up all the variables needed for the game to run.
@@ -1122,7 +1111,7 @@ AndroidDetect = PlatformDetect.split(")");
   /**
    * Starts the game. Much of it is actually gamequery specific code.
    */
-  function StartGame(){
+  $("#ButtonStartGame").click(function(){
       Then = new Date().getTime();
       GameStart = true;
       $("#inputbox").show();
@@ -1134,7 +1123,7 @@ AndroidDetect = PlatformDetect.split(")");
         BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
       }
       $("#welcomeScreen").remove();
-  }
+  });
 
   (function() {
     var onEachFrame;

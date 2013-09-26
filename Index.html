@@ -4,7 +4,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no"/>
-  <link href="style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" media="only screen and (min-width: 1px)" href="small.css" />
+  <link rel="stylesheet" media="only screen and (min-width: 640px)" href="medium.css" />
+  <link rel="stylesheet" media="only screen and (min-width: 1024px)" href="large.css" />
+  <link rel="stylesheet" media="only screen and (min-width: 1600px)" href="xlarge.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
   <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
   <script type="text/javascript" src="http://gamequeryjs.com/wp-content/uploads/jquery.gamequery-0.7.1.js"></script>
@@ -18,14 +21,12 @@
   <title>Vendespil</title>
 </head>
 
-<body style="background-color: black;">
+<body>
 
-  <div id="playground" style="position: absolute; left: 0px; top: 0px; width: 700px; height: 250px;  background: black;">
-    <div id="welcomeScreen" style="width: 700px; height: 250px; position: absolute; z-index: 100;">
-      <div style="position: absolute; top: 0px; width: 700px; color: white;">
-        <div id="StartButton" class="spinner-link" style="color: white; position: absolute; left: 0px; top: 0px;"></div>
-        <div id="spin" style="position: absolute; left: 0px; top: -120px; display:none;"></div>
-      </div>
+  <div id="MemoryGamePlayground">
+    <div id="welcomeScreen">
+        <div id="StartButtonDiv" class="spinner-link"></div>
+        <div id="spin"></div>
     </div>
   </div>
   

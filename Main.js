@@ -44,7 +44,7 @@ function ForEachGFX(Function)
 */
 function PauseGame()
 {
-  //Do not pause hte game before it has started, as this creates weird bugs.
+  //Do not pause the game before it has started, as this creates weird bugs.
   if(GameStart && !Paused)
   {
     Paused=true;
@@ -54,16 +54,6 @@ function PauseGame()
     $("#inputbox").hide();
     
     $("#ResumeButtonDiv").show();
-    //Create a button, which is hten used to resume the game.
-    myButton = document.createElement("input");
-    myButton.type = "button";
-    myButton.value = "Resume Game";
-    myButton.id = "ButtonResumeGame";
-    myButton.className = "ButtonStyle";
-    Current = $(myButton);
-    myButton.onclick = ResumeGame;
-    placeHolder = document.getElementById("ResumeButtonDiv");
-    placeHolder.appendChild(myButton);
   }
 }
 
@@ -77,7 +67,7 @@ function ResumeGame()
   {
     $("#inputbox").show();
     Paused=false;
-    //This is used to reset delta, so hte game thinks no time has passed between the pause.
+    //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
     BackgroundMusic.resume();
     Paused = false;
@@ -300,7 +290,7 @@ AndroidDetect = PlatformDetect.split(")");
 * It is purely made in the DOM and as such does not use canvas at all.
 */
 
-  $(function(){
+ $(function(){
   
   document.body.style.overflow = "hidden";
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();

@@ -21,10 +21,9 @@
 
 #MemoryGamePlayground {
   position: relative;
-    width: 1024px; 
+  width: 1024px; 
   height: 768px; 
   background: #000000;
-  /*padding-top: 0.1%;*/
 }
 
 #MemoryGamePlayground .ButtonStyle {

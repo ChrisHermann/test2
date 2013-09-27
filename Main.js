@@ -359,7 +359,7 @@ AndroidDetect = PlatformDetect.split(")");
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 50 * 1000;
+  var CoreGameTime = 1 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -533,11 +533,11 @@ AndroidDetect = PlatformDetect.split(")");
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("Level: "+CurrentLevel);
+    current.html("<span>Level: "+CurrentLevel + "</span>");
     
     
     current = $("#TimeHUD");
-    current.html("Time: "+Math.ceil(CurrentGameTime/1000));
+    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
@@ -1034,7 +1034,7 @@ AndroidDetect = PlatformDetect.split(")");
   $("#MessageButton").click(function(e) { UnshowMessage() });
   
   current = $('#PointHUD');
-  current.html("Points: "+Math.round(PointsVisual));
+  current.html("<span>Points: "+Math.round(PointsVisual) + "</span>");
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -1114,7 +1114,7 @@ AndroidDetect = PlatformDetect.split(")");
       
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("Time: "+Math.ceil(CurrentGameTime/1000));
+        current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
       
       
         ForEachCard(function(){
@@ -1128,7 +1128,7 @@ AndroidDetect = PlatformDetect.split(")");
         });
         //Ends game if GameTime hits 0
         if (CurrentGameTime <= 0){
-          $("#TimeHUD").html("Time: 0");
+          $("#TimeHUD").html("<span>Time: 0</span>");
           EndGame();
         }
       

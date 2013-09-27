@@ -5,8 +5,7 @@
  * Make it easier to manage which cards are
  * still available
  */
-function DeckManager()
-{
+function DeckManager(){
   this.NumberOfCards = 0;
   this.NumberOfBonusCards = 0;
   
@@ -23,8 +22,7 @@ function DeckManager()
    * @param array BonusCardPool
    *   It's an array of bonuscards used for the level
    */
-  this.Create = function(CardPool, BonusCardPool)
-  {
+  this.Create = function(CardPool, BonusCardPool){
     this.CardPool = CardPool;
     this.BonusCardPool = BonusCardPool;
     
@@ -37,20 +35,17 @@ function DeckManager()
    * @return integer
    *   Returns the ID of hte next card in the stack.
    */
-  this.PushCard = function()
-  {
+  this.PushCard = function(){
     var PushValue;
     //Calculates which of the pools the card is from, and assigns the result to PushValue, which is then returned.
-    if (this.NextVal>=this.CardPool.length)
-    {
+    if (this.NextVal>=this.CardPool.length){
       PushValue = this.BonusCardPool[this.NextVal - this.CardPool.length];
       this.LastBonusBool = true;
     
       //Then we need to remove the drawn card from the deck.
 		this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
     }
-    else
-    {
+    else{
       PushValue = this.CardPool[this.NextVal];
       this.LastBonusBool = false;
       
@@ -67,15 +62,12 @@ function DeckManager()
   /**
    * Peeks at the next card, without removing it from the deck.
    */
-  this.PeekCard = function()
-  {
+  this.PeekCard = function(){
     var PeekValue;
-    if (NextVal>CardPool.length)
-    {
+    if (NextVal>CardPool.length){
       PeekValue = this.BonusCardPool[this.NextVal - this.CardPool.length];
     }
-    else
-    {
+    else{
       PeekValue = this.CardPool[this.NextVal];
     }
   }
@@ -84,8 +76,7 @@ function DeckManager()
    * @return integer
    *   Returns the size of the deck for this level.
    */
-  this.GetNumberOfCards = function()
-  {
+  this.GetNumberOfCards = function(){
     return(CardPool.length + BonusCardPool.length);
   }
   
@@ -93,8 +84,7 @@ function DeckManager()
    * @return bool
    *   Returns whether the last card drawn was a bonus card or not.
    */
-  this.LastBonus = function()
-  {
+  this.LastBonus = function(){
     return(this.LastBonusBool);
   }
   
@@ -102,14 +92,11 @@ function DeckManager()
    * @return bool
    *   Returns whether the next card to be drawn will be a bonus card or not.
    */
-  this.NextBonus = function()
-  {
-    if (NextVal>CardPool.length)
-    {
+  this.NextBonus = function(){
+    if (NextVal>CardPool.length){
       return(true);
     }
-    else
-    {
+    else{
       return(false);
     }
   }
@@ -118,8 +105,7 @@ function DeckManager()
    * @return integer
    *   Returns a random bonus card, within the appropriate range.
    */
-  this.GetRandomBonus = function()
-  {
+  this.GetRandomBonus = function(){
     return(SCHWARTZID+Math.floor(Math.random()*BONUSES));
   }
 }

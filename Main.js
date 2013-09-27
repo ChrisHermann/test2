@@ -16,10 +16,8 @@ var MuteSoundBool = false;
 * @param function Function
 * The function that each card needs to run. the card will refer to itself as this.
 */
-function ForEachCard(Function)
-{
-  for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i)
-  {
+function ForEachCard(Function) {
+  for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i) {
     Function.apply($("#Card_"+i)[0]);
   }
 }
@@ -30,10 +28,8 @@ function ForEachCard(Function)
 * @param function Function
 * Tje fimctopm that eacj GFX needs to run, the GFX will refer to itself as this.
 */
-function ForEachGFX(Function)
-{
-  for (var i = 0; i < GFXCount; ++i)
-  {
+function ForEachGFX(Function) {
+  for (var i = 0; i < GFXCount; ++i) {
     if ($("#GFX_"+i)[0])
     Function.apply($("#GFX_"+i)[0]);
   }
@@ -42,11 +38,9 @@ function ForEachGFX(Function)
 /**
 * This function pauses the game.
 */
-function PauseGame()
-{
+function PauseGame() {
   //Do not pause the game before it has started, as this creates weird bugs.
-  if(GameStart && !Paused)
-  {
+  if(GameStart && !Paused) {
     Paused=true;
     BackgroundMusic.pause();
     Paused = true;
@@ -60,11 +54,9 @@ function PauseGame()
 /**
 * This function resumes the game after its been paused.
 */
-function ResumeGame()
-{
+function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
-  if(GameStart && Paused)
-  {
+  if(GameStart && Paused) {
     $("#inputbox").show();
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
@@ -78,8 +70,7 @@ function ResumeGame()
 /**
 * Use this function to automatically alter between paused state and resumed state.
 */
-function PauseResume()
-{
+function PauseResume() {
   if (Paused == false)
     PauseGame();
   else
@@ -89,17 +80,13 @@ function PauseResume()
 /**
 * This function has two functions to mute and unmute music. It will detect what the music currently is, and do the opposite.
 */
-function MuteMusic()
-{
-  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
-  {
-    function MuteMusic()
-    {
+function MuteMusic() {
+  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android") {
+    function MuteMusic() {
       BackgroundMusic.setMute(true);
       MuteMusicBool = true;
     }
-    function UnMuteMusic()
-    {
+    function UnMuteMusic() {
       BackgroundMusic.setMute(false);
       MuteMusicBool = false;
     }
@@ -115,15 +102,12 @@ function MuteMusic()
 /**
 * This function has two functions to mute and unmute Sound. It will detect what the music currently is, and do the opposite.
 */
-function MuteSound()
-{
-  function MuteSound()
-  {
+function MuteSound() {
+  function MuteSound() {
     FlipCardSound.setMute(true);
     MuteSoundBool = true;
   }
-  function UnMuteSound()
-  {
+  function UnMuteSound() {
     FlipCardSound.setMute(false);
     MuteSoundBool = false;
   }
@@ -179,22 +163,20 @@ $(function(){
    * @param b
    *   object b to be sorted.
    */
-  function CustomSort(a,b)
-  {
+  function CustomSort(a,b) {
     return(b.score-a.score);
   }
   
   //Initiates a default highscore if there is none.
-  if(!localStorage.LocalStorageScores)
-  {
+  if(!localStorage.LocalStorageScores) {
     ResetHighscore();
   }
   
   
-    $("#MessageHUD").hide();
-    $("#Leveldiv").hide();
-    $("#HighscoreHUD").hide();
-    $("#NameEnterHUD").hide();
+  $("#MessageHUD").hide();
+  $("#Leveldiv").hide();
+  $("#HighscoreHUD").hide();
+  $("#NameEnterHUD").hide();
 
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
@@ -220,30 +202,25 @@ $(function(){
   Restarted = false;
   
   Now = 0;
-  
   Delta = 0;
-  
   Then = new Date().getTime();
   
   
   var CoreGameTime = 5 * 1000;
-  
   var CurrentGameTime = CoreGameTime;
   
   GameStart = false;
 
   //Change this if image resolution changes
   var CardSize = {x: 208,y: 303};
-
   CoreLevel = 0;
-  
   CurrentLevel = CoreLevel;
   
 
   /**
-* Animations declaration:
-* The background:
-*/
+  * Animations declaration:
+  * The background:
+  */
   var DeckManagerObject = new DeckManager();
   ImageManagerObject = new ImageManager();
   LevelManagerObject = new LevelManager();
@@ -251,14 +228,11 @@ $(function(){
   //Creates the imagemanager and loads the backcard.
   ImageManagerObject.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
   
-
-  
   /**
-* Sounds
-* no background music on iPad
-*/
-  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone")
-  {
+  * Sounds
+  * no background music on iPad
+  */
+  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
     BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
     FlipCardSound = createjs.Sound.createInstance("./flipcard.wav");
 
@@ -299,7 +273,78 @@ $(function(){
 	  $("#Cards").append("<div id='"+name+"' style='position: absolute; width: 208; height: 208;'></div>");
 	  $("#"+name).append("<img id='"+nameImg+"' draggable='false' class='image'/>");
     $("#"+name).hide();
-}
+  }
+  
+  $("#inputBox").focus();
+  $(".GoToHighScore").click(function(e) {
+    Name = document.getElementById("inputBox").value;
+    if (Ended == 1){
+      //If we are entering our name show the highscore
+      $("#NameEnterHUD").hide();
+    
+      //Send the highscore to the database.
+      ShowHighscore();
+      ApplyHighscore( {name: Name, score: Points} );
+    }
+    else if (Ended == 2){
+    //Else, restart the game.
+    Restarted = true;
+    RestartGame();
+    }
+  });
+  
+  
+  //Setup UI
+  //Add borders.
+  $("#ButtonPause").click(function(e) { PauseGame() });
+  $("#ButtonMuteSound").click(function(e) { MuteSound() });
+  $("#ButtonMuteMusic").click(function(e) { MuteMusic() });
+  $("#MessageButton").click(function(e) { UnshowMessage() });
+  
+  current = $('#PointHUD');
+  current.html("Points: "+Math.round(PointsVisual));
+
+  Scores = new Array();
+  Scores.sort(CustomSort);
+
+  /**
+   * Starts the game. Much of it is actually gamequery specific code.
+   */
+  $("#ButtonStartGame").click(function(){
+      Then = new Date().getTime();
+      GameStart = true;
+      $("#inputbox").show();
+      
+      //Create the first level.
+      CreateLevel();
+      //no Background music if iPad
+      if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
+        BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
+      }
+      $("#welcomeScreen").remove();
+  });
+  
+  //Sets up the main loop to be runnable.
+  (function() {
+    var onEachFrame;
+    if (window.webkitRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); webkitRequestAnimationFrame(_cb); }
+      _cb();
+    };
+    } else if (window.mozRequestAnimationFrame) {
+    onEachFrame = function(cb) {
+      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
+      _cb();
+    };
+    } else {
+    onEachFrame = function(cb) {
+      setInterval(cb, 1000 / 60);
+    }
+    }
+    window.onEachFrame = onEachFrame;
+  })();
+  
   
   
   //Change this and lines: 636-681, to change the UI.
@@ -327,16 +372,15 @@ $(function(){
   }*/
 
   /**
-* This function shows a message, with the proper css.
-*
-* @param string Message
-* The message for the user
-*
-* @param string ButtonMessage
-* The text on the button
-*/
-  function ShowMessage(Message, ButtonMessage)
-  {
+  * This function shows a message, with the proper css.
+  *
+  * @param string Message
+  * The message for the user
+  *
+  * @param string ButtonMessage
+  * The text on the button
+  */
+  function ShowMessage(Message, ButtonMessage) {
     //Tell the game it is currently showing a message to pseudo-pause it.
     ShowingMessage = true;
     
@@ -354,10 +398,10 @@ $(function(){
   }
 
   /**
-* Unshows the message, basicly, this should only be called by the Ok button.
-*/
-  function UnshowMessage(Message)
-  {
+  * Unshows the message, basicly, this should only be called by the Ok button.
+  */
+  
+  function UnshowMessage(Message) {
     ShowingMessage = false;
     
     $("#MessageHUD").hide();
@@ -365,14 +409,11 @@ $(function(){
     
   }
 
-  
-
   /**
-* This functions "creates a level" this function is run when there is an empty screen to set up
-* everything for the next level.
-*/
-  function CreateLevel()
-  {
+  * This functions "creates a level" this function is run when there is an empty screen to set up
+  * everything for the next level.
+  */
+  function CreateLevel() {
     //First go to next level to increase the difficulty.
     LevelManagerObject.NextLevel();
     
@@ -381,12 +422,10 @@ $(function(){
     CurrentGameTime = CoreGameTime;
     
     // Level goes up or Restarts
-    if(Restarted == false)
-    {
+    if(Restarted == false) {
       CurrentLevel++;
     }
-    else
-    {
+    else {
       CurrentLevel = 1;
     }
     
@@ -408,18 +447,18 @@ $(function(){
     var TurnedMax = 2;
     
     /**
-* This will ensure that two cards of each are added to the deck
-* This will then be fed to the Deckmanager.
-*/
+    * This will ensure that two cards of each are added to the deck
+    * This will then be fed to the Deckmanager.
+    */
     for (var i = 0; i < LevelManagerObject.NumberOfCards; ++i){
       CardDataArray[i] = Math.floor(i/2);
     };
     
     
     /**
-* This will ensure that bonus cards are added to the stage.
-* This will then be fed to the Deckmanager.
-*/
+    * This will ensure that bonus cards are added to the stage.
+    * This will then be fed to the Deckmanager.
+    */
     for (var i = 0; i < LevelManagerObject.NumberOfCardsBonus; ++i){
       CardDataArrayTwo[i] = DeckManagerObject.GetRandomBonus();
     };
@@ -429,9 +468,9 @@ $(function(){
     DeckManagerObject.Create(CardDataArray, CardDataArrayTwo);
     
     /**
-* In this stage we spawn the actual cards, right now this is a huge function.
-* Imagemanager and deckmanager will make this function a lot smaller.
-*/
+    * In this stage we spawn the actual cards, right now this is a huge function.
+    * Imagemanager and deckmanager will make this function a lot smaller.
+    */
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       //Generate unique ID for the card
       var name = "Card_"+i;
@@ -441,8 +480,7 @@ $(function(){
       console.log(NextCard);
         
       //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
-      $("#Img_"+i).load(function()
-      {
+      $("#Img_"+i).load(function() {
         $(this).parent().width($(this).width());
       });
       $("#Img_"+i).attr("src", ImageManagerObject.GetBack());
@@ -456,15 +494,15 @@ $(function(){
       $("#"+name).show();
       
       /**
-* Add a mousedown event for the card, this mousedown will be run in the main
-* environment rather than the class environment to make sure that we have access
-* to all the data we need access to.
-*/
+      * Add a mousedown event for the card, this mousedown will be run in the main
+      * environment rather than the class environment to make sure that we have access
+      * to all the data we need access to.
+      */
+      
       $("#"+name).mousedown(function(e){
         //Finds pit how many cards have already been turned around, so you can't turn more than 2
         var Ready = 0;
-        ForEachCard(function()
-        {
+        ForEachCard(function() {
           if (this.Cards.visible && (this.Cards.Turning==true || this.Cards.FlippedVisual==true)){
             Ready++;
           }
@@ -476,9 +514,9 @@ $(function(){
           //Run the clicked event for the card, this will start events etc.
           this.Cards.Clicked();
           /**
-* Increase the turned counter, if we have turned the correct amount of cards to be compared
-* then compare them.
-*/
+          * Increase the turned counter, if we have turned the correct amount of cards to be compared
+          * then compare them.
+          */
           if (this.Cards.Bonus == false){
             Turned++;
             //Check if the AutoComplete bonus card is currently in effect
@@ -490,8 +528,7 @@ $(function(){
               var Someflip=false;
               ForEachCard(function(){
                 //Find a card that is not flipped and has the same value, and then simulate that it is clicked.
-                if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value)
-                {
+                if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value) {
                   this.Cards.node.mousedown();
                   Someflip = true;
                 }
@@ -500,18 +537,18 @@ $(function(){
             else
             if (Turned==TurnedMax){
             /**
-* We have turned the amount of cards needed
-* Find out which value the first card has, and use this as a base to compare if cards match.
-* Also instantiate a counter for the amount of cards actually matching.
-* It's done this way if you want a variable number of cards needed for a match.
-*/
+            * We have turned the amount of cards needed
+            * Find out which value the first card has, and use this as a base to compare if cards match.
+            * Also instantiate a counter for the amount of cards actually matching.
+            * It's done this way if you want a variable number of cards needed for a match.
+            */
               var Correct = this.Cards.value;
               var CorrectAmount = 0;
               ForEachCard(function(){
               /**
-* For each card, if they are flipped, are not going into hiding/deletion, and has the
-* Correct value, increase the counter for the number of cards matching.
-*/
+              * For each card, if they are flipped, are not going into hiding/deletion, and has the
+              * Correct value, increase the counter for the number of cards matching.
+              */
                 if (this.Cards.Flipped == true && this.Cards.Hiding==0 && this.Cards.value == Correct)
                   CorrectAmount++;
                 
@@ -555,16 +592,16 @@ $(function(){
     Ratio = (Ratio+1)/2;
     
     /**
-* Gets the square root of the number of cards. This is because we would attempt to make a square, should the
-* ratio be 1:1
-*/
+    * Gets the square root of the number of cards. This is because we would attempt to make a square, should the
+    * ratio be 1:1
+    */
     NumberOfCards = Math.sqrt(LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus);
     
     /**
-* Calculates how much space there needs to be in between each card to make a proper layout.
-* It will add to extra empty rows, to make room for UI.
-* Calulate number of rows based on ratio.
-*/
+    * Calculates how much space there needs to be in between each card to make a proper layout.
+    * It will add to extra empty rows, to make room for UI.
+    * Calulate number of rows based on ratio.
+    */
     SpaceY = PLAYGROUND_HEIGHT/(Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) / ((Math.ceil(NumberOfCards*Ratio ))) ) + 1));
     
     //Now recalculate NumberOfCards, so it will make a more even distribution of the cards, based on the amount of rows it has.
@@ -577,17 +614,17 @@ $(function(){
     LastYOff = 0;
     
     /**
-* If there is an uneven amount of cards at the last column, it will calculate the offset to center that column
-* Specifically
-*/
+    * If there is an uneven amount of cards at the last column, it will calculate the offset to center that column
+    * Specifically
+    */
     if (Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1),Math.ceil(NumberOfCards + 1)) != Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) % ((Math.ceil(NumberOfCards ))) ) + 1)){
       LastYOff = (Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) ,Math.ceil(NumberOfCards + 1)) - Math.min((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus + 1) , Math.ceil( (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) % ((Math.ceil(NumberOfCards ))) ) + 1))/2 * SpaceX;
     }
     
     /**
-* Now, if check if the calculated spacing on X is large enough so that hte card can be drawn, if not, calculate
-* How much the card needs to be scaled down.
-*/
+    * Now, if check if the calculated spacing on X is large enough so that hte card can be drawn, if not, calculate
+    * How much the card needs to be scaled down.
+    */
     if (SpaceX >= CARDSIZEX+EMPTYSPACE){
       Scale1 = 1;
     }
@@ -610,7 +647,6 @@ $(function(){
      * Could possibly use foreachcard, it's hard to handle uninitialized variables in foreachcard though.
      * Finds all cards, if they exist, updates their position and scaling. 
      */
-     console.log(LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus);
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       var Card = $("#Card_"+i)
       
@@ -637,8 +673,8 @@ $(function(){
   }
 
   /**
-* Function to end the game
-*/
+  * Function to end the game
+  */
   function EndGame(){
     //Correct the variables, and create a div to store the screen to enter your name.
     Ended = 1;
@@ -683,8 +719,8 @@ $(function(){
   }
 
   /**
-* Remove the highscore screen, and start the game from scratch.
-*/
+  * Remove the highscore screen, and start the game from scratch.
+  */
 
   function RestartGame(){
     $("#HighscoreHUD").hide();
@@ -707,36 +743,16 @@ $(function(){
     //Create the first level against.
     CreateLevel();
   }
-  
-  $("#inputBox").focus();
-  $(".GoToHighScore").click(function(e)
-  {
-  Name = document.getElementById("inputBox").value;
-  console.log("hey");
-    if (Ended == 1){
-      //If we are entering our name show the highscore
-      $("#NameEnterHUD").hide();
-    
-      //Send the highscore to the database.
-      ShowHighscore();
-      ApplyHighscore( {name: Name, score: Points} );
-    }
-    else if (Ended == 2){
-    //Else, restart the game.
-    Restarted = true;
-    RestartGame();
-    }
-  });
 
   /**
-* Function to show highscore
-*/
+  * Function to show highscore
+  */
   function ShowHighscore(){
     if (Ended!=1){
       /**
-* If we were not send from name entering screen, delete all objects first
-* Delete all cards currently on the field.
-*/
+      * If we were not send from name entering screen, delete all objects first
+      * Delete all cards currently on the field.
+      */
       for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
         $("#Card_"+i).hide();
       }
@@ -764,9 +780,9 @@ $(function(){
       for (i=0; i<Math.min(10, Scores.length); i++){
         //Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
         /*if (i<3){
-LineTextSize = 100+35/(i+1);
-}
-else{*/
+        LineTextSize = 100+35/(i+1);
+        }
+        else{*/
           LineTextSize = 100;
         /*}*/
         if (i % 2 == 0){
@@ -821,66 +837,14 @@ else{*/
   }
 
   /**
-* Resets the highscore with standard scores.
-*/
+  * Resets the highscore with standard scores.
+  */
   function ResetHighscore(){
     //Resets the highscore to a default value. This also creates local highscores for players to beat. May need to revise the scores a bit.
     localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
   }
-
-
-  //Setup UI
-  //Add borders.
-  $("#ButtonPause").click(function(e) { PauseGame() });
-  $("#ButtonMuteSound").click(function(e) { MuteSound() });
-  $("#ButtonMuteMusic").click(function(e) { MuteMusic() });
-  $("#MessageButton").click(function(e) { UnshowMessage() });
   
-  current = $('#PointHUD');
-  current.html("Points: "+Math.round(PointsVisual));
-
-  Scores = new Array();
-  Scores.sort(CustomSort);
-
-  /**
-   * Starts the game. Much of it is actually gamequery specific code.
-   */
-  $("#ButtonStartGame").click(function(){
-      Then = new Date().getTime();
-      GameStart = true;
-      $("#inputbox").show();
-      
-      //Create the first level.
-      CreateLevel();
-      //no Background music if iPad
-      if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
-        BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
-      }
-      $("#welcomeScreen").remove();
-  });
-
-  (function() {
-    var onEachFrame;
-    if (window.webkitRequestAnimationFrame) {
-    onEachFrame = function(cb) {
-      var _cb = function() { cb(); webkitRequestAnimationFrame(_cb); }
-      _cb();
-    };
-    } else if (window.mozRequestAnimationFrame) {
-    onEachFrame = function(cb) {
-      var _cb = function() { cb(); mozRequestAnimationFrame(_cb); }
-      _cb();
-    };
-    } else {
-    onEachFrame = function(cb) {
-      setInterval(cb, 1000 / 60);
-    }
-    }
-    window.onEachFrame = onEachFrame;
-  })();
-  
-  
-    Step = function(){
+  Step = function(){
     //Calcualte how many miliseconds passed since last frame, to get smoother animations.
     Now = new Date().getTime();
     Delta = Now - Then;
@@ -888,8 +852,8 @@ else{*/
       if (Ended == 2){
       var Current = $("#HighscoreHUD");
       /**
-* If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
-*/
+      * If we are showing the highscore, center the highscore on the screen each frame, in case the resolution changes.
+      */
       //Current.css({left: (PLAYGROUND_WIDTH - Current.width())/2, top: (PLAYGROUND_HEIGHT - Current.height() - 60)/2});
       }
       else if (Ended == 1){
@@ -898,9 +862,9 @@ else{*/
           Name = $("#inputBox").val();
         }
         /**
-* If we are entering our name:
-* Generate a string based on the name varaible, which is changed in onkeypress
-*/
+        * If we are entering our name:
+        * Generate a string based on the name varaible, which is changed in onkeypress
+        */
         //var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
         //var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
         //var Current = $("#NameEnterHUD");
@@ -1005,16 +969,17 @@ else{*/
       }
     }
   
-  EndedLaster=Ended;
-  //Loop
+    EndedLaster=Ended;
+    //Loop
   }
   
+  //Starts the main loop
   window.onEachFrame(Step);
 
   /**
-* This function is used for the loading spinner.
-* We have little idea how it works.
-*/
+  * This function is used for the loading spinner.
+  * We have little idea how it works.
+  */
   $.fn.spin = function(opts) {
   this.each(function() {
     var $this = $(this),

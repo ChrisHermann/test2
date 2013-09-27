@@ -106,8 +106,8 @@ function Cards(node, image, sizeX, sizeY)
     if (this.value == SCHWARTZID)
     {
       /**
-       * Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
-       * Swarts face. If they are already flipped, change their face to swartzs immediately.
+       * Schwartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
+       * Schwarts face. If they are already flipped, change their face to swartzs immediately.
        */
       ForEachCard(function()
       {

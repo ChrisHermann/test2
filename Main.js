@@ -135,144 +135,12 @@ function MuteSound()
     UnMuteSound();
 }
 
-  /**
-* a lot of browser detect code see http://www.quirksmode.org/js/detect.html
-* Essentially, what it does is find four strings:
-* It searches through the string returned by the browser and generates various substrings which can be used to identify the browser.
-* The most important ones are dataBrowser.identity and dataOS.identity.
-*/
-  /*
-  var BrowserDetect =
-{
-  init: function ()
-  {
-    this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-    this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
-    this.OS = this.searchString(this.dataOS) || "an unknown OS";
-  },
-  searchString: function (data)
-  {
-  for (var i=0;i<data.length;i++)
-  {
-    var dataString = data[i].string;
-    var dataProp = data[i].prop;
-    this.versionSearchString = data[i].versionSearch || data[i].identity;
-    if (dataString)
-    {
-    if (dataString.indexOf(data[i].subString) != -1)
-      return data[i].identity;
-    }
-    else if (dataProp)
-    return data[i].identity;
-  }
-  },
-  searchVersion: function (dataString)
-  {
-    var index = dataString.indexOf(this.versionSearchString);
-    if (index == -1) return;
-    return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-  },
-  dataBrowser:
-  [
-    {
-      string: navigator.userAgent,
-      subString: "Chrome",
-      identity: "Chrome"
-    },
-    { string: navigator.userAgent,
-      subString: "OmniWeb",
-      versionSearch: "OmniWeb/",
-      identity: "OmniWeb"
-    },
-    {
-      string: navigator.vendor,
-      subString: "Apple",
-      identity: "Safari",
-      versionSearch: "Version"
-    },
-    {
-      prop: window.opera,
-      identity: "Opera",
-      versionSearch: "Version"
-    },
-    {
-      string: navigator.vendor,
-      subString: "iCab",
-      identity: "iCab"
-    },
-    {
-      string: navigator.vendor,
-      subString: "KDE",
-      identity: "Konqueror"
-    },
-    {
-      string: navigator.userAgent,
-      subString: "Firefox",
-      identity: "Firefox"
-    },
-    {
-      string: navigator.vendor,
-      subString: "Camino",
-      identity: "Camino"
-    },
-    { // for newer Netscapes (6+)
-      string: navigator.userAgent,
-      subString: "Netscape",
-      identity: "Netscape"
-    },
-    {
-      string: navigator.userAgent,
-      subString: "MSIE",
-      identity: "Explorer",
-      versionSearch: "MSIE"
-    },
-    {
-      string: navigator.userAgent,
-      subString: "Gecko",
-      identity: "Mozilla",
-      versionSearch: "rv"
-    },
-    { // for older Netscapes (4-)
-      string: navigator.userAgent,
-      subString: "Mozilla",
-      identity: "Netscape",
-      versionSearch: "Mozilla"
-    }
-  ],
-  dataOS :
-  [
-    {
-      string: navigator.platform,
-      subString: "Win",
-      identity: "Windows"
-    },
-    {
-      string: navigator.platform,
-      subString: "Mac",
-      identity: "Mac"
-    },
-    {
-      string: navigator.userAgent,
-      subString: "iPhone",
-      identity: "iPhone/iPod"
-    },
-    {
-      string: navigator.platform,
-      subString: "Linux",
-      identity: "Linux"
-    }
-  ]
-};
-BrowserDetect.init();*/
-
 /**
 * segmenting the platform info
-* p & b, platform & browser detect.
+* platform detect.
 */
 var PlatformTemporary = navigator.appVersion;
 PlatformTemporary = PlatformTemporary.split(" ");
-//var BrowserVersionDetect = BrowserDetect.browser + BrowserDetect.version;
-//var BrowserDetect = BrowserDetect.browser;
 var PlatformDetect = PlatformTemporary[0,1] + " " + PlatformTemporary[0,0];
 PlatformDetect = PlatformDetect.substring(1);
 AppleDetect = PlatformDetect.split(";");
@@ -290,7 +158,7 @@ AndroidDetect = PlatformDetect.split(")");
 * It is purely made in the DOM and as such does not use canvas at all.
 */
 
- $(function(){
+$(function(){
   
   document.body.style.overflow = "hidden";
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
@@ -328,17 +196,6 @@ AndroidDetect = PlatformDetect.split(")");
     $("#HighscoreHUD").hide();
     $("#NameEnterHUD").hide();
 
-  //Create a button to start the game with.
-  myButton = document.createElement("input");
-  myButton.type = "button";
-  myButton.value = "Start Game";
-  myButton.id = "ButtonStartGame";
-  myButton.className = "ButtonStyle";
-  Current = $(myButton);
-  myButton.onclick = StartGame;
-  placeHolder = document.getElementById("StartButtonDiv");
-  placeHolder.appendChild(myButton);
-
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
   var CARDSIZEY = 208;
@@ -356,7 +213,7 @@ AndroidDetect = PlatformDetect.split(")");
   var ScaleUserInterface = 0;
   var Focused = false;
   GFXCount = 0;
-  Points = 100000;
+  Points = 1000000;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -449,13 +306,6 @@ AndroidDetect = PlatformDetect.split(")");
     
   //Sets the amountn of bonus cards loaded.
   BONUSES = 4;
-
-  // if Explorer 8 DO...
- /* if(BrowserDetect == "Explorer8" )
-  {
-    ShowMessage("Du spiller lige nu i internet explorer 8.0. Da dette er en forældet version anbefaler vi at du opdaterer din browser for bedste ydeevne","Spil alligevel");
-  }*/
-
 
   //Check what kind of eventlisteners the browser supports. and apply them the correct way.
   /*if(!window.addEventListener)
@@ -821,7 +671,7 @@ AndroidDetect = PlatformDetect.split(")");
     
     //Generate a string based on the name varaible, which is changed in onkeypress
     //var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-    var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
+    //var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
     
     //If on an ipad, create a full-screen textbox and focus it, to bring up hte keyboard.
     //if (AppleDetect[0,0] == "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){
@@ -840,13 +690,12 @@ AndroidDetect = PlatformDetect.split(")");
       //$("#inputbox").append("<div id='inputHUD'><input id ='inputBox' autocorrect='off' type = 'text'></div>");
      
     //}
-    var Current = $("#NameEnterHUD");
+    //var Current = $("#NameEnterHUD");
     //Apply the string to the div, and recenter it.
-    Current.html(string);
-      $("#NameEnterHUD").append("<div id='inputHUD'><input id='inputBox' type = 'text' /></div>");
-      $("#inputBox").focus();
-      console.log("boxderp");
-      Name = document.getElementById("inputBox").value;
+    //Current.html(string);
+      //$("#NameEnterHUD").append("<div id='inputHUD'><input id='inputBox' type = 'text' /></div>");
+
+     // Name = document.inputBox.value
     //Delete all cards currently on the field.
     for (var i = 0; i < LevelManagerObject.NumberOfCards+LevelManagerObject.NumberOfCardsBonus; ++i){
       $("#Card_"+i).hide();
@@ -878,83 +727,26 @@ AndroidDetect = PlatformDetect.split(")");
     //Create the first level against.
     CreateLevel();
   }
-
-  //If the browser is firefox, we need to run some special code for the key press events.
-  /*if (BrowserDetect != "Firefox"){
-    //Used only when entering your name for the highscore.
-    document.onkeypress = function(event){
-      var key_press = String.fromCharCode(event.keyCode);
-      
-      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedLaster==1){
-      Name += key_press;
-      }
-    }
+  
+  $("#inputBox").focus();
+  $("#GoToHighScore").click(function(e)
+  {
+  Name = document.getElementById("inputBox").value;
+  console.log("hey");
+    if (Ended == 1){
+      //If we are entering our name show the highscore
+      $("#NameEnterHUD").hide();
     
-    //Used for highscore screens in general.
-    $(document).keydown(function (e) {
-      //Delete chars when entering name
-      if (e.which === 8){
-        //your custom action here
-        Name = Name.substring(0, Name.length - 1);
-        return false;
-      }
-      //Press enter to go to next screen.
-      if (event.keyCode==13){
-        if (Ended == 1){
-          //If we are entering our name show the highscore
-          $("#NameEnterHUD").hide();
-          
-          //Send the highscore to the database.
-          ShowHighscore();
-          ApplyHighscore( {name: Name, score: Points} );
-        }
-        else if (Ended == 2){
-          //Else, restart the game.
-            Restarted = true;
-            RestartGame();
-        }
-        return false;
-      }
-    });
- }*/
-  //else{
-    //Delete chars when entering name
-    $(document).keydown(function (e) {
-      //FF needs event
-      var event = e;
-      var key_press = String.fromCharCode(event.keyCode);
-      key_press = key_press.toLowerCase()
-      if (e.which === 8){
-        Name = Name.substring(0, Name.length - 1);
-        return false;
-      }
-      if (event.keyCode!=13 && key_press != " " && key_press != "<" && key_press != ">" && EndedLaster==1){
-        if (event.shiftKey){
-          Name += key_press.toUpperCase();
-         }
-        else{
-          Name += key_press;
-         }
-      }
-      //Press enter to go to next screen.
-      if (event.keyCode==13){
-        if (Ended == 1){
-          //If we are entering our name show the highscore
-          $("#NameEnterHUD").hide();
-        
-          //Send the highscore to the database.
-          ShowHighscore();
-          ApplyHighscore( {name: Name, score: Points} );
-        }
-        else if (Ended == 2){
-        //Else, restart the game.
-          Restarted = true;
-          RestartGame();
-        }
-        return false;
-      }
-    });
-  //}
+      //Send the highscore to the database.
+      ShowHighscore();
+      ApplyHighscore( {name: Name, score: Points} );
+    }
+    else if (Ended == 2){
+    //Else, restart the game.
+    Restarted = true;
+    RestartGame();
+    }
+  });
 
   /**
 * Function to show highscore
@@ -1022,7 +814,7 @@ else{*/
     });
     
     //set some basic html until the data has been loaded.
-    $("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
+    //$("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
     
     Current = $("#HighscoreHUD");
   }
@@ -1122,9 +914,9 @@ else{*/
   Scores.sort(CustomSort);
 
   /**
-* Starts the game. Much of it is actually gamequery specific code.
-*/
-  function StartGame(){
+   * Starts the game. Much of it is actually gamequery specific code.
+   */
+  $("#ButtonStartGame").click(function(){
       Then = new Date().getTime();
       GameStart = true;
       $("#inputbox").show();
@@ -1132,11 +924,11 @@ else{*/
       //Create the first level.
       CreateLevel();
       //no Background music if iPad
-      if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android"){
+      if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
         BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
       }
       $("#welcomeScreen").remove();
-  }
+  });
 
   (function() {
     var onEachFrame;
@@ -1181,10 +973,10 @@ else{*/
 * Generate a string based on the name varaible, which is changed in onkeypress
 */
         //var string = "Du har høj nok score til at komme på highscoren!<br>Skriv venligst dit navn:<br>"+Name+"<br>Tryk Enter for at fortsætte";
-        var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
-        var Current = $("#NameEnterHUD");
+        //var string = "Du har nok point til at komme på highscoren<br> Skriv venligst dit navn";
+        //var Current = $("#NameEnterHUD");
         //Apply the string to the div.
-        Current.html(string);
+        //Current.html(string);
         
         ForEachGFX(function(){
           //For each card, perform their step event.

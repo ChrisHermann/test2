@@ -38,8 +38,14 @@
               <div id="MuteMusicButtonDiv"></div>
               <div id="MuteSoundButtonDiv"></div>
             </div>
-            <div id="NameEnterHUD"></div>
-            <div id="HighscoreHUD"></div>
+            <div id="NameEnterHUD">
+            <p>Du har nok point til at komme på highscoren <br> Skriv venligst dit navn:</p>
+            <input id='inputBox' type = 'text' />
+            <input id="GoToHighScore" class ="ButtonStyle" type = "button" value = "Tryk for at fortsætte"/>
+            </div>
+            <div id="HighscoreHUD">
+            <input id="GoToHighScore1" class ="ButtonStyle" type = "button" value = "Tryk for at fortsætte"/>
+            </div>
             <div id="Leveldiv"></div>
             <span id="MessageHUD"></span>
               <div  id="GFXG" style="position: relative;">
@@ -57,7 +63,9 @@
     </div>
     
     <div id="welcomeScreen">
-      <div id="StartButtonDiv" class="spinner-link"></div>
+      <div id="StartButtonDiv">
+        <input type="button" value="Start Game" id="ButtonStartGame" class="ButtonStyle spinner-link">
+      </div>
       <div id="spin"></div>
     </div>
       <div id="ResumeButtonDiv">

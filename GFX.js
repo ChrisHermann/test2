@@ -2,8 +2,7 @@
  * @file
  * @todo explain
  */
-function GFX(node, image)
-{
+function GFX(node, image){
   //This card is used to easily make
   this.node = node;
   this.image = image;
@@ -42,8 +41,7 @@ function GFX(node, image)
    * @param var steps
    *   How many seconds the transition should take.
    */
-  this.Create = function(StartSize, EndSize, StartAlpha, EndAlpha, StartPosition, EndPosition, steps)
-  {
+  this.Create = function(StartSize, EndSize, StartAlpha, EndAlpha, StartPosition, EndPosition, steps){
     /**
      * the three first arguments has a starting value and an end value.
      * They will transition from the first value to the second one over time.
@@ -67,8 +65,7 @@ function GFX(node, image)
     this.StepPosition = {x: (EndPosition.x-StartPosition.x)/this.Steps, y: (EndPosition.y-StartPosition.y)/this.Steps};
   }
   
-  this.SetSize = function(w, h)
-  {
+  this.SetSize = function(w, h){
     this.WIDTH=w;
     this.HEIGHT=h;
   }
@@ -79,8 +76,7 @@ function GFX(node, image)
    * take the base amount, and increase it by the step amount.
    * If the base amount is greater than the end-amount, then hard-set the step amount to the end-amount.
    */
-  this.Step = function()
-  {
+  this.Step = function(){
     this.StartSize+=this.StepSize * Delta;
     if ((this.StartSize>this.EndSize && this.StepSize>0) || (this.StartSize<this.EndSize && this.StepSize<0)) this.StartSize=this.EndSize;
     
@@ -96,15 +92,13 @@ function GFX(node, image)
     if ((this.StartPosition.y>this.EndPosition.y && this.StepPosition.y>0) || (this.StartPosition.y<this.EndPosition.y && this.StepPosition.y<0)) this.StartPosition.y=this.EndPosition.y;
     
     //Check if hte internal image has been loaded
-    if (this.WIDTH!=0)
-    {
+    if (this.WIDTH!=0){
       //If it has, apply the appropriate css to both
       this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH, height: this.HEIGHT});
       this.image.css({width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
       
     }
-    else
-    {
+    else{
       //if not, apply it only to the div
       this.node.css({opacity: this.StartAlpha, left:this.StartPosition.x, top: this.StartPosition.y, width: this.WIDTH * this.StartSize, height: this.HEIGHT * this.StartSize});
     }
@@ -112,8 +106,7 @@ function GFX(node, image)
     if (this.StartSize == this.EndSize
     && this.StartAlpha == this.EndAlpha
     && this.StartPosition.x == this.EndPosition.x
-    && this.StartPosition.y == this.EndPosition.y)
-    {
+    && this.StartPosition.y == this.EndPosition.y){
       this.Despawn();
     }
   }
@@ -121,8 +114,7 @@ function GFX(node, image)
    * Despawns the animation.
    * Also runs a function which can be specified to run on despawn.
    */
-  this.Despawn = function()
-  {
+  this.Despawn = function(){
     if (this.HasCallback)
     this.Callback.apply(this);
     
@@ -133,8 +125,7 @@ function GFX(node, image)
    * Calls the function when the object is about to Despawn
    * This is if you want a functino to run once the object despawns.
    */
-  this.EndCall = function(Function)
-  {
+  this.EndCall = function(Function){
     this.Callback = Function;
     this.HasCallback = true;
   }

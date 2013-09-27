@@ -4,10 +4,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no"/>
-  <link rel="stylesheet" media="only screen and (min-width: 1px) and (max-width: 639px)" href="small.css" />
+  <!--<link rel="stylesheet" media="only screen and (min-width: 1px) and (max-width: 639px)" href="small.css" />
   <link rel="stylesheet" media="only screen and (min-width: 640px) and (max-width: 1023px)" href="medium.css" />
-  <link rel="stylesheet" media="only screen and (min-width: 1024px) and (max-width: 1599px)" href="large.css" />
-  <link rel="stylesheet" media="only screen and (min-width: 1600px)" href="xlarge.css" />
+  <link rel="stylesheet" media="only screen and (min-width: 1024px) and (max-width: 1599px)" href="large.css" />-->
+  <link rel="stylesheet" href="xlarge.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
   <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
   <script type="text/javascript" src = "http://code.createjs.com/soundjs-0.4.1.min.js"></script>
@@ -34,20 +34,30 @@
               <div id="PointHUD"></div>
               <div id="TimeHUD"></div>
               <div id="LevelHUD"></div>
-              <div id="PauseButtonDiv"></div>
-              <div id="MuteMusicButtonDiv"></div>
-              <div id="MuteSoundButtonDiv"></div>
+              <div id="PauseButtonDiv">
+                <input type="button" value="Pause" id="ButtonPause" class="ButtonStyle">
+              </div>
+              <div id="MuteMusicButtonDiv">
+                <input type="button" value="Mute Sound" id="ButtonMuteSound" class="ButtonStyle">
+              </div>
+              <div id="MuteSoundButtonDiv">
+                <input type="button" value="Mute Music" id="ButtonMuteMusic" class="ButtonStyle">
+              </div>
             </div>
             <div id="NameEnterHUD">
             <p>Du har nok point til at komme på highscoren <br> Skriv venligst dit navn:</p>
             <input id='inputBox' type = 'text' />
-            <input id="GoToHighScore" class ="ButtonStyle" type = "button" value = "Tryk for at fortsætte"/>
+            <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Tryk for at fortsætte"/>
             </div>
             <div id="HighscoreHUD">
-            <input id="GoToHighScore1" class ="ButtonStyle" type = "button" value = "Tryk for at fortsætte"/>
+            <p id="HighscoreHeadline">Highscore</p><br>
+            <p id="Lines"></p>
+            <input class ="ButtonStyle GoToHighScore" type = "button" value = "Tryk for at fortsætte"/>
             </div>
             <div id="Leveldiv"></div>
-            <span id="MessageHUD"></span>
+            <span id="MessageHUD">
+              <input type="button" value="Ok" id="MessageButton" class="ButtonStyle">
+            </span>
               <div  id="GFXG" style="position: relative;">
                 <div id="Cards" style="position: relative;">
                   <!--<div id="background" style="position: relative; height: 100%; width: 100%;">

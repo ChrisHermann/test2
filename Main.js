@@ -212,6 +212,7 @@ $(function(){
   var ShowingMessage = false;
   var ScaleUserInterface = 0;
   var Focused = false;
+  var HasStartedLevelTransition = false;
   GFXCount = 0;
   Points = 1000000;
   PointsVisual = 0;
@@ -225,7 +226,7 @@ $(function(){
   Then = new Date().getTime();
   
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 5 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -342,14 +343,7 @@ $(function(){
     //Append the needed containers.
     $("#MessageHUD").show();
     $("#BlurEffect").show();
-    
-    //Add the control buttons to the UI
-    myButton = document.createElement("input");
-    myButton.type = "button";
-    myButton.value = ButtonMessage;
-    myButton.id = "MessageButton";
-    myButton.className = "ButtonStyle";
-    myButton.onclick = UnshowMessage;
+    $("#MessageButton").show();
     
     
     Current = $("#MessageHUD");
@@ -357,10 +351,6 @@ $(function(){
     Current.html(Message+"<br/><br/>");
       
     scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
-    
-    placeHolder = document.getElementById("MessageHUD");
-
-    placeHolder.appendChild(myButton);
   }
 
   /**
@@ -634,16 +624,6 @@ $(function(){
     //Calculate how much space is in between hte buttons.
     ButtonSpace=Math.floor(PLAYGROUND_WIDTH-20)/3;
     
-    /**
-     * Resizes the button, according to the variable ScaleUserInterface.
-     * Also centers them in the UI.
-     */
-    
-    //Append a textdiv which is used to test text-width, this is used to properly calculate the TextScale.
-    $("#overlay").append("<div id='TextTestDiv'></div>");
-    Current = $("#TextTestDiv");
-    Current.html("Points: "+Math.round(PointsVisual));
-    Current.remove();
     
     //Recalculate scale to use for background scaling, and then scale the background.
     //scale = Math.max(PLAYGROUND_WIDTH/BACKGROUNDSIZE.x, PLAYGROUND_HEIGHT/BACKGROUNDSIZE.y);
@@ -709,7 +689,7 @@ $(function(){
   function RestartGame(){
     $("#HighscoreHUD").hide();
     $("#inputHUD").hide();
-    $("#inputBox").hide();
+    //$("#inputBox").hide();
     
     //Reset loaded scores.
     Scores = new Array();
@@ -729,7 +709,7 @@ $(function(){
   }
   
   $("#inputBox").focus();
-  $("#GoToHighScore").click(function(e)
+  $(".GoToHighScore").click(function(e)
   {
   Name = document.getElementById("inputBox").value;
   console.log("hey");
@@ -764,7 +744,8 @@ $(function(){
     }
     Ended=2;
     //Create the div for the highscore.
-    Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
+    //Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
+    Line = "";
     
     //Load the highscores from localstoage, and split them into an array.
     SplitScores = localStorage.LocalStorageScores.split(" ");
@@ -795,10 +776,9 @@ else{*/
           Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         }
       }
-      $("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
+      $("#Lines").html(Line);
       
-      
-      Current = $("#HighscoreHUD");
+      Current = $("#Lines");
     }, 'json');
     
     
@@ -816,7 +796,7 @@ else{*/
     //set some basic html until the data has been loaded.
     //$("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
     
-    Current = $("#HighscoreHUD");
+    //Current = $("#HighscoreHUD");
   }
 
   /**
@@ -851,64 +831,13 @@ else{*/
 
   //Setup UI
   //Add borders.
-  //$("#background").addSprite("Background", {animation: ImageManagerObject.GetMisc(BackgroundImage), width: BACKGROUNDSIZE.x, height: BACKGROUNDSIZE.y});
-  
-  //TODO: Better name
-  $("#RealBG").show();
-  
-  //Create a div for the Point UI.
-  //Create a div for the Point UI.
-  $("#PointHUD").show();
-  
-  //Create a div for the Time UI.
-  $("#TimeHUD").show();
-    
-  //Create a div for the Level UI.
-  $("#LevelHUD").show();
+  $("#ButtonPause").click(function(e) { PauseGame() });
+  $("#ButtonMuteSound").click(function(e) { MuteSound() });
+  $("#ButtonMuteMusic").click(function(e) { MuteMusic() });
+  $("#MessageButton").click(function(e) { UnshowMessage() });
   
   current = $('#PointHUD');
   current.html("Points: "+Math.round(PointsVisual));
-  
-  //Add div for control buttons
-  $("#PauseButtonDiv").show();
-  $("#MuteMusicButtonDiv").show();
-  $("#MuteSoundButtonDiv").show();
-
-  
-  //Add the control buttons to the UI
-  myButton = document.createElement("input");
-  myButton.type = "button";
-  myButton.value = "Pause";
-  myButton.id = "ButtonPause";
-  myButton.className = "ButtonStyle";
-  Current = $(myButton);
-  myButton.onclick = PauseGame;
-  placeHolder = document.getElementById("PauseButtonDiv");
-  placeHolder.appendChild(myButton);
-  
-  
-  myButton = document.createElement("input");
-  myButton.type = "button";
-  myButton.value = "Mute Music";
-  myButton.id = "ButtonMuteMusic";
-  myButton.className = "ButtonStyle";
-  Current = $(myButton);
-  myButton.onclick = MuteMusic;
-  placeHolder = document.getElementById("MuteMusicButtonDiv");
-  placeHolder.appendChild(myButton);
-  
-  
-  myButton = document.createElement("input");
-  myButton.type = "button";
-  myButton.value = "Mute Sound";
-  myButton.id = "ButtonMuteSound";
-  myButton.className = "ButtonStyle";
-  Current = $(myButton);
-  myButton.onclick = MuteSound;
-  placeHolder = document.getElementById("MuteSoundButtonDiv");
-  placeHolder.appendChild(myButton);
-
-
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -1025,13 +954,14 @@ else{*/
           Done = true;
         
           //if Leveldiv does not exist, create it and show the next level we get to.
-          if ($("#Leveldiv").length==0){
+          if (HasStartedLevelTransition==false){
             ForEachCard(function(){
               this.Cards.node.fadeOut();
             });
           
             $("#Leveldiv").show();
             $("#Leveldiv").html("Level: "+(CurrentLevel+1));
+            HasStartedLevelTransition=true;
           }
           //Current = $("#Leveldiv");
           //Current.css({left: PLAYGROUND_WIDTH/2-Current.width()/2-30, top: PLAYGROUND_HEIGHT/2-Current.height()/2-30});
@@ -1053,6 +983,7 @@ else{*/
           
             //Then create next level.
             Restarted = false;
+            HasStartedLevelTransition = false;
             $("#Leveldiv").hide();
             CreateLevel();
           }
@@ -1072,18 +1003,6 @@ else{*/
       if (PointsVisual>Points){
         PointsVisual=Points;
       }
-      
-      /**
-* Creates a div to test text width.
-* This is a repition of the code at line: 815
-* It is only here because the game could theoretically count up points each frame, and this needs to be accounted for.
-*/
-      $("#overlay").append("<div id='TextTestDiv'></div>");
-      Current = $("#TextTestDiv");
-      //Current.css("font-size", Math.floor(220* Math.min($('#PointHUD').width()/215, ScaleUserInterface))+'%');
-      Current.html("Points: "+Math.round(PointsVisual));
-      var TextSize = Current.width();
-      Current.remove();
     }
   
   EndedLaster=Ended;

@@ -958,7 +958,8 @@ AndroidDetect = PlatformDetect.split(")");
     }
     Ended=2;
     //Create the div for the highscore.
-    Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
+    //Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
+    Line = "";
     
     //Load the highscores from localstoage, and split them into an array.
     SplitScores = localStorage.LocalStorageScores.split(" ");
@@ -989,10 +990,10 @@ AndroidDetect = PlatformDetect.split(")");
           Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         }
       }
-      $("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
+      $("#Lines").html(Line);
       
       
-      Current = $("#HighscoreHUD");
+      Current = $("#Lines");
       
     }, 'json');
     
@@ -1009,9 +1010,9 @@ AndroidDetect = PlatformDetect.split(")");
     });
     
     //set some basic html until the data has been loaded.
-    $("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
+    //$("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
     
-    Current = $("#HighscoreHUD");
+    //Current = $("#HighscoreHUD");
   }
 
   /**

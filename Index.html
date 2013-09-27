@@ -4,10 +4,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no"/>
-  <link rel="stylesheet" media="only screen and (min-width: 1px) and (max-width: 639px)" href="small.css" />
+  <!--<link rel="stylesheet" media="only screen and (min-width: 1px) and (max-width: 639px)" href="small.css" />
   <link rel="stylesheet" media="only screen and (min-width: 640px) and (max-width: 1023px)" href="medium.css" />
-  <link rel="stylesheet" media="only screen and (min-width: 1024px) and (max-width: 1599px)" href="large.css" />
-  <link rel="stylesheet" media="only screen and (min-width: 1600px)" href="xlarge.css" />
+  <link rel="stylesheet" media="only screen and (min-width: 1024px) and (max-width: 1599px)" href="large.css" />-->
+  <link rel="stylesheet" href="xlarge.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
   <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
   <script type="text/javascript" src = "http://code.createjs.com/soundjs-0.4.1.min.js"></script>
@@ -39,7 +39,13 @@
               <div id="MuteSoundButtonDiv"></div>
             </div>
             <div id="NameEnterHUD"></div>
-            <div id="HighscoreHUD"></div>
+            <div id="HighscoreHUD">
+            <hr>
+            <br>
+            <p id="HighscoreHeadline">Highscore</p><br>
+            <p id="Lines"></p>
+            <p id="HighscoreFooter">Tryk Enter for at starte et nyt spil</p>
+            </div>
             <div id="Leveldiv"></div>
             <span id="MessageHUD"></span>
               <div  id="GFXG" style="position: relative;">

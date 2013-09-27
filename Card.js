@@ -2,8 +2,7 @@
  * @file
  * The Card Class
  */
-function Cards(node, image, sizeX, sizeY)
-{
+function Cards(node, image, sizeX, sizeY) {
   //These attributes may be obsolete atm.
   this.WIDTH = sizeX;
   this.HEIGHT = sizeY;
@@ -51,8 +50,7 @@ function Cards(node, image, sizeX, sizeY)
    * @param string face
    *   the path to the image
    */
-  this.ChangeFace = function(face)
-  {
+  this.ChangeFace = function(face) {
     this.image.attr('src',face);
     //Hackish method.
     
@@ -79,8 +77,7 @@ function Cards(node, image, sizeX, sizeY)
   *   Scale is the overall scale of the card. All other scalings will take base in this one.
   *   This should mainly be changed for resizing, if not, it should be left unchanged.
   */
-  this.Create = function(Value, FaceFront, FaceSchwartz, FaceBack, Bonus, scale)
-  {
+  this.Create = function(Value, FaceFront, FaceSchwartz, FaceBack, Bonus, scale) {
     //Set base values.
     this.value = Value;
     this.FaceBack = FaceBack;
@@ -100,17 +97,14 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * Executes the effects of the bonus cards
    */
-  this.RunBonus = function()
-  {
+  this.RunBonus = function(){
     //Runs the bonus effect of the card (If there is one).
-    if (this.value == SCHWARTZID)
-    {
+    if (this.value == SCHWARTZID){
       /**
-       * Swartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
-       * Swarts face. If they are already flipped, change their face to swartzs immediately.
+       * Schwartz card, goes to every card and sets the variable swarzted to true, telling them to reveal the
+       * Schwarts face. If they are already flipped, change their face to swartzs immediately.
        */
-      ForEachCard(function()
-      {
+      ForEachCard(function(){
         this.Cards.Schwartzed = true;
         //Set an internal timer to 5 seconds, so that the card will return to normal after that time.
         this.Cards.SchwartzedTimer = 5*1000;
@@ -124,8 +118,7 @@ function Cards(node, image, sizeX, sizeY)
       node.fadeOut();
       this.visible=false;
     }
-    if (this.value == POINTID)
-    {
+    if (this.value == POINTID){
       /**
 	   * Simple add 500 points to the players score.
        * Create the GFX for the points!
@@ -141,8 +134,7 @@ function Cards(node, image, sizeX, sizeY)
       
       
       //Run a function once the image is done loading.
-      $("#IGFX_"+GFXCount).load(function()
-      {
+      $("#IGFX_"+GFXCount).load(function(){
         this.parentNode.GFX.SetSize($(this).width(), $(this).height());
       });
       $("#IGFX_"+GFXCount).attr('src',ImageManagerObject.GetMisc(POINTS1));
@@ -151,8 +143,7 @@ function Cards(node, image, sizeX, sizeY)
       Current.GFX.Create(1, 1, 1, 1, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top}, {x: this.node.position().left+this.node.width()/2, y: this.node.position().top-50}, 1);
         
       //When it despawns call this function.
-      Current.GFX.EndCall(function()
-      {
+      Current.GFX.EndCall(function(){
         //The reason to create two effects after each other is to make a fancier animation.
         $("#GFXG").append("<div id='GFX_"+GFXCount+"' style='position: absolute'></div>");
         $("#GFX_"+GFXCount).append("<img id='IGFX_"+GFXCount+"' draggable='false' class='image'/>");
@@ -162,8 +153,7 @@ function Cards(node, image, sizeX, sizeY)
         
         Current.GFX = new GFX($("#GFX_"+GFXCount), $("#IGFX_"+GFXCount));
         
-        $("#IGFX_"+GFXCount).load(function()
-        {
+        $("#IGFX_"+GFXCount).load(function(){
           this.parentNode.GFX.SetSize($(this).width(), $(this).height());
         });
         $("#IGFX_"+GFXCount).attr('src',ImageManagerObject.GetMisc(POINTS1));
@@ -173,8 +163,7 @@ function Cards(node, image, sizeX, sizeY)
         Current.GFX.Create(1, 1, 1, 1, this.StartPosition, {x: Math.max( 70,DIV.offset().left + DIV.width() - this.node.width()), y: DIV.offset().top}, 1);
         
         //When this GFX despawns award the 500 points.
-        Current.GFX.EndCall(function()
-        {
+        Current.GFX.EndCall(function(){
           Points+=500;
         });
         
@@ -186,20 +175,16 @@ function Cards(node, image, sizeX, sizeY)
       node.fadeOut();
       this.visible=false;
     }
-    if (this.value == PAIRID)
-    {
+    if (this.value == PAIRID){
       /**
 	   * This card will find a pair for you. If you already have a card flipped, it will find the matching card and
        * Flip that one, if not, it will set autocomplete to true, telling the main class that the next time a card
        * Is turned, it should find a pair for that card.
 	   */
-      if (Turned > 0)
-      {
+      if (Turned > 0){
         var Card;
-        ForEachCard(function()
-        {
-          if (this.Cards.Flipped==true && this.Cards.Bonus==false && this.Cards.visible == true)
-          {
+        ForEachCard(function(){
+          if (this.Cards.Flipped==true && this.Cards.Bonus==false && this.Cards.visible == true){
             Card = this.Cards;
             
           }
@@ -208,10 +193,8 @@ function Cards(node, image, sizeX, sizeY)
         this.visible=false;
         var Someflip=false;
         
-        ForEachCard(function()
-        {
-          if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true)
-          {
+        ForEachCard(function(){
+          if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true){
             this.Cards.node.mousedown();
             Someflip = true;
           }
@@ -225,29 +208,24 @@ function Cards(node, image, sizeX, sizeY)
       node.fadeOut();
       this.visible=false;
     }
-    if (this.value == CONFUSEID)
-    {
+    if (this.value == CONFUSEID){
       /**
 	   * Search through eligible cards. Cannot chose cards of hte same type.
        * This code will actually run twice, the first time is when the card is first flipped
        * it will then be told to flip back. The second time is when the card flips back, it will then
        * be told to execute the actual effect.
 	   */
-      if (this.FlippedVisual)
-      {
+      if (this.FlippedVisual){
         this.Turn();
         this.Flipped=false;
       }
-      else
-      {
+      else{
         var PotentialCards = new Array();
         var n = 0;
         
-        ForEachCard(function()
-        {
+        ForEachCard(function(){
           //Search through eligible cards. Cannot chose cards of the same type.
-          if (this.Cards.visible == true && this.Cards.value != CONFUSEID && this.Cards.Flipped==false)
-          {
+          if (this.Cards.visible == true && this.Cards.value != CONFUSEID && this.Cards.Flipped==false){
             PotentialCards[n] = this.Cards;
             n++;
           }
@@ -277,15 +255,12 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * All of this is run every frame
    */
-  this.Step = function()
-  {
+  this.Step = function(){
     this.SchwartzedTimer-=Delta;
-    if (this.SchwartzedTimer<=0 && this.Schwartzed)
-    {
+    if (this.SchwartzedTimer<=0 && this.Schwartzed){
       this.ResetBonus();
     }
-    if (this.visible == true)
-    {
+    if (this.visible == true){
       /**
 	   * The step event for cards, this will be performed each frame.
        * Timers, used to create a delay before hiding/unflipping a card.
@@ -293,8 +268,7 @@ function Cards(node, image, sizeX, sizeY)
 	  if (this.Timer>this.TurnSteps && this.Hiding==1)
         this.TrueHide();
       else
-      if (this.Timer>this.TurnSteps && this.Hiding==2)
-      {
+      if (this.Timer>this.TurnSteps && this.Hiding==2){
         node.fadeOut();
         this.visible=false;
       }
@@ -303,8 +277,7 @@ function Cards(node, image, sizeX, sizeY)
 	   * This code is run while the card is tuning, essentially it is the code that visually tuns it
        * Since JS uses radians for sinus, we use pi, we just use 3.14, rather than Math.PI, for performance increase.
        */
-	  if(this.Turning == true)
-      {
+	  if(this.Turning == true){
         //This adds to the direction of the card, based on the time that passed by.
         this.Direction += 3.14*(Delta/this.TurnSteps);
         
@@ -322,10 +295,10 @@ function Cards(node, image, sizeX, sizeY)
             this.ChangeFace(this.FaceBack);
           }
           /**
-		   * //this calculates the factor of the card, based on direction and sin. If the face has changed though
-           * //and it needs to be flipped back, we "reverse" the calculation, to avoid pictuers being drawn in
-           * //reverse.
-		   */
+           * this calculates the factor of the card, based on direction and sin. If the face has changed though
+           * and it needs to be flipped back, we "reverse" the calculation, to avoid pictuers being drawn in
+           * reverse.
+           */
           if (this.changed==true)
             this.factor=-Math.sin(this.Direction);
           else
@@ -383,8 +356,7 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * Turns the Card around.
    */
-  this.Turn = function()
-  {
+  this.Turn = function(){
     this.Turning = true;
     this.changed = false;
     
@@ -395,15 +367,12 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * This will be run whenever the card is clicked.
    */
-  this.Clicked = function()
-  {
-    if (this.Flipped==false)
-    {
+  this.Clicked = function(){
+    if (this.Flipped==false){
       this.Flipped=true;
       this.Turn();
     }
-    else
-    {
+    else{
       this.Flipped=false;
     }
   }
@@ -411,10 +380,8 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * Used to make the card unflip (Hide is not a very good name for the function :( ).
    */
-  this.Hide = function()
-  {
-    if (this.Hiding!=2)
-    {  
+  this.Hide = function(){
+    if (this.Hiding!=2){  
       this.Timer = 0;
       this.Hiding = 1;
     }
@@ -423,8 +390,7 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * Used to make the card instantly hide rather than with a delay.
    */
-  this.TrueHide = function()
-  {
+  this.TrueHide = function(){
     this.Hiding = 0;
     this.Flipped=false;
     this.Turn();
@@ -436,15 +402,12 @@ function Cards(node, image, sizeX, sizeY)
    * @param bool Visible
    *   True if the card should be visible, false if it should be "deleted"
    */
-  this.SetVisible = function(Visible)
-  {
-    if (Visible == false)
-    {
+  this.SetVisible = function(Visible){
+    if (Visible == false){
       this.Hiding=2;
       this.Timer=0;
     }
-    else
-    {
+    else{
       node.w(WIDTH);
       node.h(HEIGHT);
       this.visible=true;
@@ -453,8 +416,7 @@ function Cards(node, image, sizeX, sizeY)
   /**
    * Makes the card not swartzed any longer. It will again show it's true face.
    */
-  this.ResetBonus = function()
-  {
+  this.ResetBonus = function(){
     this.Schwartzed = false;
     if (this.Flipped==true && this.changed==true)
     this.ChangeFace(this.FaceFront);
@@ -466,8 +428,7 @@ function Cards(node, image, sizeX, sizeY)
    * @param object options
    *   updates the current options, look at gameQuery for more detail.
    */
-  this.Update = function(options)
-  {
+  this.Update = function(options){
     //Again, ugly code, this is how gamequery does it though.
     var spriteDOMObject = this.node[0];
         

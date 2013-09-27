@@ -44,11 +44,15 @@
                 <input type="button" value="Mute Music" id="ButtonMuteMusic" class="ButtonStyle">
               </div>
             </div>
-            <div id="NameEnterHUD"></div>
+            <div id="NameEnterHUD">
+            <p>Du har nok point til at komme på highscoren <br> Skriv venligst dit navn:</p>
+            <input id='inputBox' type = 'text' />
+            <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Tryk for at fortsætte"/>
+            </div>
             <div id="HighscoreHUD">
             <p id="HighscoreHeadline">Highscore</p><br>
             <p id="Lines"></p>
-            <p id="HighscoreFooter">Tryk Enter for at starte et nyt spil</p>
+            <input class ="ButtonStyle GoToHighScore" type = "button" value = "Tryk for at fortsætte"/>
             </div>
             <div id="Leveldiv"></div>
             <span id="MessageHUD">

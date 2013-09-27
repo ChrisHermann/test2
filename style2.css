@@ -1,0 +1,163 @@
+/**
+ * @file
+ * The Style Sheet
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+  @media only screen and (min-width: 1px) {
+    
+  }
+
+
+
+  @media only screen and (min-width: 640px) {
+
+  }
+
+
+
+  @media only screen and (min-width: 1024px) {
+
+  }
+
+
+
+  @media only screen and (min-width: 1600px) { 
+
+  }
+    
+    
+  #ButtonResumeGame, #ButtonPause, #MessageButton, #ButtonMuteMusic, #ButtonMuteSound, #ButtonStartGame {
+    font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+    font-size: 21px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #402a20; 
+    background-color:#eab344;
+    height: 48px;
+    width: 200px;
+    text-align: center;
+    display: block;
+    border: solid 4px #402a20;
+    border-radius: 48px;
+  }
+    
+  #ButtonResumeGame:hover, #ButtonPause:hover, #MessageButton:hover, #ButtonMuteMusic:hover, #ButtonMuteSound:hover, #ButtonStartGame:hover {
+    background-color: #ffd258;
+  }
+
+  #ResumeButton, #PauseButton, #MuteMusicButton, #MuteSoundButton {
+    color: #ffffff;
+    position: absolute;
+  }
+
+  #ResumeButton {
+    margin: 0 auto;
+  }
+
+  #PauseButton {
+    left: 10px; 
+    top: 120px;
+  }
+
+  #MuteMusicButton {
+    left: 100px; 
+    top: 70px;
+  }
+
+  #MuteSoundButton {
+    left: 10px; 
+    top: 70px;
+  }
+
+  #MessageHUD, #Leveldiv, #HighscoreHUD, #NameEnterHUD {
+    color: #ffffff; 
+    text-align: center; 
+    position: absolute; 
+    font-family: verdana, sans-serif;
+    border-radius: 14px;
+    padding: 30px; 
+    vertical-align: middle; 
+    background: #D27928; 
+    overflow:hidden;
+  }
+
+  #MessageHUD, #NameEnterHUD {
+    font-size: 200%;
+  }
+
+  #Leveldiv {
+    font-size: 400%;
+  }
+
+  #HighscoreHUD {
+    font-size: 200%;
+    padding: 30px 0px;
+  }
+
+  #BorderTop {
+    background: #D27928;
+    border-radius: 14px;
+    left: 10px;
+    top: 10px;
+    height: 59px;
+    position: absolute;
+  }
+
+  #PointHUD, #TimeHUD, #LevelHUD {
+    color: #ffffff; 
+    position: absolute;  
+    top: 10px; 
+    font-family: verdana, sans-serif; 
+    font-weight: bold; 
+    font-size:150%;
+  }
+
+  #PointHUD {
+    left: 400px;
+  }
+
+  #TimeHUD {
+    left: 200px; 
+    float: right; 
+  }
+
+  #LevelHUD {
+    left: 10px;
+  }
+
+  #Blureffect {
+    display: block;
+    opacity: 0.7; 
+    filter:alpha(opacity=70); 
+    position: absolute; 
+    left: 0px; 
+    top: 0px; 
+    background-color: #000000;
+  }
+
+  #TextTestDiv {
+    color: #ffffff; 
+    position: absolute; 
+    left: 400px; 
+    top: 10px; 
+    font-family: verdana, sans-serif; 
+    font-weight: bold; 
+    font-size:150%;
+  }
+
+  #inputHUD {
+    position:absolute;
+  }
+
+  #inputBox {
+    opacity:0;
+    position:absolute;
+  }
+}

@@ -47,7 +47,7 @@ function DeckManager()
       this.LastBonusBool = true;
     
       //Then we need to remove the drawn card from the deck.
-      this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
+		this.BonusCardPool.splice(this.NextVal - this.CardPool.length,1);
     }
     else
     {
@@ -120,7 +120,6 @@ function DeckManager()
    */
   this.GetRandomBonus = function()
   {
-    return(SCHWARTZID+3);
     return(SCHWARTZID+Math.floor(Math.random()*BONUSES));
   }
 }

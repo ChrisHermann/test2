@@ -88,14 +88,14 @@ function Cards(node, image, sizeX, sizeY)
     this.FaceSchwartz = FaceSchwartz;
     this.scale = scale;
     this.Bonus = Bonus;
-    
+  
     this.InternalWidth = this.Size/this.node.width();
     this.InternalHeight = this.Size/this.node.height();
     
-    this.image.width(this.WIDTH);
-    this.image.height(this.HEIGHT);
-    this.node.width(this.WIDTH);
-    this.node.height(this.HEIGHT);
+    this.image.width(this.WIDTH * scale);
+    this.image.height(this.HEIGHT * scale);
+    this.node.width(this.WIDTH * scale);
+    this.node.height(this.HEIGHT * scale);
   }
   /**
    * Executes the effects of the bonus cards

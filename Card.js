@@ -61,22 +61,22 @@ function Cards(node, image, sizeX, sizeY) {
   }
   
   /**
-  * Used to set up the necessary attributes of a card.
-  * 
-  * @param integer Value
-  *   Value is the value of the card.
-  * @param string FaceF
-  *   FaceF is the image for the front-side of the card.
-  * @param string FaceS
-  *   FaceS is the image that is used for the swartz bonus card.
-  * @param string FaceB
-  *   FaceB is the image that will make up the back-side of the card.
-  * @param bool Bonus
-  *   Bonus is if the card is a bonus card or not.
-  * @param integer scale
-  *   Scale is the overall scale of the card. All other scalings will take base in this one.
-  *   This should mainly be changed for resizing, if not, it should be left unchanged.
-  */
+   * Used to set up the necessary attributes of a card.
+   * 
+   * @param integer Value
+   *   Value is the value of the card.
+   * @param string FaceF
+   *   FaceF is the image for the front-side of the card.
+   * @param string FaceS
+   *   FaceS is the image that is used for the swartz bonus card.
+   * @param string FaceB
+   *   FaceB is the image that will make up the back-side of the card.
+   * @param bool Bonus
+   *   Bonus is if the card is a bonus card or not.
+   * @param integer scale
+   *   Scale is the overall scale of the card. All other scalings will take base in this one.
+   *   This should mainly be changed for resizing, if not, it should be left unchanged.
+   */
   this.Create = function(Value, FaceFront, FaceSchwartz, FaceBack, Bonus, scale) {
     //Set base values.
     this.value = Value;
@@ -120,7 +120,7 @@ function Cards(node, image, sizeX, sizeY) {
     }
     if (this.value == POINTID){
       /**
-	   * Simple add 500 points to the players score.
+	     * Simple add 500 points to the players score.
        * Create the GFX for the points!
        * The points won't be awarded until het GFX is actually gone.
        */
@@ -177,10 +177,10 @@ function Cards(node, image, sizeX, sizeY) {
     }
     if (this.value == PAIRID){
       /**
-	   * This card will find a pair for you. If you already have a card flipped, it will find the matching card and
+	     * This card will find a pair for you. If you already have a card flipped, it will find the matching card and
        * Flip that one, if not, it will set autocomplete to true, telling the main class that the next time a card
        * Is turned, it should find a pair for that card.
-	   */
+	     */
       if (Turned > 0){
         var Card;
         ForEachCard(function(){
@@ -201,8 +201,9 @@ function Cards(node, image, sizeX, sizeY) {
         });
         
       }
-      else
+      else{
         Autocomplete = true;
+        }
       
       
       node.fadeOut();
@@ -210,11 +211,11 @@ function Cards(node, image, sizeX, sizeY) {
     }
     if (this.value == CONFUSEID){
       /**
-	   * Search through eligible cards. Cannot chose cards of hte same type.
+	     * Search through eligible cards. Cannot chose cards of hte same type.
        * This code will actually run twice, the first time is when the card is first flipped
        * it will then be told to flip back. The second time is when the card flips back, it will then
        * be told to execute the actual effect.
-	   */
+	     */
       if (this.FlippedVisual){
         this.Turn();
         this.Flipped=false;
@@ -262,19 +263,18 @@ function Cards(node, image, sizeX, sizeY) {
     }
     if (this.visible == true){
       /**
-	   * The step event for cards, this will be performed each frame.
+	     * The step event for cards, this will be performed each frame.
        * Timers, used to create a delay before hiding/unflipping a card.
        */
 	  if (this.Timer>this.TurnSteps && this.Hiding==1)
         this.TrueHide();
-      else
-      if (this.Timer>this.TurnSteps && this.Hiding==2){
+      else if (this.Timer>this.TurnSteps && this.Hiding==2){
         node.fadeOut();
         this.visible=false;
       }
       
       /**
-	   * This code is run while the card is tuning, essentially it is the code that visually tuns it
+	     * This code is run while the card is tuning, essentially it is the code that visually tuns it
        * Since JS uses radians for sinus, we use pi, we just use 3.14, rather than Math.PI, for performance increase.
        */
 	  if(this.Turning == true){

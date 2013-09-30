@@ -154,8 +154,6 @@ $(function(){
   
   $("#inputbox").hide();
 
-
-
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
    * @param a
@@ -177,6 +175,7 @@ $(function(){
   $("#Leveldiv").hide();
   $("#HighscoreHUD").hide();
   $("#NameEnterHUD").hide();
+  $("#ResumeButtonDiv").hide();
 
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
@@ -196,7 +195,7 @@ $(function(){
   var Focused = false;
   var HasStartedLevelTransition = false;
   GFXCount = 0;
-  Points = 1000000;
+  Points = 0;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -205,7 +204,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 10 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -390,7 +389,7 @@ $(function(){
     $("#MessageButton").show();
     
     
-    Current = $("#MessageHUD");
+    Current = $("#MessageText");
     //Apply the string to the div, scale it, and then recenter it.
     Current.html(Message+"<br/><br/>");
       

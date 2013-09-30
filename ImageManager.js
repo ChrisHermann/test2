@@ -3,8 +3,7 @@
  * This class will manage Images
  * This will make it easier to change the images for future games.
  */
-function ImageManager()
-{
+function ImageManager(){
   this.Faces = new Array();
   this.BackFace;
   this.Misc = new Array();
@@ -14,8 +13,7 @@ function ImageManager()
    * @param string BackFaceURL
    *   The path to the Background of the cards
    */
-  this.Create = function(BackFaceURL)
-  {
+  this.Create = function(BackFaceURL){
     //This only takes the backface as argument.
     this.BackFace = new Image();
 	 $(this.BackFace)
@@ -44,8 +42,7 @@ function ImageManager()
    * @return integer
    *   returns the id of the newly loaded image. 
    */
-  this.LoadCard = function(URL)
-  {
+  this.LoadCard = function(URL){
     this.Faces[this.Faces.length] = new Image();
 	  $(this.Faces[this.Faces.length-1])
     // once the image has loaded, execute this code
@@ -105,8 +102,7 @@ function ImageManager()
    * @return string
    *   Returns the image
    */
-  this.GetCard = function(Number)
-  {
+  this.GetCard = function(Number){
     return(this.Faces[Number].src);
   }
   /**
@@ -118,8 +114,7 @@ function ImageManager()
    * @return string
    *   Returns the image
    */
-  this.GetMisc = function(Number)
-  {
+  this.GetMisc = function(Number){
     return(this.Misc[Number].src);
   }
   
@@ -129,8 +124,7 @@ function ImageManager()
    * @return string
    *   Returns the image
    */
-  this.GetBack = function()
-  {
+  this.GetBack = function(){
     return(this.BackFace.src);
   }
   
@@ -140,8 +134,7 @@ function ImageManager()
    * @return integer
    *   Returns the total amount of normal cards.
    */
-  this.GetTotal = function()
-  {
+  this.GetTotal = function(){
     return(this.Faces.length-BONUSES);
   }
 }

@@ -15,27 +15,46 @@
 
 .image{
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 #MemoryGamePlayground {
   position: relative;
-  width: 320px; 
-  height: 480px;
+  width: 1600px; 
+  height: 900px;  
   background: #000000;
-  /*padding-top: 0.1%;*/
+  overflow: hidden;
+  background-image: url('BG.jpg');
+  background-repeat:no-repeat;
+}
+
+#MemoryGamePlayground .GroupDiv {
+  position: relative; 
+  height: 100%; 
+  width: 100%;
+}
+
+#MemoryGamePlayground #overlay {
+  overflow: hidden;
 }
 
 #MemoryGamePlayground .ButtonStyle {
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   font-size: 21px;
+  /*
+  font-size: 1.3em;
+  */
   font-weight: bold;
   text-decoration: none;
   color: #402a20;
   background-color:#eab344;
   height: 48px;
   width: 200px;
+  /*
+  min-width: 100px;
+  height: 70%;
+  width: 30%;
+  */
   text-align: center;
   display: block;
   border: solid 4px #402a20;
@@ -62,6 +81,8 @@
 #MemoryGamePlayground #ButtonStartGame, #MemoryGamePlayground #ButtonResumeGame {
   position: relative;
   top: 50%;
+  height: 48px;
+  width: 200px;
 }
 
 #MemoryGamePlayground #StartButtonDiv, #MemoryGamePlayground #ResumeButtonDiv { 
@@ -70,19 +91,29 @@
   height: 100%;
 }
 
+#MemoryGamePlayground .GoToHighScore {
+  margin-top: 30px;
+}
+
 #MemoryGamePlayground #BorderTop {
   background-color: #D27928;
   border-radius: 14px;
   position: relative;
-  width: 100%;
-  height: 10%;
+  width: 99%;
+  margin: 0.5% 0.5% 0 0.5%;
+  display: inline-block;
+  padding: 0.5% 0 0.5% 0;
+  height: 15%;
 }
 
-#MemoryGamePlayground #PauseButtonDiv, #MemoryGamePlayground #MuteMusicButtonDiv, #MemoryGamePlayground #MuteSoundButtonDiv {
+#MemoryGamePlayground .UIButtonDiv {
   float: left;
+  position: relative;
+  height: 50%;
+  width: 100%;
 }
 
-#MemoryGamePlayground #PointHUD, #MemoryGamePlayground #TimeHUD, #MemoryGamePlayground #LevelHUD {
+#MemoryGamePlayground .UIDiv {
   color: #ffffff;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   /*
@@ -91,25 +122,10 @@
   font-weight: bold; 
   font-size:150%;
   float: left;
+  height: 50%;
   position: relative;
-}
-
-#MemoryGamePlayground #PointHUD, #MemoryGamePlayground #LevelHUD {
-  width: 30%;
+  width: 33.3%;
   text-align: center;
-}
-
-#MemoryGamePlayground #TimeHUD {
-  width: 40%;
-  text-align: center;
-}
-
-#MemoryGamePlayground #PauseButtonDiv, #MemoryGamePlayground #MuteSoundButtonDiv {
-  width: 30%;
-}
-
-#MemoryGamePlayground #MuteMusicButtonDiv {
-  width: 40%;
 }
 
 #MemoryGamePlayground #MessageHUD, #MemoryGamePlayground #Leveldiv, #MemoryGamePlayground #HighscoreHUD, #MemoryGamePlayground #NameEnterHUD {
@@ -127,19 +143,29 @@
   position: relative;
 }
 
-#MemoryGamePlayground #MessageHUD, #MemoryGamePlayground #NameEnterHUD {
+#MemoryGamePlayground #MessageHUD {
   font-size: 200%;
   width: 50%;
-  margin: 300px auto 0 auto;
+  margin: 308.5px auto 308.5px auto;
+
+}
+
+#MemoryGamePlayground #NameEnterHUD {
+  font-size: 200%;
+  width: 50%;
+  margin: 250px auto 250px auto;
 }
 
 #MemoryGamePlayground #Leveldiv {
+  margin: 325px auto;
+  width: 50%;
   font-size: 400%;
 }
 
 #MemoryGamePlayground #HighscoreHUD {
+  position: relative;
   padding: 30px 0px;
-  margin: 150px auto 0 auto;
+  margin: 135px auto 135px auto;
   width: 30%;
 }
 
@@ -168,19 +194,16 @@
 }
 
 #MemoryGamePlayground #inputBox {
-  opacity:0;
+  position: relative;
   height: 100%;
-  width: 100%;
+  width: 99%;
+  
 }
 
 #MemoryGamePlayground #HighscoreHeadline {
   padding: 0 30px;
   font-size: 200%;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  text-shadow: -4px -4px 0 #402A20, 4px -4px 0 #402A20, -4px 4px 0 #402A20,  4px 4px 0 #402A20, 
-               -3px -3px 0 #402A20, 3px -3px 0 #402A20, -3px 3px 0 #402A20,  3px 3px 0 #402A20, 
-               -2px -2px 0 #402A20, 2px -2px 0 #402A20, -2px 2px 0 #402A20,  2px 2px 0 #402A20, 
-               -1px -1px 0 #402A20, 1px -1px 0 #402A20, -1px 1px 0 #402A20,  1px 1px 0 #402A20;
 }
 
 #MemoryGamePlayground #HighscoreFooter {
@@ -204,4 +227,28 @@
 #MemoryGamePlayground #Highscore1 {
   padding: 7px 30px;
   font-size: 70%;
+}
+
+@media only screen and (min-width: 1px) and (max-width: 639px) {
+  #MemoryGamePlayground {
+    width: 320px; 
+    height: 480px;
+  }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) {
+  #MemoryGamePlayground {
+    width: 640px; 
+    height: 480px;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1599px) {
+  #MemoryGamePlayground {
+    width: 1024px; 
+    height: 768px; 
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+
 }

@@ -154,8 +154,6 @@ $(function(){
   
   $("#inputbox").hide();
 
-
-
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
    * @param a
@@ -177,6 +175,7 @@ $(function(){
   $("#Leveldiv").hide();
   $("#HighscoreHUD").hide();
   $("#NameEnterHUD").hide();
+  $("#ResumeButtonDiv").hide();
 
   //Sets up all the variables needed for the game to run.
   var CARDSIZEX = 208;
@@ -196,7 +195,7 @@ $(function(){
   var Focused = false;
   var HasStartedLevelTransition = false;
   GFXCount = 0;
-  Points = 1000000;
+  Points = 0;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -205,8 +204,8 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
+  var CoreGameTime = 10 * 1000;
   
-  var CoreGameTime = 5 * 1000;
   var CurrentGameTime = CoreGameTime;
   
   GameStart = false;
@@ -390,7 +389,7 @@ $(function(){
     $("#MessageButton").show();
     
     
-    Current = $("#MessageHUD");
+    Current = $("#MessageText");
     //Apply the string to the div, scale it, and then recenter it.
     Current.html(Message+"<br/><br/>");
       
@@ -431,11 +430,11 @@ $(function(){
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("Level: "+CurrentLevel);
+    current.html("<span>Level: "+CurrentLevel + "</span>");
     
     
     current = $("#TimeHUD");
-    current.html("Time: "+Math.ceil(CurrentGameTime/1000));
+    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
@@ -881,7 +880,7 @@ $(function(){
       
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("Time: "+Math.ceil(CurrentGameTime/1000));
+        current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
       
       
         ForEachCard(function(){
@@ -895,7 +894,7 @@ $(function(){
         });
         //Ends game if GameTime hits 0
         if (CurrentGameTime <= 0){
-          $("#TimeHUD").html("Time: 0");
+          $("#TimeHUD").html("<span>Time: 0</span>");
           EndGame();
         }
       

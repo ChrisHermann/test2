@@ -387,6 +387,7 @@ $(function(){
     $("#MessageHUD").show();
     $("#BlurEffect").show();
     $("#MessageButton").show();
+    $("#MessageButton").attr('value', ButtonMessage);
     
     
     Current = $("#MessageText");

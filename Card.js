@@ -194,10 +194,10 @@ function Cards(node, image, sizeX, sizeY) {
         var Someflip=false;
         
         ForEachCard(function(){
-          if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true){
+          //if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true){
             this.Cards.node.mousedown();
             Someflip = true;
-          }
+          //}
         });
         
       }
@@ -360,7 +360,7 @@ function Cards(node, image, sizeX, sizeY) {
     this.Turning = true;
     this.changed = false;
     
-    if(AppleDetect[0,0] != "iPad" ||  AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
+   // if(AppleDetect[0,0] != "iPad" ||  AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android")
     FlipCardSound.play();
   }
   

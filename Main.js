@@ -41,7 +41,7 @@ function PauseGame() {
   //Do not pause the game before it has started, as this creates weird bugs.
   if(GameStart && !Paused) {
     Paused=true;
-    BackgroundMusic.pause();
+    //BackgroundMusic.pause();
     Paused = true;
     
     $("#inputbox").toggle();
@@ -79,7 +79,7 @@ function PauseResume() {
 /**
  * This function has two functions to mute and unmute music. It will detect what the music currently is, and do the opposite.
  */
-function MuteMusic() {
+/*function MuteMusic() {
   if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone" || AndroidDetect[0,0] == "Android") {
     function MuteMusic() {
       BackgroundMusic.setMute(true);
@@ -96,12 +96,12 @@ function MuteMusic() {
     else
       UnMuteMusic();
   }
-}
+}*/
 
 /**
  * This function has two functions to mute and unmute Sound. It will detect what the music currently is, and do the opposite.
  */
-function MuteSound() {
+/*function MuteSound() {
   function MuteSound() {
     FlipCardSound.setMute(true);
     MuteSoundBool = true;
@@ -116,18 +116,19 @@ function MuteSound() {
     MuteSound();
   else
     UnMuteSound();
-}
+}*/
 
 /**
  * segmenting the platform info
  * platform detect.
  */
+ /*
 var PlatformTemporary = navigator.appVersion;
 PlatformTemporary = PlatformTemporary.split(" ");
 var PlatformDetect = PlatformTemporary[0,1] + " " + PlatformTemporary[0,0];
 PlatformDetect = PlatformDetect.substring(1);
 AppleDetect = PlatformDetect.split(";");
-AndroidDetect = PlatformDetect.split(")");
+AndroidDetect = PlatformDetect.split(")");*/
 
 /**
  * --------------------------------------------------------------------
@@ -194,7 +195,7 @@ $(function(){
   var Focused = false;
   var HasStartedLevelTransition = false;
   GFXCount = 0;
-  Points = 0;
+  Points = 10000000;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -230,10 +231,10 @@ $(function(){
    * Sounds
    * no background music on iPad
    */
-  if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
-    BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
+ // if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
+    //BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
     FlipCardSound = createjs.Sound.createInstance("./flipcard.wav");
-  }
+  //}
   
   //Loads the normal card faces
   var Face = new Array();
@@ -315,9 +316,9 @@ $(function(){
     //Create the first level.
     CreateLevel();
     //no Background music if iPad
-    if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
+    /*if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
         BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
-      }
+      }*/
     $("#welcomeScreen").remove();
   });
   
@@ -832,7 +833,7 @@ $(function(){
     }
     localStorage.LocalStorageScores = StringScores;
   }
-
+  console.log(  localStorage.LocalStorageScores);
   /**
   * Resets the highscore with standard scores.
   */
@@ -855,9 +856,9 @@ $(function(){
       }
       else if (Ended == 1){
         //TODO: DO IT USING KEYPRESSES HOPEFULLY
-        if (AndroidDetect[0,0] == "Android"){
+       // if (AndroidDetect[0,0] == "Android"){
           Name = $("#inputBox").val();
-        }
+        //}
         /**
          * If we are entering our name:
          * Generate a string based on the name varaible, which is changed in onkeypress

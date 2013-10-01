@@ -194,6 +194,7 @@
 }
 
 #MemoryGamePlayground #inputBox {
+  -WEBKIT-USER-SELECT: text;
   position: relative;
   height: 80px;
   width: 99%;

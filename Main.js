@@ -44,9 +44,9 @@ function PauseGame() {
     BackgroundMusic.pause();
     Paused = true;
     
-    $("#inputbox").hide();
+    $("#inputbox").toggle();
     
-    $("#ResumeButtonDiv").show();
+    $("#ResumeButtonDiv").toggle();
   }
 }
 
@@ -56,13 +56,13 @@ function PauseGame() {
 function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused) {
-    $("#inputbox").show();
+    $("#inputbox").toggle();
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
     BackgroundMusic.resume();
     Paused = false;
-    $("#ResumeButtonDiv").hide();
+    $("#ResumeButtonDiv").toggle();
   }
 }
 

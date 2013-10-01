@@ -300,7 +300,7 @@ $(function(){
   $("#MessageButton").click(function(e) { UnshowMessage() });
   
   current = $('#PointHUD');
-  current.html("Points: "+Math.round(PointsVisual));
+  current.html("POINTS: "+Math.round(PointsVisual));
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -430,11 +430,11 @@ $(function(){
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("<span>Level: "+CurrentLevel + "</span>");
+    current.html("<span>RUNDE: "+CurrentLevel + "</span>");
     
     
     current = $("#TimeHUD");
-    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
+    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
@@ -762,7 +762,7 @@ $(function(){
     Line = "";
     
     //Load the highscores from localstoage, and split them into an array.
-    SplitScores = localStorage.LocalStorageScores.split(" ");
+    SplitScores = localStorage.LocalStorageScores.split(",");
     if (SplitScores.length>1){
       for(i=0;i<(SplitScores.length-1)/2;i++){
         //Loop through the array to put all the scores into the appropriate array.
@@ -829,7 +829,7 @@ $(function(){
     
     for(i=0;i<Scores.length;i++){
       //Creates a string for the scores so they can be used for localstorage
-      StringScores += Scores[i].name + " " + Scores[i].score + " ";
+      StringScores += Scores[i].name + "," + Scores[i].score + ",";
     }
     localStorage.LocalStorageScores = StringScores;
   }
@@ -839,7 +839,7 @@ $(function(){
   */
   function ResetHighscore(){
     //Resets the highscore to a default value. This also creates local highscores for players to beat. May need to revise the scores a bit.
-    localStorage.LocalStorageScores = "Nicolaus 10000 Swartz 9000 Julie 8000 Peter 7000 Signe 6000 Regitze 5000 Susanne 4000 Chris 3000 Sander 2000 Emil 1000 ";
+    localStorage.LocalStorageScores = "Nicolaus,10000,Swartz,9000,Julie,8000,Peter,7000,Signe,6000,Regitze,5000,Susanne,4000,Chris,3000,Sander,2000,Emil,1000,";
   }
   
   Step = function(){
@@ -879,7 +879,7 @@ $(function(){
       
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + "</span>");
+        current.html("<span>TID: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
       
       
         ForEachCard(function(){
@@ -893,7 +893,7 @@ $(function(){
         });
         //Ends game if GameTime hits 0
         if (CurrentGameTime <= 0){
-          $("#TimeHUD").html("<span>Time: 0</span>");
+          $("#TimeHUD").html("<span>TID: 0 SEKUNDER</span>");
           EndGame();
         }
       
@@ -966,7 +966,7 @@ $(function(){
         PointsVisual=Points;
       }
       
-      $("#PointHUD").html("Points: "+Math.round(PointsVisual));
+      $("#PointHUD").html("POINTS: "+Math.round(PointsVisual));
     }
   
     EndedLaster=Ended;

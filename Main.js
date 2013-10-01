@@ -967,6 +967,8 @@ $(function(){
       if (PointsVisual>Points){
         PointsVisual=Points;
       }
+      
+      $("#PointHUD").html("Points: "+Math.round(PointsVisual));
     }
   
     EndedLaster=Ended;

@@ -387,6 +387,7 @@ $(function(){
     $("#MessageHUD").show();
     $("#BlurEffect").show();
     $("#MessageButton").show();
+    $("#MessageButton").attr('value', ButtonMessage);
     
     
     Current = $("#MessageText");
@@ -966,6 +967,8 @@ $(function(){
       if (PointsVisual>Points){
         PointsVisual=Points;
       }
+      
+      $("#PointHUD").html("Points: "+Math.round(PointsVisual));
     }
   
     EndedLaster=Ended;

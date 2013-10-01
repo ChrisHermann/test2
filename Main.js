@@ -777,7 +777,7 @@ $(function(){
     $.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
       //This code runs when the scores are loaded, and they need to be reformatted.
       //TODO: Remove if online highscore is not needed.
-      for (i=0; i<Math.min(10, Scores.length); i++){
+      for (i=0; i<Math.min(5, Scores.length); i++){
         //Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
         /*if (i<3){
         LineTextSize = 100+35/(i+1);

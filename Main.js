@@ -204,7 +204,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 10 * 1000;
+  var CoreGameTime = 1 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   

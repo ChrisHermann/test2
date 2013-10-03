@@ -18,7 +18,17 @@
   margin: 0 auto;
 }
 
-#MemoryGamePlayground {
+#BlurEffect {
+  display: none;
+  background-image: url('blurpic.png');
+  background-repeat: repeat;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+#EmilIsKill {
   position: relative;
   width: 1600px; 
   height: 900px;  
@@ -28,33 +38,25 @@
   background-repeat:no-repeat;
 }
 
-#MemoryGamePlayground .GroupDiv {
+#EmilIsKill .GroupDiv {
   position: relative; 
   height: 100%; 
   width: 100%;
 }
 
-#MemoryGamePlayground #overlay {
+#EmilIsKill #overlay {
   overflow: hidden;
 }
 
-#MemoryGamePlayground .ButtonStyle {
+#EmilIsKill .ButtonStyle {
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   font-size: 21px;
-  /*
-  font-size: 1.3em;
-  */
   font-weight: bold;
   text-decoration: none;
   color: #402a20;
   background-color:#eab344;
   height: 48px;
   width: 200px;
-  /*
-  min-width: 100px;
-  height: 70%;
-  width: 30%;
-  */
   text-align: center;
   display: block;
   border: solid 4px #402a20;
@@ -62,193 +64,210 @@
   margin: 0 auto;
 }
 
-#MemoryGamePlayground .ButtonStyle:hover {
+#EmilIsKill .ButtonStyle:hover {
   background-color: #ffd258;
 }
 
-#MemoryGamePlayground #welcomeScreen {
-  width: 100%;
-  height: 100%;
-}
-
-#MemoryGamePlayground #spin {
-  position: relative;
-  top: 50%;
-  bottom: 10px;
-  margin: 0 auto;
-}
-
-#MemoryGamePlayground #ButtonStartGame, #MemoryGamePlayground #ButtonResumeGame {
-  position: relative;
-  top: 50%;
-  height: 48px;
-  width: 200px;
-}
-
-#MemoryGamePlayground #StartButtonDiv, #MemoryGamePlayground #ResumeButtonDiv { 
-  position: relative;
-  bottom: 24px;
-  height: 100%;
-}
-
-#MemoryGamePlayground .GoToHighScore {
-  margin-top: 30px;
-}
-
-#MemoryGamePlayground #BorderTop {
-  background-color: #D27928;
-  border-radius: 14px;
-  position: relative;
-  width: 99%;
-  margin: 0.5% 0.5% 0 0.5%;
-  display: inline-block;
-  padding: 0.5% 0 0.5% 0;
-  height: 15%;
-}
-
-#MemoryGamePlayground .UIButtonDiv {
-  float: left;
-  position: relative;
-  height: 50%;
-  width: 100%;
-}
-
-#MemoryGamePlayground .UIDiv {
-  color: #ffffff;
-  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  /*
-  font-family: verdana, sans-serif; 
-  */
-  font-weight: bold; 
-  font-size:150%;
-  float: left;
-  height: 50%;
-  position: relative;
-  width: 33.3%;
-  text-align: center;
-}
-
-#MemoryGamePlayground #MessageHUD, #MemoryGamePlayground #Leveldiv, #MemoryGamePlayground #HighscoreHUD, #MemoryGamePlayground #NameEnterHUD {
-	color: #ffffff; 
+#EmilIsKill .StartResumeScreen {
+  color: #ffffff; 
 	text-align: center;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  /*
-  font-family: verdana, sans-serif; 
-  */
 	border-radius: 14px;
 	padding: 30px;
 	vertical-align: middle; 
 	background: #D27928; 
 	overflow:hidden;
   position: relative;
+  width: 500px;
+  margin: 300px auto;
+  z-index: 3;
 }
 
-#MemoryGamePlayground #MessageHUD {
+#EmilIsKill #spin {
+  position: relative;
+  top: 50%;
+  bottom: 10px;
+  margin: 0 auto;
+}
+
+#EmilIsKill #ButtonStartGame, #EmilIsKill #ButtonResumeGame {
+  position: relative;
+  top: 50%;
+  height: 48px;
+  width: 200px;
+}
+
+#EmilIsKill #StartButtonDiv, #EmilIsKill #ResumeButtonDiv { 
+  position: relative;
+  z-index: 3;
+}
+
+#EmilIsKill .GoToHighScore {
+  margin-top: 30px;
+}
+
+#EmilIsKill #BorderTop {
+  background-color: #D27928;
+  position: relative;
+  width: 99%;
+  margin: 0.5% 0.5% 0 0.5%;
+  display: inline-block;
+  padding: 4px 0 4px 0;
+}
+
+#EmilIsKill .UIDiv {
+  color: #ffffff;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  font-weight: bold; 
+  font-size: 20px;
+  float: left;
+  position: relative;
+  vertical-align: center;
+  height: 48px;
+  padding: 0 0 0 45px;
+}
+
+#EmilIsKill #PauseButtonDiv {
+  padding: 0 0 0 15px;
+}
+
+#EmilIsKill .UIDiv p {
+  margin: 11.5px 0 0 0;
+}
+
+#EmilIsKill #ButtonPause {
+  margin: 0;
+}
+
+#EmilIsKill #MessageHUD, #EmilIsKill #Leveldiv, #EmilIsKill #HighscoreHUD, #EmilIsKill #NameEnterHUD {
+	color: #ffffff; 
+	text-align: center;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+	border-radius: 14px;
+	padding: 30px;
+	vertical-align: middle; 
+	background: #D27928; 
+	overflow:hidden;
+  position: relative;
+  z-index: 3;
+}
+
+#EmilIsKill #MessageHUD {
   font-size: 200%;
-  width: 50%;
+  width: 500px;
   margin: 308.5px auto 308.5px auto;
 
 }
 
-#MemoryGamePlayground #NameEnterHUD {
-  font-size: 200%;
-  width: 50%;
+#EmilIsKill #NameEnterHUD {
+  font-size: 150%;
+  width: 500px;
   margin: 250px auto 250px auto;
 }
 
-#MemoryGamePlayground #Leveldiv {
+#EmilIsKill #Leveldiv {
   margin: 325px auto;
-  width: 50%;
+  width: 500px;
   font-size: 400%;
 }
 
-#MemoryGamePlayground #HighscoreHUD {
+#EmilIsKill #HighscoreHUD {
   position: relative;
   padding: 30px 0px;
   margin: 135px auto 135px auto;
-  width: 30%;
+  width: 500px;
 }
 
-#MemoryGamePlayground #Blureffect {
-  /**
-   * BLUR NO WORK
-   */
-  display: block;
-  opacity: 0.7; 
-  filter:alpha(opacity=70);
-  background-color: #000000;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
 
-#MemoryGamePlayground #TextTestDiv {
+#EmilIsKill #TextTestDiv {
 	color: #ffffff; 
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  /*
-  font-family: verdana, sans-serif; 
-  */
 	font-weight: bold; 
 	font-size:150%;
   text-align: center;
 }
 
-#MemoryGamePlayground #inputBox {
+
+#EmilIsKill #inputBox {
+  -WEBKIT-USER-SELECT: text;
   position: relative;
-  height: 100%;
+  height: 80px;
   width: 99%;
-  
+  border-radius: 48px;
+  text-align: center;
+  font-size: 80%;
+  Border: 0;
 }
 
-#MemoryGamePlayground #HighscoreHeadline {
+#EmilIsKill .HighscoreHeadline {
+  -webkit-text-stroke: 1px black;
   padding: 0 30px;
-  font-size: 200%;
+  font-size: 40px;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
 
-#MemoryGamePlayground #HighscoreFooter {
+#EmilIsKill #HighscoreFooter {
   padding: 0 30px;
   font-size: 70%;
 }
 
-#MemoryGamePlayground hr {
+#EmilIsKill hr {
   color: #EAB344; 
   background-color: #EAB344; 
   height: 5px; 
   border: 0;
 }
 
-#MemoryGamePlayground #Highscore0 {
+#EmilIsKill #Highscore0 {
   background: #EAB344; 
   padding: 7px 30px;
   font-size: 70%;
 }
 
-#MemoryGamePlayground #Highscore1 {
+#EmilIsKill #Highscore1 {
   padding: 7px 30px;
   font-size: 70%;
 }
 
+/*
+ * Media Querys
+ */
 @media only screen and (min-width: 1px) and (max-width: 639px) {
-  #MemoryGamePlayground {
+  #EmilIsKill {
     width: 320px; 
     height: 480px;
   }
 }
 
 @media only screen and (min-width: 640px) and (max-width: 1023px) {
-  #MemoryGamePlayground {
+  #EmilIsKill {
     width: 640px; 
     height: 480px;
   }
+  
+  #EmilIsKill #NameEnterHUD {
+    margin: 0px auto 0px auto;
+  }
+
+  #EmilIsKill #HighscoreHUD {
+    margin: 0px auto 0px auto;
+  }
+  
+  #EmilIsKill .HighscoreHeadline {
+    font-size: 20px;
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  #EmilIsKill #HighscoreFooter {
+  padding: 0px;
+  margin: 0px;
+}
 }
 @media only screen and (min-width: 1024px) and (max-width: 1599px) {
-  #MemoryGamePlayground {
+  #EmilIsKill {
     width: 1024px; 
     height: 768px; 
   }
-}
-
-@media only screen and (min-width: 1600px) {
-
 }

@@ -187,7 +187,9 @@
   text-align: center;
 }
 
+
 #EmilIsKill #inputBox {
+  -WEBKIT-USER-SELECT: text;
   position: relative;
   height: 80px;
   width: 99%;

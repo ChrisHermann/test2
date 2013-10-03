@@ -45,9 +45,11 @@ function PauseGame() {
     BackgroundMusic.pause();
     Paused = true;
     
-    $("#inputbox").hide();
+    //$("#inputbox").hide();
+    $("#GFXG").hide();
     
     $("#ResumeButtonDiv").show();
+    $("#BlurEffect").show();
   }
 }
 
@@ -57,13 +59,15 @@ function PauseGame() {
 function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused) {
-    $("#inputbox").show();
+    //$("#inputbox").show();
+    $("#GFXG").show();
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
     BackgroundMusic.resume();
     Paused = false;
     $("#ResumeButtonDiv").hide();
+    $("#BlurEffect").hide();
   }
 }
 
@@ -145,14 +149,14 @@ AndroidDetect = PlatformDetect.split(")");
 $(function(){
   
   document.body.style.overflow = "hidden";
-  PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
-  PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
+  PLAYGROUND_WIDTH = $("#EmilIsKill").width();
+  PLAYGROUND_HEIGHT = $("#EmilIsKill").height();
   console.log(PLAYGROUND_WIDTH);
   console.log(PLAYGROUND_HEIGHT);
   //var UserInterfaceSizeY = 170;
 
   
-  $("#inputbox").hide();
+  //$("#inputbox").hide();
 
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
@@ -171,10 +175,12 @@ $(function(){
   }
   
   
+  
+  $("#BlurEffect").show();
+  $("#NameEnterHUD").hide();
+  $("#HighscoreHUD").hide();
   $("#MessageHUD").hide();
   $("#Leveldiv").hide();
-  $("#HighscoreHUD").hide();
-  $("#NameEnterHUD").hide();
   $("#ResumeButtonDiv").hide();
 
   //Sets up all the variables needed for the game to run.
@@ -301,7 +307,7 @@ $(function(){
   $("#MessageButton").click(function(e) { UnshowMessage() });
   
   current = $('#PointHUD');
-  current.html("POINTS: "+Math.round(PointsVisual));
+  current.html("<p>POINTS: "+Math.round(PointsVisual) + "</p>");
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -312,7 +318,8 @@ $(function(){
   $("#ButtonStartGame").click(function(){
       Then = new Date().getTime();
       GameStart = true;
-      $("#inputbox").show();
+      $("#BlurEffect").hide();
+      //$("#inputbox").show();
       
       //Create the first level.
       CreateLevel();
@@ -431,11 +438,11 @@ $(function(){
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("<span>RUNDE: "+CurrentLevel + "</span>");
+    current.html("<p>RUNDE: "+CurrentLevel + "</p>");
     
     
     current = $("#TimeHUD");
-    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
+    current.html("<p>Time: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</p>");
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
@@ -724,7 +731,7 @@ $(function(){
 
   function RestartGame(){
     $("#HighscoreHUD").hide();
-    $("#inputHUD").hide();
+    //$("#inputHUD").hide();
     //$("#inputBox").hide();
     
     //Reset loaded scores.
@@ -800,7 +807,7 @@ $(function(){
     
     //Create new div for high score.
     $("#HighscoreHUD").show();
-    $("#inputHUD").show();
+    //$("#inputHUD").show();
     $.ajax({
       data: "Name=" + Name + "&Score=" + Points,
       type: "POST",
@@ -881,7 +888,7 @@ $(function(){
       
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("<span>TID: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
+        current.html("<p>TID: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</p>");
       
       
         ForEachCard(function(){
@@ -895,7 +902,7 @@ $(function(){
         });
         //Ends game if GameTime hits 0
         if (CurrentGameTime <= 0){
-          $("#TimeHUD").html("<span>TID: 0 SEKUNDER</span>");
+          $("#TimeHUD").html("<p>TID: 0 SEKUNDER</p>");
           EndGame();
         }
       
@@ -968,7 +975,7 @@ $(function(){
         PointsVisual=Points;
       }
       
-      $("#PointHUD").html("POINTS: "+Math.round(PointsVisual));
+      $("#PointHUD").html("<p>POINTS: "+Math.round(PointsVisual) + "</p>");
     }
   
     EndedLaster=Ended;

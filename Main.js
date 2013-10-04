@@ -44,16 +44,10 @@ function PauseGame() {
     //BackgroundMusic.pause();
     Paused = true;
     
-    //$("#inputbox").hide();
     $("#GFXG").hide();
     
     $("#ResumeButtonDiv").show();
     $("#BlurEffect").show();
-
-    //$("#GFXG").toggle();
-    
-    //$("#ResumeButtonDiv").toggle();
-    //$("#BlurEffect").toggle();
   }
 }
 
@@ -63,20 +57,14 @@ function PauseGame() {
 function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused) {
-    //$("#inputbox").show();
     $("#GFXG").show();
-    //$("#GFXG").toggle();
-    
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
-    BackgroundMusic.resume();
+    //BackgroundMusic.resume();
     Paused = false;
-    
     $("#ResumeButtonDiv").hide();
     $("#BlurEffect").hide();
-    //$("#ResumeButtonDiv").toggle();
-    //$("#BlurEffect").toggle();
   }
 }
 
@@ -159,14 +147,8 @@ AndroidDetect = PlatformDetect.split(")");*/
 $(function(){
   
   document.body.style.overflow = "hidden";
-  PLAYGROUND_WIDTH = $("#EmilIsKill").width();
-  PLAYGROUND_HEIGHT = $("#EmilIsKill").height();
-  console.log(PLAYGROUND_WIDTH);
-  console.log(PLAYGROUND_HEIGHT);
-  //var UserInterfaceSizeY = 170;
-
-  
-  //$("#inputbox").hide();
+  PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
+  PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
 
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
@@ -183,8 +165,6 @@ $(function(){
   if(!localStorage.LocalStorageScores) {
     ResetHighscore();
   }
-  
-  
   
   $("#BlurEffect").show();
   $("#NameEnterHUD").hide();
@@ -211,7 +191,7 @@ $(function(){
   var Focused = false;
   var HasStartedLevelTransition = false;
   GFXCount = 0;
-  Points = 10000000;
+  Points = 0;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -220,7 +200,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 40 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -241,8 +221,8 @@ $(function(){
   LevelManagerObject = new LevelManager();
   
   //Creates the imagemanager and loads the backcard.
-  ImageManagerObject.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
-  
+  ImageManagerObject.Create("./Cards/CardBack.png");
+ 
   /**
    * Sounds
    * no background music on iPad
@@ -254,23 +234,22 @@ $(function(){
   
   //Loads the normal card faces
   var Face = new Array();
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+  ImageManagerObject.LoadCard("./Cards/Nicolas.png");
+  ImageManagerObject.LoadCard("./Cards/Peter.png");
+  ImageManagerObject.LoadCard("./Cards/Sine.png");
+  ImageManagerObject.LoadCard("./Cards/William.png");
+  ImageManagerObject.LoadCard("./Cards/Anders.png");
+  ImageManagerObject.LoadCard("./Cards/Nanna.png");
+  ImageManagerObject.LoadCard("./Cards/Benz.png");
+  ImageManagerObject.LoadCard("./Cards/Regitze.png");
   ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
   ImageManagerObject.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
-  ImageManagerObject.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
-  ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
-  
   
   //Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-  SCHWARTZID = ImageManagerObject.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+  SCHWARTZID = ImageManagerObject.LoadCard("./Cards/Dr.Schwartz.png");
   POINTID = ImageManagerObject.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-  PAIRID = ImageManagerObject.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
-  CONFUSEID = ImageManagerObject.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+  PAIRID = ImageManagerObject.LoadCard("./Cards/Amulet.png");
+  CONFUSEID = ImageManagerObject.LoadCard("./Cards/Goose.png");
   
   //Loads the images for GFX
   POINTS1 = ImageManagerObject.LoadMisc("http://starship-games.com/500.png");
@@ -311,6 +290,7 @@ $(function(){
   //Setup UI
   //Add borders.
   $("#ButtonPause").click(function(e) { PauseGame() });
+  $("#ButtonResumeGame").click(function(e) { ResumeGame() });
   $("#ButtonMuteSound").click(function(e) { MuteSound() });
   $("#ButtonMuteMusic").click(function(e) { MuteMusic() });
   $("#MessageButton").click(function(e) { UnshowMessage() });
@@ -793,7 +773,7 @@ $(function(){
     $.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
       //This code runs when the scores are loaded, and they need to be reformatted.
       //TODO: Remove if online highscore is not needed.
-      for (i=0; i<Math.min(5, Scores.length); i++){
+      for (i=0; i<Math.min(10, Scores.length); i++){
         //Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
         /*if (i<3){
         LineTextSize = 100+35/(i+1);

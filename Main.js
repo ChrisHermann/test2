@@ -44,9 +44,10 @@ function PauseGame() {
     //BackgroundMusic.pause();
     Paused = true;
     
-    $("#inputbox").toggle();
+    $("#GFXG").hide();
     
-    $("#ResumeButtonDiv").toggle();
+    $("#ResumeButtonDiv").show();
+    $("#BlurEffect").show();
   }
 }
 
@@ -56,13 +57,14 @@ function PauseGame() {
 function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused) {
-    $("#inputbox").toggle();
+    $("#GFXG").show();
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
     //BackgroundMusic.resume();
     Paused = false;
-    $("#ResumeButtonDiv").toggle();
+    $("#ResumeButtonDiv").hide();
+    $("#BlurEffect").hide();
   }
 }
 
@@ -147,12 +149,6 @@ $(function(){
   document.body.style.overflow = "hidden";
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
   PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
-  console.log(PLAYGROUND_WIDTH);
-  console.log(PLAYGROUND_HEIGHT);
-  //var UserInterfaceSizeY = 170;
-
-  
-  $("#inputbox").hide();
 
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
@@ -170,11 +166,11 @@ $(function(){
     ResetHighscore();
   }
   
-  
+  $("#BlurEffect").show();
+  $("#NameEnterHUD").hide();
+  $("#HighscoreHUD").hide();
   $("#MessageHUD").hide();
   $("#Leveldiv").hide();
-  $("#HighscoreHUD").hide();
-  $("#NameEnterHUD").hide();
   $("#ResumeButtonDiv").hide();
 
   //Sets up all the variables needed for the game to run.
@@ -195,7 +191,7 @@ $(function(){
   var Focused = false;
   var HasStartedLevelTransition = false;
   GFXCount = 0;
-  Points = 10000000;
+  Points = 0;
   PointsVisual = 0;
   AutoComplete = false;
   Restarted = false;
@@ -204,7 +200,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 50 * 1000;
+  var CoreGameTime = 40 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -226,10 +222,10 @@ $(function(){
   
   //Creates the imagemanager and loads the backcard.
   ImageManagerObject.Create("./Cards/CardBack.png");
-  
+ 
   /**
    * Sounds
-   * no background music on iPado
+   * no background music on iPad
    */
  // if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
     //BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
@@ -238,7 +234,9 @@ $(function(){
   
   //Loads the normal card faces
   var Face = new Array();
+  ImageManagerObject.LoadCard("./Cards/Nicolas.png");
   ImageManagerObject.LoadCard("./Cards/Peter.png");
+  ImageManagerObject.LoadCard("./Cards/Sine.png");
   ImageManagerObject.LoadCard("./Cards/William.png");
   ImageManagerObject.LoadCard("./Cards/Anders.png");
   ImageManagerObject.LoadCard("./Cards/Nanna.png");
@@ -246,15 +244,12 @@ $(function(){
   ImageManagerObject.LoadCard("./Cards/Regitze.png");
   ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
   ImageManagerObject.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
-  ImageManagerObject.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
-  ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
-  
   
   //Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-  SCHWARTZID = ImageManagerObject.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+  SCHWARTZID = ImageManagerObject.LoadCard("./Cards/Dr.Schwartz.png");
   POINTID = ImageManagerObject.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-  PAIRID = ImageManagerObject.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
-  CONFUSEID = ImageManagerObject.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+  PAIRID = ImageManagerObject.LoadCard("./Cards/Amulet.png");
+  CONFUSEID = ImageManagerObject.LoadCard("./Cards/Goose.png");
   
   //Loads the images for GFX
   POINTS1 = ImageManagerObject.LoadMisc("http://starship-games.com/500.png");
@@ -295,12 +290,13 @@ $(function(){
   //Setup UI
   //Add borders.
   $("#ButtonPause").click(function(e) { PauseGame() });
+  $("#ButtonResumeGame").click(function(e) { ResumeGame() });
   $("#ButtonMuteSound").click(function(e) { MuteSound() });
   $("#ButtonMuteMusic").click(function(e) { MuteMusic() });
   $("#MessageButton").click(function(e) { UnshowMessage() });
   
   current = $('#PointHUD');
-  current.html("POINTS: "+Math.round(PointsVisual));
+  current.html("<p>POINTS: "+Math.round(PointsVisual) + "</p>");
 
   Scores = new Array();
   Scores.sort(CustomSort);
@@ -309,9 +305,11 @@ $(function(){
    * Starts the game. Much of it is actually gamequery specific code.
    */
   $("#ButtonStartGame").click(function(){
-    Then = new Date().getTime();
-    GameStart = true;
-    $("#inputbox").show();
+  
+      Then = new Date().getTime();
+      GameStart = true;
+      $("#BlurEffect").hide();
+      //$("#inputbox").show();
       
     //Create the first level.
     CreateLevel();
@@ -430,11 +428,11 @@ $(function(){
     
     //Updates the HUD values.
     current = $("#LevelHUD");
-    current.html("<span>RUNDE: "+CurrentLevel + "</span>");
+    current.html("<p>RUNDE: "+CurrentLevel + "</p>");
     
     
     current = $("#TimeHUD");
-    current.html("<span>Time: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
+    current.html("<p>Time: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</p>");
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
@@ -722,7 +720,7 @@ $(function(){
 
   function RestartGame(){
     $("#HighscoreHUD").hide();
-    $("#inputHUD").hide();
+    //$("#inputHUD").hide();
     //$("#inputBox").hide();
     
     //Reset loaded scores.
@@ -775,7 +773,7 @@ $(function(){
     $.get('http://www.starship-games.com/GetHighscore.php', {} , function(data) {
       //This code runs when the scores are loaded, and they need to be reformatted.
       //TODO: Remove if online highscore is not needed.
-      for (i=0; i<Math.min(5, Scores.length); i++){
+      for (i=0; i<Math.min(10, Scores.length); i++){
         //Create the html text, based on the loaded scores. if we are within the 3 first entries, make them bigger.
         /*if (i<3){
         LineTextSize = 100+35/(i+1);
@@ -798,7 +796,7 @@ $(function(){
     
     //Create new div for high score.
     $("#HighscoreHUD").show();
-    $("#inputHUD").show();
+    //$("#inputHUD").show();
     $.ajax({
       data: "Name=" + Name + "&Score=" + Points,
       type: "POST",
@@ -879,7 +877,7 @@ $(function(){
       
         //Resize time hud, because the values change while playing.
         current = $("#TimeHUD");
-        current.html("<span>TID: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</span>");
+        current.html("<p>TID: "+Math.ceil(CurrentGameTime/1000) + " SEKUNDER</p>");
       
       
         ForEachCard(function(){
@@ -893,7 +891,7 @@ $(function(){
         });
         //Ends game if GameTime hits 0
         if (CurrentGameTime <= 0){
-          $("#TimeHUD").html("<span>TID: 0 SEKUNDER</span>");
+          $("#TimeHUD").html("<p>TID: 0 SEKUNDER</p>");
           EndGame();
         }
       
@@ -966,7 +964,7 @@ $(function(){
         PointsVisual=Points;
       }
       
-      $("#PointHUD").html("POINTS: "+Math.round(PointsVisual));
+      $("#PointHUD").html("<p>POINTS: "+Math.round(PointsVisual) + "</p>");
     }
   
     EndedLaster=Ended;

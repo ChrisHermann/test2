@@ -106,6 +106,7 @@ function DeckManager(){
    *   Returns a random bonus card, within the appropriate range.
    */
   this.GetRandomBonus = function(){
+    return(PAIRID);
     return(SCHWARTZID+Math.floor(Math.random()*BONUSES));
   }
 }

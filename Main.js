@@ -345,9 +345,6 @@ $(function(){
   
   //Change this and lines: 636-681, to change the UI.
   //var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
-    
-  //Sets the amount of bonus cards loaded.
-  BONUSES = 4;
 
   //Check what kind of eventlisteners the browser supports. and apply them the correct way.
   /*if(!window.addEventListener)

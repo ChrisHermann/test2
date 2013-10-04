@@ -44,16 +44,10 @@ function PauseGame() {
     //BackgroundMusic.pause();
     Paused = true;
     
-    //$("#inputbox").hide();
     $("#GFXG").hide();
     
     $("#ResumeButtonDiv").show();
     $("#BlurEffect").show();
-
-    //$("#GFXG").toggle();
-    
-    //$("#ResumeButtonDiv").toggle();
-    //$("#BlurEffect").toggle();
   }
 }
 
@@ -63,20 +57,14 @@ function PauseGame() {
 function ResumeGame() {
   //Don't run the function if the game has not yet started, this creates weird bugs.
   if(GameStart && Paused) {
-    //$("#inputbox").show();
     $("#GFXG").show();
-    //$("#GFXG").toggle();
-    
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
     //BackgroundMusic.resume();
     Paused = false;
-    
     $("#ResumeButtonDiv").hide();
     $("#BlurEffect").hide();
-    //$("#ResumeButtonDiv").toggle();
-    //$("#BlurEffect").toggle();
   }
 }
 
@@ -161,12 +149,6 @@ $(function(){
   document.body.style.overflow = "hidden";
   PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
   PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
-  console.log(PLAYGROUND_WIDTH);
-  console.log(PLAYGROUND_HEIGHT);
-  //var UserInterfaceSizeY = 170;
-
-  
-  //$("#inputbox").hide();
 
   /**
    * Custom sorting function, so the array knows to sort based on an attribute.
@@ -187,6 +169,7 @@ $(function(){
   
   
   $("#BlurEffect").show();
+  $("#GFXG").hide();
   $("#NameEnterHUD").hide();
   $("#HighscoreHUD").hide();
   $("#MessageHUD").hide();
@@ -330,7 +313,7 @@ $(function(){
       Then = new Date().getTime();
       GameStart = true;
       $("#BlurEffect").hide();
-      //$("#inputbox").show();
+      $("#GFXG").show();
       
     //Create the first level.
     CreateLevel();

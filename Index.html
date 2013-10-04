@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta http-equiv="content-type" content="text/html, charset=UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no"/>
   <link rel="stylesheet" href="style.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
@@ -47,23 +47,23 @@
               <p>Tryk Fortsæt når du er klar igen!</p></br>
               <input type="button" value="Fortsæt" id="ButtonResumeGame" class="ButtonStyle">
             </div>
-              <div id="MessageHUD">
+              <div id="MessageHUD" class="HUDs">
               <div id="MessageText"></div>
                 <input type="button" value="Ok" id="MessageButton" class="ButtonStyle">
               </div>
-            <div id="NameEnterHUD">
+            <div id="NameEnterHUD" class="HUDs">
             <p class="HighscoreHeadline">HIGHSCORE</p></br>
             <p>Du har nok point til at komme på highscoren...</p></br>
             <input id="inputBox" type = "text" placeholder="Indtast dit navn her!" />
             <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
             </div>
-            <div id="HighscoreHUD" class="PopupBox">
+            <div id="HighscoreHUD" class="HUDs">
             <p class="HighscoreHeadline">HIGHSCORE</p></br>
             <p id="Lines"></p>
             <!--<hr>-->
             <input class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
             </div>
-            <div id="Leveldiv"></div>
+            <div id="Leveldiv" class="HUDs"></div>
               <div  id="GFXG" class="GroupDiv">
                 <div id="Cards" class="GroupDiv"></div>
               </div>

@@ -270,4 +270,43 @@
     width: 1024px; 
     height: 768px; 
   }
+  
+  #MemoryGamePlayground #HighscoreHUD {
+    margin: 0 0 0 0;
+  }
+  
+  #MemoryGamePlayground #EnterNameHUD {
+    margin: 0 auto;
+  }
+  
+  #MemoryGamePlayground .StartResumeScreen {
+    margin: 0 auto;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

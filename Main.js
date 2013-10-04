@@ -60,7 +60,7 @@ function ResumeGame() {
     Paused=false;
     //This is used to reset delta, so the game thinks no time has passed between the pause.
     Then = new Date().getTime();
-    BackgroundMusic.resume();
+    //BackgroundMusic.resume();
     Paused = false;
     $("#ResumeButtonDiv").toggle();
   }
@@ -229,7 +229,7 @@ $(function(){
   
   /**
    * Sounds
-   * no background music on iPad
+   * no background music on iPado
    */
  // if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
     //BackgroundMusic = createjs.Sound.createInstance("./music.mp3");

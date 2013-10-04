@@ -19,43 +19,48 @@
 
 <body>
 
-  <div id="MemoryGamePlayground">
+  <div id="BlurEffect"></div>
+  <div id="EmilIsKill">
     
     <div id="inputbox" class="GroupDiv">
-      <div id="inputHUD"></div>
       <div id="popup" class="GroupDiv">
         <div id="blur" class="GroupDiv">
-          <div id="BlurEffect"></div>
           <div id="overlay" class="GroupDiv" >
             <div id="BorderTop">
-              <div id="PointHUD" class="UIDiv"></div>
-              <div id="TimeHUD" class="UIDiv"></div>
-              <div id="LevelHUD" class="UIDiv"></div>
-              <div id="PauseButtonDiv" class="UIButtonDiv">
+              <div id="PauseButtonDiv" class="UIDiv">
                 <input type="button" value="Pause" id="ButtonPause" class="ButtonStyle">
               </div>
-              <!--<div id="MuteMusicButtonDiv" class="UIButtonDiv">
-                <input type="button" value="Mute Sound" id="ButtonMuteSound" class="ButtonStyle">
-              </div>
-              <div id="MuteSoundButtonDiv" class="UIButtonDiv">
-                <input type="button" value="Mute Music" id="ButtonMuteMusic" class="ButtonStyle">
-              </div>-->
+              <div id="PointHUD" class="UIDiv"><p>POINTS: 0</p></div>
+              <div id="TimeHUD" class="UIDiv"><p>TID: 0 SEKUNDER</p></div>
+              <div id="LevelHUD" class="UIDiv"><p>RUNDE: 0</p></div>
+            </div>
+            <div id="welcomeScreen" class="StartResumeScreen">
+              <p class="HighscoreHeadline">START VENDESPIL</p></br>
+              <p>Velkommen til Tvillingerne og Julemanden vendespillet!</p>
+              <p>Du kan starte spillet ved at trykke på "Start Spil" knappen.</p></br>
+              <input type="button" value="Start Spil" id="ButtonStartGame" class="ButtonStyle spinner-link">
+              <div id="spin"></div>
+            </div>
+            <div id="ResumeButtonDiv" class="StartResumeScreen">
+              <p class="HighscoreHeadline">PAUSE</p></br>
+              <p>Du har sat spillet på pause.</p>
+              <p>Tryk Fortsæt når du er klar igen!</p></br>
+              <input type="button" value="Fortsæt" id="ButtonResumeGame" class="ButtonStyle">
             </div>
               <div id="MessageHUD">
               <div id="MessageText"></div>
                 <input type="button" value="Ok" id="MessageButton" class="ButtonStyle">
               </div>
             <div id="NameEnterHUD">
-
-            <p class="HighscoreHeadline">Highscore</p></br>
-            <p>Du har nok point til at komme på highscoren...</p>
-            <input id="inputBox" type = "text" value="Indtast dit navn her!" />
+            <p class="HighscoreHeadline">HIGHSCORE</p></br>
+            <p>Du har nok point til at komme på highscoren...</p></br>
+            <input id="inputBox" type = "text" placeholder="Indtast dit navn her!" />
             <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
             </div>
-            <div id="HighscoreHUD">
-            <p class="HighscoreHeadline">Highscore</p></br>
+            <div id="HighscoreHUD" class="PopupBox">
+            <p class="HighscoreHeadline">HIGHSCORE</p></br>
             <p id="Lines"></p>
-            <hr>
+            <!--<hr>-->
             <input class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
             </div>
             <div id="Leveldiv"></div>
@@ -66,17 +71,8 @@
         </div>
       </div>
     </div>
-    
-    <div id="welcomeScreen">
-      <div id="StartButtonDiv">
-        <input type="button" value="Start Game" id="ButtonStartGame" class="ButtonStyle spinner-link">
-      </div>
-      <div id="spin"></div>
-    </div>
-      <div id="ResumeButtonDiv">
-        <input type="button" value="Resume Game" id="ButtonResumeGame" class="ButtonStyle" onclick="ResumeGame()">
-      </div>
   </div>
+  
   
 </body>
 </html>

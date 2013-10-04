@@ -159,8 +159,8 @@ AndroidDetect = PlatformDetect.split(")");*/
 $(function(){
   
   document.body.style.overflow = "hidden";
-  PLAYGROUND_WIDTH = $("#EmilIsKill").width();
-  PLAYGROUND_HEIGHT = $("#EmilIsKill").height();
+  PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
+  PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
   console.log(PLAYGROUND_WIDTH);
   console.log(PLAYGROUND_HEIGHT);
   //var UserInterfaceSizeY = 170;

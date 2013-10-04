@@ -204,7 +204,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 50 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -225,7 +225,7 @@ $(function(){
   LevelManagerObject = new LevelManager();
   
   //Creates the imagemanager and loads the backcard.
-  ImageManagerObject.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
+  ImageManagerObject.Create("./Cards/CardBack.png");
   
   /**
    * Sounds
@@ -238,12 +238,12 @@ $(function(){
   
   //Loads the normal card faces
   var Face = new Array();
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+  ImageManagerObject.LoadCard("./Cards/Peter.png");
+  ImageManagerObject.LoadCard("./Cards/William.png");
+  ImageManagerObject.LoadCard("./Cards/Anders.png");
+  ImageManagerObject.LoadCard("./Cards/Nanna.png");
+  ImageManagerObject.LoadCard("./Cards/Benz.png");
+  ImageManagerObject.LoadCard("./Cards/Regitze.png");
   ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
   ImageManagerObject.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
   ImageManagerObject.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");

@@ -86,7 +86,7 @@
 	overflow:hidden;
   position: relative;
   width: 500px;
-  margin: 300px auto;
+  margin: 300px auto 0 auto;
   z-index: 3;
 }
 
@@ -155,21 +155,21 @@
 
 #MemoryGamePlayground #MessageHUD {
   font-size: 200%;
-  margin: 308.5px auto;
+  margin: 308.5px auto 0 auto;
 
 }
 
 #MemoryGamePlayground #NameEnterHUD {
-  margin: 250px auto;
+  margin: 250px auto 0 auto;
 }
 
 #MemoryGamePlayground #Leveldiv {
   font-size: 400%;
-  margin: 325px auto;
+  margin: 325px auto 0 auto;
 }
 
 #MemoryGamePlayground #HighscoreHUD {
-  margin: 135px auto;
+  margin: 135px auto 0 auto;
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -193,24 +193,30 @@
   text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
 
-#Top10 {
+#MemoryGamePlayground #Top10 {
   width: 100%;
   background-color: #52382c;
-}
+  font-size: 15px;
+  padding: 7px 0;
+  }
 
 #MemoryGamePlayground #HighscoreFooter {
   padding: 0 30px;
 }
 
-#MemoryGamePlayground #Highscore0 {
-  background: #EAB344; 
-  padding: 7px 0;
+#MemoryGamePlayground #Highscore0 { 
+  padding: 7px 0 7px 30px;
   font-size: 15px;
+  text-align: left;
+  color: #52382c;
 }
 
 #MemoryGamePlayground #Highscore1 {
-  padding: 7px 30px;
+  background: #EAB344;
+  padding: 7px 0 7px 30px;
   font-size: 15px;
+  text-align: left;
+  color: #52382c;
 }
 
 /*
@@ -252,28 +258,32 @@
   }
   
   #MemoryGamePlayground #MessageHUD {
-    margin: 0px auto;
+    margin: 0px auto 0 auto;
   }
 
   #MemoryGamePlayground #NameEnterHUD {
-    margin: 0px auto;
+    margin: 0px auto 0 auto;
   }
 
   #MemoryGamePlayground #Leveldiv {
-    margin: 0px auto;
+    margin: 0px auto 0 auto;
   }
 
   #MemoryGamePlayground #HighscoreHUD {
-    margin: 0px auto;
+    margin: 0px auto 0 auto;
+  }
+  
+  #MemoryGamePlayground #Top10 {
+    font-size: 15px;
   }
   
   #MemoryGamePlayground #Highscore0, #MemoryGamePlayground #Highscore1 {
-    font-size: 7.5px;
+    font-size: 15px;
     padding: 2px 0;
   }
   
   #MemoryGamePlayground .StartResumeScreen {
-    margin: 132px auto;
+    margin: 132px auto 0 auto;
     font-size: 10px;
     width: 200px;
   }

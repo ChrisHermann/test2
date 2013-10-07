@@ -35,30 +35,28 @@
               <div id="LevelHUD" class="UIDiv"><p>RUNDE: 0</p></div>
             </div>
             <div id="welcomeScreen" class="StartResumeScreen">
-              <p class="HighscoreHeadline">START VENDESPIL</p>
-              <p>Velkommen til Tvillingerne og Julemanden vendespillet!</p>
-              <p>Du kan starte spillet ved at trykke på "Start Spil" knappen.</p>
+              <div class="HighscoreHeadline">START VENDESPIL</div>
+              <div class="TextArea">Velkommen til Tvillingerne og Julemanden vendespillet! <br/>Du kan starte spillet ved at trykke på "Start Spil" knappen.</div>
               <input type="button" value="Start Spil" id="ButtonStartGame" class="ButtonStyle spinner-link">
               <div id="spin"></div>
             </div>
             <div id="ResumeButtonDiv" class="StartResumeScreen">
-              <p class="HighscoreHeadline">PAUSE</p>
-              <p>Du har sat spillet på pause.</p>
-              <p>Tryk Fortsæt når du er klar igen!</p>
+              <div class="HighscoreHeadline">PAUSE</div>
+              <div class="TextArea">Du har sat spillet på pause. <br/>Tryk Fortsæt når du er klar igen!</div>
               <input type="button" value="Fortsæt" id="ButtonResumeGame" class="ButtonStyle">
             </div>
               <div id="MessageHUD" class="HUDs">
-              <div id="MessageText"></div>
+              <div id="MessageText" class="TextArea"></div>
                 <input type="button" value="Ok" id="MessageButton" class="ButtonStyle">
               </div>
             <div id="NameEnterHUD" class="HUDs">
-            <p class="HighscoreHeadline">HIGHSCORE</p>
-            <p>Du har nok point til at komme på highscoren...</p>
+            <div class="HighscoreHeadline">HIGHSCORE</div>
+            <div class="TextArea">Du har nok point til at komme på highscoren...</div>
             <input id="inputBox" type = "text" placeholder="Indtast dit navn her!" />
             <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
             </div>
             <div id="HighscoreHUD" class="HUDs">
-            <p class="HighscoreHeadline">HIGHSCORE</p>
+            <div class="HighscoreHeadline">HIGHSCORE</div>
             <div id="Top10">TOP 10</div>
             <p id="Lines"></p>
             <input class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>

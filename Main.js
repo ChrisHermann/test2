@@ -166,8 +166,6 @@ $(function(){
     ResetHighscore();
   }
   
-  
-  
   $("#BlurEffect").show();
   $("#GFXG").hide();
   $("#NameEnterHUD").hide();
@@ -224,8 +222,8 @@ $(function(){
   LevelManagerObject = new LevelManager();
   
   //Creates the imagemanager and loads the backcard.
-  ImageManagerObject.Create("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Card_back_01.svg/208px-Card_back_01.svg.png");
-  
+  ImageManagerObject.Create("./Cards/CardBack.png");
+ 
   /**
    * Sounds
    * no background music on iPad
@@ -237,23 +235,22 @@ $(function(){
   
   //Loads the normal card faces
   var Face = new Array();
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Cards-10-Diamond.svg/343px-Cards-10-Diamond.svg.png");
-  ImageManagerObject.LoadCard("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Cards-9-Heart.svg/428px-Cards-9-Heart.svg.png");
-  ImageManagerObject.LoadCard("http://allaboutcards.files.wordpress.com/2009/07/bp-frogace.jpg");
+  ImageManagerObject.LoadCard("./Cards/Nicolas.png");
+  ImageManagerObject.LoadCard("./Cards/Peter.png");
+  ImageManagerObject.LoadCard("./Cards/Sine.png");
+  ImageManagerObject.LoadCard("./Cards/William.png");
+  ImageManagerObject.LoadCard("./Cards/Anders.png");
+  ImageManagerObject.LoadCard("./Cards/Nanna.png");
+  ImageManagerObject.LoadCard("./Cards/Benz.png");
+  ImageManagerObject.LoadCard("./Cards/Regitze.png");
   ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/8-Hearts-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
   ImageManagerObject.LoadCard("http://photos.pokerplayer.co.uk/images/front_picture_library_UK/dir_1/total_gambler_916_15.jpg");
-  ImageManagerObject.LoadCard("http://1.bp.blogspot.com/-wdHxCm6bFwE/TxBc-jVD1aI/AAAAAAAAEH0/CG6PIcG69H8/s1600/card6.png");
-  ImageManagerObject.LoadCard("http://weandthecolor.com/wp-content/uploads/2013/02/5-Clubs-Playing-Card-Illustration-by-Jonathan-Burton.jpg");
-  
   
   //Loads the bonus card faces. The ID's of these are important, as they needs to be used in Card.RunBonus();
-  SCHWARTZID = ImageManagerObject.LoadCard("http://www.towergaming.com/images/media-room/articles/joker-card.png");
+  SCHWARTZID = ImageManagerObject.LoadCard("./Cards/Dr.Schwartz.png");
   POINTID = ImageManagerObject.LoadCard("http://static8.depositphotos.com/1035986/841/v/950/depositphotos_8416424-Joker-Clown-playing-cards-hubcap-focus-trick-circus-fun-lough.jpg");
-  PAIRID = ImageManagerObject.LoadCard("http://www.bjwebart.com/qtr-fold_card_images/4_card_front_placed.jpg");
-  CONFUSEID = ImageManagerObject.LoadCard("http://www.usgreencardoffice.com/uploads/images/usgco_liberty.jpg");
+  PAIRID = ImageManagerObject.LoadCard("./Cards/Amulet.png");
+  CONFUSEID = ImageManagerObject.LoadCard("./Cards/Goose.png");
   
   //Loads the images for GFX
   POINTS1 = ImageManagerObject.LoadMisc("http://starship-games.com/500.png");
@@ -267,7 +264,7 @@ $(function(){
 	  //Generate unique ID for the card
 	  var name = "Card_"+i;
 	  var nameImg = "Img_"+i;
-	  $("#Cards").append("<div id='"+name+"' style='position: absolute; width: 208; height: 208;'></div>");
+	  $("#Cards").append("<div id='"+name+"' class='Cards'></div>");
 	  $("#"+name).append("<img id='"+nameImg+"' draggable='false' class='image'/>");
     $("#"+name).hide();
   }
@@ -309,11 +306,11 @@ $(function(){
    * Starts the game. Much of it is actually gamequery specific code.
    */
   $("#ButtonStartGame").click(function(){
-  
       Then = new Date().getTime();
       GameStart = true;
       $("#BlurEffect").hide();
       $("#GFXG").show();
+      $("#welcomeScreen").hide();
       
     //Create the first level.
     CreateLevel();
@@ -321,7 +318,6 @@ $(function(){
     /*if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] != "Macintosh" || AppleDetect[0,0] != "iPhone" || AndroidDetect[0,0] != "Android"){
         BackgroundMusic.play( createjs.Sound.INTERRUPT_NONE, 0, 0, 1)
       }*/
-    $("#welcomeScreen").remove();
   });
   
   //Sets up the main loop to be runnable.
@@ -349,7 +345,7 @@ $(function(){
   
   //Change this and lines: 636-681, to change the UI.
   //var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
-    
+  
   //Sets the amount of bonus cards loaded.
   BONUSES = 4;
 
@@ -478,7 +474,6 @@ $(function(){
       
       NextCard = DeckManagerObject.PushCard();
 
-      console.log(NextCard);
         
       //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
       $("#Img_"+i).load(function() {
@@ -800,7 +795,6 @@ $(function(){
     
     //Create new div for high score.
     $("#HighscoreHUD").show();
-    //$("#inputHUD").show();
     $.ajax({
       data: "Name=" + Name + "&Score=" + Points,
       type: "POST",
@@ -835,7 +829,6 @@ $(function(){
     }
     localStorage.LocalStorageScores = StringScores;
   }
-  console.log(  localStorage.LocalStorageScores);
   /**
   * Resets the highscore with standard scores.
   */

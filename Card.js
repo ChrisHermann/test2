@@ -194,16 +194,16 @@ function Cards(node, image, sizeX, sizeY) {
         var Someflip=false;
         
         ForEachCard(function(){
-          //if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true){
+          if (this.Cards.Flipped==false && Someflip==false && this.Cards.value == Card.value && this.Cards.visible == true){
             this.Cards.node.mousedown();
             Someflip = true;
-          //}
+          }
         });
         
       }
       else{
-        Autocomplete = true;
-        }
+        AutoComplete = true;
+      }
       
       
       node.fadeOut();

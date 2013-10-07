@@ -165,19 +165,9 @@
 }
 
 #MemoryGamePlayground #HighscoreHUD {
-  padding: 30px 0px;
+  padding: 0px;
   margin: 135px auto;
 }
-
-
-#MemoryGamePlayground #TextTestDiv {
-	color: #ffffff; 
-  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-	font-weight: bold; 
-	font-size:150%;
-  text-align: center;
-}
-
 
 #MemoryGamePlayground #inputBox {
   -WEBKIT-USER-SELECT: text;
@@ -187,7 +177,8 @@
   border-radius: 48px;
   text-align: center;
   font-size: 80%;
-  Border: 0;
+  Border: none;
+  outline: none;
 }
 
 #MemoryGamePlayground .HighscoreHeadline {
@@ -198,17 +189,14 @@
   text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
 
+#Top10 {
+  width: 100%;
+  background-color: #52382c;
+}
+
 #MemoryGamePlayground #HighscoreFooter {
   padding: 0 30px;
   font-size: 70%;
-}
-
-#MemoryGamePlayground hr {
-  color: #EAB344; 
-  /*color: #e21833;*/
-  background-color: #EAB344; 
-  height: 5px; 
-  border: 0;
 }
 
 #MemoryGamePlayground #Highscore0 {
@@ -292,6 +280,12 @@
   #MemoryGamePlayground #HighscoreFooter {
     padding: 0px;
     margin: 0px;
+  }
+  
+  .Cards {
+    position: absolute; 
+    width: 208; 
+    height: 208;
   }
 }
 @media only screen and (min-width: 1024px) and (max-width: 1599px) {

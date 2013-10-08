@@ -201,7 +201,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 1 * 1000;
+  var CoreGameTime = 40 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -311,6 +311,7 @@ $(function(){
       $("#BlurEffect").hide();
       $("#GFXG").show();
       $("#welcomeScreen").hide();
+      $("#welcomeScreen").hide();
       
     //Create the first level.
     CreateLevel();
@@ -376,7 +377,7 @@ $(function(){
    * @param string ButtonMessage
    * The text on the button
    */
-  function ShowMessage(Message, ButtonMessage) {
+  function ShowMessage(TitleMessage, TextMessage, ButtonMessage) {
     //Tell the game it is currently showing a message to pseudo-pause it.
     ShowingMessage = true;
     
@@ -384,25 +385,23 @@ $(function(){
     $("#MessageHUD").show();
     $("#BlurEffect").show();
     $("#MessageButton").show();
+    $("#GFXG").hide();
+    
+    $("#MessageTitle").html(TitleMessage);
+    $("#MessageText").html(TextMessage);
     $("#MessageButton").attr('value', ButtonMessage);
-    
-    
-    Current = $("#MessageText");
-    //Apply the string to the div, scale it, and then recenter it.
-    Current.html(Message+"<br/><br/>");
-      
-    scale = Math.min(1,Math.min(PLAYGROUND_WIDTH/Current.width(),PLAYGROUND_HEIGHT/Current.height()));
   }
 
   /**
    * Unshows the message, basicly, this should only be called by the Ok button.
    */
   
-  function UnshowMessage(Message) {
+  function UnshowMessage() {
     ShowingMessage = false;
     
     $("#MessageHUD").hide();
     $("#BlurEffect").hide();
+    $("#GFXG").show();
     
   }
 
@@ -675,6 +674,7 @@ $(function(){
     Ended = 1;
     Name = "";
 
+    $("#GFXG").hide();
     $("#NameEnterHUD").show();
     //Blurs the background.
     $("#BlurEffect").show();
@@ -719,8 +719,7 @@ $(function(){
 
   function RestartGame(){
     $("#HighscoreHUD").hide();
-    //$("#inputHUD").hide();
-    //$("#inputBox").hide();
+    $("#GFXG").show();
     
     //Reset loaded scores.
     Scores = new Array();
@@ -754,8 +753,7 @@ $(function(){
       $("#BlurEffect").show();
     }
     Ended=2;
-    //Create the div for the highscore.
-    //Line = "<p id='HighscoreHeadline'>Highscore</p><br>";
+    
     Line = "";
     
     //Load the highscores from localstoage, and split them into an array.
@@ -802,11 +800,6 @@ $(function(){
       complete: function (data){
       }
     });
-    
-    //set some basic html until the data has been loaded.
-    //$("#HighscoreHUD").html(Line+"<hr><br><p id='HighscoreFooter'>Tryk Enter for at starte et nyt spil</p>");
-    
-    //Current = $("#HighscoreHUD");
   }
 
   /**
@@ -917,6 +910,7 @@ $(function(){
             });
           
             $("#Leveldiv").show();
+            $("#GFXG").hide();
             $("#Leveldiv").html("Level: "+(CurrentLevel+1));
             HasStartedLevelTransition=true;
           }
@@ -942,6 +936,7 @@ $(function(){
             Restarted = false;
             HasStartedLevelTransition = false;
             $("#Leveldiv").hide();
+            $("#GFXG").show();
             CreateLevel();
           }
         }

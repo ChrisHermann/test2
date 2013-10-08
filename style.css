@@ -18,10 +18,10 @@
   margin: 0 auto;
 }
 
-.Cards {
+#MemoryGamePlayground .Cards {
   position: absolute; 
-  width: 208; 
-  height: 208;
+  width: 208px; 
+  height: 208px;
 }
 
 #BlurEffect {
@@ -75,10 +75,7 @@
 }
 
 #MemoryGamePlayground .StartResumeScreen {
-  color: #ffffff; 
 	text-align: center;
-  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  font-size: 20px;
 	border-radius: 14px;
 	padding: 30px;
 	vertical-align: middle; 
@@ -86,8 +83,15 @@
 	overflow:hidden;
   position: relative;
   width: 500px;
-  margin: 300px auto 0 auto;
   z-index: 3;
+}
+
+#MemoryGamePlayground #welcomeScreen {
+  margin: 251px auto 0 auto;
+}
+
+#MemoryGamePlayground #ResumeButtonDiv {
+  margin: 263px auto 0 auto;
 }
 
 #MemoryGamePlayground #spin {
@@ -111,10 +115,6 @@
 }
 
 #MemoryGamePlayground .UIDiv {
-  color: #ffffff;
-  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-  font-weight: bold; 
-  font-size: 20px;
   float: left;
   position: relative;
   vertical-align: center;
@@ -128,6 +128,10 @@
 
 #MemoryGamePlayground .UIDiv p {
   margin: 11.5px 0 0 0;
+  color: #ffffff;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  font-weight: bold; 
+  font-size: 20px;
 }
 
 #MemoryGamePlayground #ButtonPause {
@@ -137,7 +141,6 @@
 #MemoryGamePlayground .HUDs {
 	color: #ffffff; 
 	text-align: center;
-  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
 	border-radius: 14px;
 	padding: 30px;
 	vertical-align: middle; 
@@ -150,26 +153,27 @@
 
 #MemoryGamePlayground .TextArea {
   padding: 30px 0;
+  color: #ffffff;
   font-size: 20px;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
 }
 
 #MemoryGamePlayground #MessageHUD {
-  font-size: 200%;
-  margin: 308.5px auto 0 auto;
+  margin: 263px auto 0 auto;
 
 }
 
 #MemoryGamePlayground #NameEnterHUD {
-  margin: 250px auto 0 auto;
+  margin: 220px auto 0 auto;
 }
 
 #MemoryGamePlayground #Leveldiv {
-  font-size: 400%;
-  margin: 325px auto 0 auto;
+  font-size: 70px;
+  margin: 323.5px auto 0 auto;
 }
 
 #MemoryGamePlayground #HighscoreHUD {
-  margin: 135px auto 0 auto;
+  margin: 131.5px auto 0 auto;
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -190,6 +194,7 @@
   -webkit-text-stroke: 1px black;
   font-size: 40px;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  color: #ffffff;
   text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
 
@@ -243,34 +248,34 @@
   }
   
   #MemoryGamePlayground .UIDiv {
-    font-size: 10px;
     height: 24px;
     padding: 0 0 0 22.5px;
   }
   
   #MemoryGamePlayground .UIDiv p {
     margin: 5.75px 0 0 0;
+    font-size: 10px;
   }
   
   #MemoryGamePlayground .HUDs {
-    width: 200px;
+    width: 300px;
     padding: 15px;
   }
   
   #MemoryGamePlayground #MessageHUD {
-    margin: 0px auto 0 auto;
+    margin: 127.5px auto 0 auto;
   }
 
   #MemoryGamePlayground #NameEnterHUD {
-    margin: 0px auto 0 auto;
+    margin: 117px auto 0 auto;
   }
 
   #MemoryGamePlayground #Leveldiv {
-    margin: 0px auto 0 auto;
+    margin: 151.5px auto 0 auto;
   }
 
   #MemoryGamePlayground #HighscoreHUD {
-    margin: 0px auto 0 auto;
+    margin: 29.5px auto 0 auto;
   }
   
   #MemoryGamePlayground #Top10 {
@@ -283,18 +288,24 @@
   }
   
   #MemoryGamePlayground .StartResumeScreen {
-    margin: 132px auto 0 auto;
-    font-size: 10px;
-    width: 200px;
+    width: 400px;
+  }
+  
+  #MemoryGamePlayground #welcomeScreen {
+  margin: 104px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #ResumeButtonDiv {
+    margin: 121px auto 0 auto;
   }
   
   #MemoryGamePlayground .HighscoreHeadline {
-    font-size: 20px;
+    font-size: 30px;
     text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
   }
   
   #MemoryGamePlayground .TextArea {
-    font-size: 10px;
+    font-size: 15px;
     padding: 10px 0;
   }
   
@@ -311,10 +322,10 @@
     margin-top: 15px;
   }
   
-  .Cards {
+  #MemoryGamePlayground .Cards {
     position: absolute; 
-    width: 208; 
-    height: 208;
+    width: 156px; 
+    height: 156px;
   }
 }
 @media only screen and (min-width: 1024px) and (max-width: 1599px) {
@@ -322,6 +333,31 @@
     width: 1024px; 
     height: 768px; 
   }
+  
+  #MemoryGamePlayground #MessageHUD {
+    margin: 197px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #NameEnterHUD {
+    margin: 154px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #Leveldiv {
+    margin: 256.5px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #HighscoreHUD {
+    margin: 60px auto 0 auto;
+  }
+  
+  #MemoryGamePlayground #welcomeScreen {
+  margin: 185px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #ResumeButtonDiv {
+    margin: 197px auto 0 auto;
+  }
+  
 }
 
 

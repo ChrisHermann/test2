@@ -201,7 +201,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 40 * 1000;
+  var CoreGameTime = 1 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -312,6 +312,8 @@ $(function(){
       $("#GFXG").show();
       $("#welcomeScreen").hide();
       $("#welcomeScreen").hide();
+      
+      ShowMessage("sdsdsd", "sdsdsd", "sdsdsd");
       
     //Create the first level.
     CreateLevel();

@@ -911,7 +911,7 @@ $(function(){
           
             $("#Leveldiv").show();
             $("#GFXG").hide();
-            $("#Leveldiv").html("Level: "+(CurrentLevel+1));
+            $("#Leveldiv").html("RUNDE "+(CurrentLevel+1));
             HasStartedLevelTransition=true;
           }
           //Current = $("#Leveldiv");

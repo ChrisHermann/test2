@@ -55,8 +55,9 @@ function Cards(node, image, sizeX, sizeY) {
     //Hackish method.
     
     this.image.load(function(){
-      $(this.parentNode).width(this.parentNode.Cards.WIDTH);
-      $(this.parentNode).height(this.parentNode.Cards.HEIGHT);
+      $(this.parentNode).width(this.parentNode.Cards.WIDTH * this.parentNode.Cards.scale);
+      $(this.parentNode).height(this.parentNode.Cards.HEIGHT * this.parentNode.Cards.scale);
+      console.log(this.parentNode.Cards.scale);
     });
   }
   
@@ -304,14 +305,14 @@ function Cards(node, image, sizeX, sizeY) {
           else
             this.factor=Math.sin(this.Direction);
           
-          //This applies to factor to the width of the gamequery sprite.
+          /*//This applies to factor to the width of the gamequery sprite.
           var spriteDOMObject = this.node[0];
           
           var options = $.extend(spriteDOMObject.gameQuery, {factorh:this.InternalWidth * this.factor * this.scale + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale, factorv: this.InternalHeight * this.scale  + Math.sin((this.Direction-3.14/2)) * 0.1 * this.scale});
             
           if(spriteDOMObject != undefined){
             spriteDOMObject.gameQuery = options;
-        }
+          }*/
         
         //This updates the applied changes visually.
           this.image.width(this.WIDTH * this.factor * this.scale + Math.sin(this.Direction-3.14/2) * 0.1 * this.scale);
@@ -428,7 +429,7 @@ function Cards(node, image, sizeX, sizeY) {
    * @param object options
    *   updates the current options, look at gameQuery for more detail.
    */
-  this.Update = function(options){
+  /*this.Update = function(options){
     //Again, ugly code, this is how gamequery does it though.
     var spriteDOMObject = this.node[0];
         
@@ -441,5 +442,5 @@ function Cards(node, image, sizeX, sizeY) {
       }
       
     this.node.transform();
-  }
+  }*/
 }

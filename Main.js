@@ -201,7 +201,7 @@ $(function(){
   Delta = 0;
   Then = new Date().getTime();
   
-  var CoreGameTime = 40 * 1000;
+  var CoreGameTime = 1 * 1000;
   
   var CurrentGameTime = CoreGameTime;
   
@@ -312,6 +312,8 @@ $(function(){
       $("#GFXG").show();
       $("#welcomeScreen").hide();
       $("#welcomeScreen").hide();
+      
+      ShowMessage("Titel","sdsdsdsdsdas asd asd as asd as dasd as asd as sd as a das das das d asdae3r wet trhtrh trhyhtrh tr h trfh tfgh dfgh ftrhft dfhdfh dfgf h dfh dfdfh hdf ery wy trtrht th"," fg fg fgfgf gffgfg");
       
     //Create the first level.
     CreateLevel();
@@ -785,10 +787,10 @@ $(function(){
           LineTextSize = 100;
         /*}*/
         if (i % 2 == 0){
-          Line+="<p id='Highscore0'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+          Line+="<p id='Highscore0'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+" points</p>";
         }
         else{
-          Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
+          Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+" points</p>";
         }
       }
       $("#Lines").html(Line);

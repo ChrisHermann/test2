@@ -26,7 +26,7 @@
 
 #BlurEffect {
   display: none;
-  background-image: url('blurpic.png');
+  background-image: url('../img/blurpic.png');
   background-repeat: repeat;
   position: fixed;
   width: 100%;
@@ -40,8 +40,9 @@
   height: 710px;  
   background: #000000;
   overflow: hidden;
-  background-image: url('BG.jpg');
-  background-repeat:no-repeat;
+  /*background-image: url('img/BGback.jpg');
+  background-repeat:no-repeat;*/
+  background-color: #000000;
   margin: 0 auto;
 }
 
@@ -88,11 +89,11 @@
 }
 
 #MemoryGamePlayground #welcomeScreen {
-  margin: 251px auto 0 auto;
+  margin: 156px auto 0 auto;
 }
 
 #MemoryGamePlayground #ResumeButtonDiv {
-  margin: 263px auto 0 auto;
+  margin: 168px auto 0 auto;
 }
 
 #MemoryGamePlayground #spin {
@@ -143,7 +144,7 @@
 	color: #ffffff; 
 	text-align: center;
 	border-radius: 14px;
-	padding: 30px;
+	padding: 20px;
 	vertical-align: middle; 
 	background: #e21833; 
 	overflow:hidden;
@@ -153,28 +154,27 @@
 }
 
 #MemoryGamePlayground .TextArea {
-  padding: 30px 0;
   color: #ffffff;
   font-size: 20px;
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
 }
 
 #MemoryGamePlayground #MessageHUD {
-  margin: 263px auto 0 auto;
+  margin: 156px auto 0 auto;
 
 }
 
 #MemoryGamePlayground #NameEnterHUD {
-  margin: 220px auto 0 auto;
+  margin: 125px auto 0 auto;
 }
 
 #MemoryGamePlayground #Leveldiv {
   font-size: 70px;
-  margin: 323.5px auto 0 auto;
+  margin: 228.5px auto 0 auto;
 }
 
 #MemoryGamePlayground #HighscoreHUD {
-  margin: 131.5px auto 0 auto;
+  margin: 31px auto 0 auto;
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -197,129 +197,43 @@
   font-family: Helvetica Neue, Helvetica Arial, sans-serif;
   color: #ffffff;
   text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  padding-bottom: 20px;
 }
 
 #MemoryGamePlayground #Top10 {
   width: 100%;
-  background-color: #52382c;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  background-color: #9B1224;
+  color: #FFFFFF;
+  font-weight: bold;
   font-size: 15px;
-  padding: 7px 0;
+  padding: 4px 0;
 }
 
-#MemoryGamePlayground #HighscoreFooter {
-  padding: 0 30px;
+#MemoryGamePlayground .HighscoreFooter {
+  margin-top: 20px;
 }
 
 #MemoryGamePlayground #Highscore0 { 
-  padding: 7px 0 7px 30px;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  padding: 4px 0 4px 20px;
   font-size: 15px;
   text-align: left;
-  color: #52382c;
+  color: #FFFFFF;
 }
 
 #MemoryGamePlayground #Highscore1 {
-  background: #EAB344;
-  padding: 7px 0 7px 30px;
+  background: #C8172E;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  padding: 4px 0 4px 20px;
   font-size: 15px;
   text-align: left;
-  color: #52382c;
+  color: #FFFFFF;
 }
 
 /*
  * Media Querys
  */
-/* MOBILE PORTRAIT*/
-/*@media only screen 
-and (min-width: 1px) 
-and (max-width: 639px) 
-and (orientation : portrait){
-  #MemoryGamePlayground {
-    width: 320px; 
-    height: 480px;
-  }
-  
-  #MemoryGamePlayground .ButtonStyle {
-    font-family: Helvetica Neue, Helvetica Arial, sans-serif;
-    font-size: 10.5px;
-    font-weight: bold;
-    width: 70px;
-    height: 30px;
-  }
-  
-  #MemoryGamePlayground .UIDiv {
-    padding: 0 0 0 5px;
-    height: 30px;
-  }
-  
-  #MemoryGamePlayground .UIDiv p {
-    font-size: 9px;
-
-  }
-  
-  #MemoryGamePlayground .StartResumeScreen {
-    width: 200px;
-  }
-  
-  #MemoryGamePlayground #welcomeScreen {
-  margin: 110px auto 0 auto;
-  }
-  
-  #MemoryGamePlayground #ResumeButtonDiv {
-  margin: 120px auto 0 auto;
-  }
-  
-  #MemoryGamePlayground .HUDs {
-    padding: 20px;
-    width: 250px;
-  }
-  
-  #MemoryGamePlayground #MessageHUD {
-    margin: 130px auto 0 auto;
-  }
-  
-  #MemoryGamePlayground #NameEnterHUD {
-    margin: 90px auto;
-  }
-  
-  #MemoryGamePlayground #HighscoreHUD {
-    margin: 45px auto;
-  }
-  
-  #MemoryGamePlayground #Leveldiv {
-    font-size: 50px;
-    margin: 150px auto;
-  }
-  
-  #MemoryGamePlayground #inputBox {
-  height: 40px;
-  Font-size: 15px;
-  }
-  
-  #MemoryGamePlayground .HighscoreHeadline {
-    padding: 0;
-    font-size: 20px;
-    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
-  }
-  #MemoryGamePlayground .GoToHighScore {
-    margin-top: 20px;
-  }
-  
-  #MemoryGamePlayground .TextArea {
-    padding: 10px 0;
-    font-size: 15px;
-  }
-  
-   #MemoryGamePlayground #Highscore0, #MemoryGamePlayground #Highscore1 {
-    font-size: 12px;
-    padding: 2px 0;
-  }
-  
-  #MemoryGamePlayground .Cards {
-    position: absolute; 
-    width: 104; 
-    height: 104;
-  }
-}*/
 
 /*MOBILE LANDSCAPE*/
 @media only screen 
@@ -327,7 +241,16 @@ and (min-width: 1px)
 and (max-width: 999px){
   #MemoryGamePlayground {
     width: 100%;
-    height: 100%; 
+    height: 80%;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #MemoryGamePlayground .GroupDiv {
+    height: 100%;
   }
   
   #MemoryGamePlayground .ButtonStyle {
@@ -401,7 +324,6 @@ and (max-width: 999px){
   }
   
   #MemoryGamePlayground .TextArea {
-    padding: 10px 0;
     font-size: 15px;
   }
   
@@ -429,27 +351,38 @@ and (max-width: 999px){
   }
   
   #MemoryGamePlayground #MessageHUD {
-    margin: 197px auto 0 auto;
+    margin: 64px auto 0 auto;
   }
 
   #MemoryGamePlayground #NameEnterHUD {
-    margin: 154px auto 0 auto;
+    margin: 125px auto 0 auto;
   }
 
   #MemoryGamePlayground #Leveldiv {
-    margin: 256.5px auto 0 auto;
+    margin: 153.5px auto 0 auto;
   }
 
   #MemoryGamePlayground #HighscoreHUD {
     margin: 60px auto 0 auto;
   }
   
+  #Highscore0 {
+    display: inline-block;
+    width: 40%;
+  }
+  
+  #Highscore1 {
+    display: inline-block;
+    width: 40%;
+    
+  }
+  
   #MemoryGamePlayground #welcomeScreen {
-  margin: 185px auto 0 auto;
+  margin: 64px auto 0 auto;
   }
 
   #MemoryGamePlayground #ResumeButtonDiv {
-    margin: 197px auto 0 auto;
+    margin: 93px auto 0 auto;
   }
 }
 

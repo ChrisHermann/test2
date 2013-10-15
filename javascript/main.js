@@ -230,7 +230,7 @@ $(function(){
    */
  // if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
     //BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
-    FlipCardSound = createjs.Sound.createInstance("./flipcard.wav");
+    FlipCardSound = createjs.Sound.createInstance("sound/flipcard.wav");
   //}
   
   //Loads the normal card faces

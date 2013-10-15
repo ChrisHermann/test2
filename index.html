@@ -4,16 +4,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no"/>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
   <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.js"></script>
   <script type="text/javascript" src = "http://code.createjs.com/soundjs-0.4.1.min.js"></script>
-  <script type="text/javascript" src="card.js"></script>
-  <script type="text/javascript" src="gfx.js"></script>
-  <script type="text/javascript" src="levelmanager.js"></script>
-  <script type="text/javascript" src="main.js"></script>
-  <script type="text/javascript" src="deckmanager.js"></script>
-  <script type="text/javascript" src="imagemanager.js"></script>
+  <script type="text/javascript" src="javascript/card.js"></script>
+  <script type="text/javascript" src="javascript/gfx.js"></script>
+  <script type="text/javascript" src="javascript/levelmanager.js"></script>
+  <script type="text/javascript" src="javascript/main.js"></script>
+  <script type="text/javascript" src="javascript/deckmanager.js"></script>
+  <script type="text/javascript" src="javascript/imagemanager.js"></script>
   <title>Vendespil</title>
 </head>
 
@@ -37,30 +37,30 @@
             <div id="welcomeScreen" class="StartResumeScreen">
               <div class="HighscoreHeadline">START VENDESPIL</div>
               <div class="TextArea">Velkommen til Tvillingerne og Julemanden vendespillet! <br/>Du kan starte spillet ved at trykke på "Start Spil" knappen.</div>
-              <input type="button" value="Start Spil" id="ButtonStartGame" class="ButtonStyle spinner-link">
+              <input type="button" value="Start Spil" id="ButtonStartGame" class="ButtonStyle HighscoreFooter spinner-link">
               <div id="spin"></div>
             </div>
             <div id="ResumeButtonDiv" class="StartResumeScreen">
               <div class="HighscoreHeadline">PAUSE</div>
               <div class="TextArea">Du har sat spillet på pause. <br/>Tryk Fortsæt når du er klar igen!</div>
-              <input type="button" value="Fortsæt" id="ButtonResumeGame" class="ButtonStyle">
+              <input type="button" value="Fortsæt" id="ButtonResumeGame" class="ButtonStyle HighscoreFooter">
             </div>
               <div id="MessageHUD" class="HUDs">
               <div id="MessageTitle" class="HighscoreHeadline"></div>
               <div id="MessageText" class="TextArea"></div>
-              <input type="button" value="Ok" id="MessageButton" class="ButtonStyle">
+                <input type="button" value="Ok" id="MessageButton" class="ButtonStyle HighscoreFooter">
               </div>
             <div id="NameEnterHUD" class="HUDs">
             <div class="HighscoreHeadline">HIGHSCORE</div>
             <div class="TextArea">Du har nok point til at komme på highscoren...</div>
             <input id="inputBox" type = "text" placeholder="Indtast dit navn her!" />
-            <input  class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
+            <input  class ="ButtonStyle GoToHighScore HighscoreFooter" type = "button" value = "Fortsæt"/>
             </div>
             <div id="HighscoreHUD" class="HUDs">
             <div class="HighscoreHeadline">HIGHSCORE</div>
-            <div id="Top10">TOP 10</div>
+            <div id="Top10">TOPLISTE</div>
             <p id="Lines"></p>
-            <input class ="ButtonStyle GoToHighScore" type = "button" value = "Fortsæt"/>
+            <input class ="ButtonStyle GoToHighScore HighscoreFooter" type = "button" value = "Fortsæt"/>
             </div>
             <div id="Leveldiv" class="HUDs HighscoreHeadline"></div>
               <div  id="GFXG" class="GroupDiv">

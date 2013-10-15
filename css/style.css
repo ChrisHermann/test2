@@ -1,0 +1,414 @@
+/**
+ * @file
+ * The Style Sheet
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  -WEBKIT-USER-SELECT: NONE; /* SAFARI, CHROME */
+  -KHTML-USER-SELECT: NONE; /* KONQUEROR */
+  -MOZ-USER-SELECT: NONE; /* FIREFOX */
+  -MS-USER-SELECT: NONE; /* IE */
+  USER-SELECT: NONE; /* CSS3 */
+}
+
+.image{
+  display: block;
+  margin: 0 auto;
+}
+
+#MemoryGamePlayground .Cards {
+  position: absolute; 
+  width: 208px; 
+  height: 208px;
+}
+
+#BlurEffect {
+  display: none;
+  background-image: url('../img/blurpic.png');
+  background-repeat: repeat;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+#MemoryGamePlayground {
+  position: relative;
+  width: 1260px; 
+  height: 710px;  
+  background: #000000;
+  overflow: hidden;
+  /*background-image: url('img/BGback.jpg');
+  background-repeat:no-repeat;*/
+  background-color: #000000;
+  margin: 0 auto;
+}
+
+#MemoryGamePlayground .GroupDiv {
+  position: relative; 
+  height: 100%; 
+  width: 100%;
+}
+
+#MemoryGamePlayground #overlay {
+  overflow: hidden;
+}
+
+#MemoryGamePlayground .ButtonStyle {
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  font-size: 21px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #402a20;
+  background-color:#eab344;
+  height: 48px;
+  width: 200px;
+  text-align: center;
+  display: block;
+  border: solid 4px #402a20;
+  border-radius: 48px;
+  margin: 0 auto;
+}
+
+#MemoryGamePlayground .ButtonStyle:hover {
+  background-color: #ffd258;
+}
+
+#MemoryGamePlayground .StartResumeScreen {
+	text-align: center;
+	border-radius: 14px;
+	padding: 30px;
+	vertical-align: middle; 
+	background: #e21833;
+	overflow:hidden;
+  position: relative;
+  width: 500px;
+  z-index: 3;
+}
+
+#MemoryGamePlayground #welcomeScreen {
+  margin: 156px auto 0 auto;
+}
+
+#MemoryGamePlayground #ResumeButtonDiv {
+  margin: 168px auto 0 auto;
+}
+
+#MemoryGamePlayground #spin {
+  position: relative;
+  top: 50%;
+  bottom: 10px;
+  margin: 0 auto;
+}
+
+#MemoryGamePlayground .GoToHighScore {
+  margin-top: 30px;
+}
+
+#MemoryGamePlayground #BorderTop {
+  background-color: #e21833;
+  position: relative;
+  width: 99%;
+  margin: 0.5% 0.5% 0 0.5%;
+  display: inline-block;
+  padding: 4px 0 4px 0;
+}
+
+#MemoryGamePlayground .UIDiv {
+  float: left;
+  position: relative;
+  vertical-align: center;
+  height: 48px;
+  padding: 0 0 0 45px;
+}
+
+#MemoryGamePlayground #PauseButtonDiv {
+  padding: 0 0 0 15px;
+}
+
+#MemoryGamePlayground .UIDiv p {
+  margin: 11.5px 0 0 0;
+  color: #ffffff;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  font-weight: bold; 
+  font-size: 20px;
+}
+
+#MemoryGamePlayground #ButtonPause {
+  margin: 0;
+}
+
+#MemoryGamePlayground .HUDs {
+	color: #ffffff; 
+	text-align: center;
+	border-radius: 14px;
+	padding: 20px;
+	vertical-align: middle; 
+	background: #e21833; 
+	overflow:hidden;
+  position: relative;
+  z-index: 3;
+  width: 500px;
+}
+
+#MemoryGamePlayground .TextArea {
+  color: #ffffff;
+  font-size: 20px;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+}
+
+#MemoryGamePlayground #MessageHUD {
+  margin: 156px auto 0 auto;
+
+}
+
+#MemoryGamePlayground #NameEnterHUD {
+  margin: 125px auto 0 auto;
+}
+
+#MemoryGamePlayground #Leveldiv {
+  font-size: 70px;
+  margin: 228.5px auto 0 auto;
+}
+
+#MemoryGamePlayground #HighscoreHUD {
+  margin: 31px auto 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#MemoryGamePlayground #inputBox {
+  -WEBKIT-USER-SELECT: text;
+  position: relative;
+  height: 80px;
+  width: 99%;
+  border-radius: 48px;
+  text-align: center;
+  font-size: 30px;
+  Border: none;
+  outline: none;
+}
+
+#MemoryGamePlayground .HighscoreHeadline {
+  -webkit-text-stroke: 1px black;
+  font-size: 40px;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  padding-bottom: 20px;
+}
+
+#MemoryGamePlayground #Top10 {
+  width: 100%;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  background-color: #9B1224;
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 4px 0;
+}
+
+#MemoryGamePlayground .HighscoreFooter {
+  margin-top: 20px;
+}
+
+#MemoryGamePlayground #Highscore0 { 
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  padding: 4px 0 4px 20px;
+  font-size: 15px;
+  text-align: left;
+  color: #FFFFFF;
+}
+
+#MemoryGamePlayground #Highscore1 {
+  background: #C8172E;
+  font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+  padding: 4px 0 4px 20px;
+  font-size: 15px;
+  text-align: left;
+  color: #FFFFFF;
+}
+
+/*
+ * Media Querys
+ */
+
+/*MOBILE LANDSCAPE*/
+@media only screen 
+and (min-width: 1px) 
+and (max-width: 999px){
+  #MemoryGamePlayground {
+    width: 100%;
+    height: 80%;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #MemoryGamePlayground .GroupDiv {
+    height: 100%;
+  }
+  
+  #MemoryGamePlayground .ButtonStyle {
+    font-family: Helvetica Neue, Helvetica Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: bold;
+    width: 70px;
+    height: 30px;
+  }
+  
+  #MemoryGamePlayground .UIDiv {
+    font-size: 9px;
+    padding: 0 0 0 5px;
+    height: 30px;
+  }
+  
+   #MemoryGamePlayground .UIDiv p {
+    font-size: 9px;
+
+  }
+  
+  #MemoryGamePlayground .StartResumeScreen {
+    width: 200px;
+    margin: 40px auto;
+  }
+  
+  #MemoryGamePlayground #welcomeScreen {
+  margin: 35px auto 0 auto;
+  }
+  
+  #MemoryGamePlayground #ResumeButtonDiv {
+  margin: 40px auto 0 auto;
+  }
+  
+  #MemoryGamePlayground .HUDs {
+    padding: 20px;
+    width: 250px;
+  }
+  
+  #MemoryGamePlayground #MessageHUD {
+    margin: 50px auto 0 auto;
+  }
+  
+  #MemoryGamePlayground #NameEnterHUD {
+    margin: 30px auto;
+  }
+  
+  #MemoryGamePlayground #HighscoreHUD {
+    margin: 0px auto;
+    padding: 10px 0;
+  }
+  
+  #MemoryGamePlayground #Leveldiv {
+    font-size: 50px;
+    margin: 80px auto;
+  } 
+  
+  #MemoryGamePlayground #inputBox {
+  height: 40px;
+  Font-size: 15px;
+  }
+  
+   #MemoryGamePlayground .HighscoreHeadline {
+    padding: 0;
+    font-size: 20px;
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+  }
+  
+  #MemoryGamePlayground .GoToHighScore {
+    margin-top: 10px;
+  }
+  
+  #MemoryGamePlayground .TextArea {
+    font-size: 15px;
+  }
+  
+  #MemoryGamePlayground #Top10 {
+  font-size: 12px;
+  }
+  
+  #MemoryGamePlayground #Highscore0, #MemoryGamePlayground #Highscore1 {
+    font-size: 10px;
+    padding: 2px 0;
+  }
+  
+  #MemoryGamePlayground .Cards {
+    position: absolute;
+    width: 104; 
+    height: 104;
+  }
+}
+
+/*1024PX SCREEN*/
+@media only screen and (min-width: 1000px) and (max-width: 1599px) {
+  #MemoryGamePlayground {
+    width: 1000px; 
+    height: 560px; 
+  }
+  
+  #MemoryGamePlayground #MessageHUD {
+    margin: 64px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #NameEnterHUD {
+    margin: 125px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #Leveldiv {
+    margin: 153.5px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #HighscoreHUD {
+    margin: 60px auto 0 auto;
+  }
+  
+  #Highscore0 {
+    display: inline-block;
+    width: 40%;
+  }
+  
+  #Highscore1 {
+    display: inline-block;
+    width: 40%;
+    
+  }
+  
+  #MemoryGamePlayground #welcomeScreen {
+  margin: 64px auto 0 auto;
+  }
+
+  #MemoryGamePlayground #ResumeButtonDiv {
+    margin: 93px auto 0 auto;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

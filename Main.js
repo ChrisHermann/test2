@@ -386,7 +386,6 @@ $(function(){
     //Append the needed containers.
     $("#MessageHUD").show();
     $("#BlurEffect").show();
-    $("#MessageButton").show();
     $("#GFXG").hide();
     
     $("#MessageTitle").html(TitleMessage);

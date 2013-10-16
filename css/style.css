@@ -2,7 +2,6 @@
  * @file
  * The Style Sheet
  */
-
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +10,26 @@
   -MOZ-USER-SELECT: NONE; /* FIREFOX */
   -MS-USER-SELECT: NONE; /* IE */
   USER-SELECT: NONE; /* CSS3 */
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+#header {
+  height: 80px;
+  width: 100%;
+  background-color: #00FF00;
+}
+
+#footer {
+  height: 80px;
+  width: 100%;
+  background-color: #00FF00;
 }
 
 .image{
@@ -241,12 +260,7 @@ and (min-width: 1px)
 and (max-width: 999px){
   #MemoryGamePlayground {
     width: 100%;
-    height: 80%;
-  }
-  
-  html, body {
     height: 100%;
-    width: 100%;
   }
   
   #MemoryGamePlayground .GroupDiv {

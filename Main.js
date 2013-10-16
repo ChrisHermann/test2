@@ -230,7 +230,7 @@ $(function(){
    */
  // if (AppleDetect[0,0] != "iPad" || AppleDetect[0,0] == "Macintosh" || AppleDetect[0,0] == "iPhone") {
     //BackgroundMusic = createjs.Sound.createInstance("./music.mp3");
-    FlipCardSound = createjs.Sound.createInstance("sound/flipcard.wav");
+    FlipCardSound = createjs.Sound.createInstance("./flipcard.wav");
   //}
   
   //Loads the normal card faces
@@ -313,7 +313,7 @@ $(function(){
       $("#welcomeScreen").hide();
       $("#welcomeScreen").hide();
       
-      ShowMessage("Titel","sdsdsdsdsdas asd asd as asd as dasd as asd as sd as a das das das d asdae3r wet trhtrh trhyhtrh tr h trfh tfgh dfgh ftrhft dfhdfh dfgf h dfh dfdfh hdf ery wy trtrht th"," fg fg fgfgf gffgfg");
+      ShowMessage("sdsdsd", "sdsdsd", "sdsdsd");
       
     //Create the first level.
     CreateLevel();
@@ -350,7 +350,6 @@ $(function(){
   //var BackgroundImage = ImageManagerObject.LoadMisc("BG.png");
   
   //Sets the amount of bonus cards loaded.
-  //TODO: MOVE
   BONUSES = 4;
 
   //Check what kind of eventlisteners the browser supports. and apply them the correct way.
@@ -437,7 +436,6 @@ $(function(){
     
     //Since the amount of cards has changed, calls the resized function.
     Resized();
-    ForEachCard(function() {$(this).show()});
     
     //Setup Card data so they can be reached randomly
     var CardDataArray = new Array();
@@ -462,6 +460,7 @@ $(function(){
       CardDataArrayTwo[i] = DeckManagerObject.GetRandomBonus();
     };
     
+    
     //Creates the Deckmanager for this level.
     DeckManagerObject.Create(CardDataArray, CardDataArrayTwo);
     
@@ -477,10 +476,11 @@ $(function(){
 
         
       //Add the actual card to the playground, we spawn them in a responsive way based on the resolution of the game.
-      
+      $("#Img_"+i).load(function() {
+        $(this).parent().width($(this).width());
+      });
       $("#Img_"+i).attr("src", ImageManagerObject.GetBack());
-      console.log(SpaceY );
-      $("#"+name).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - CARDSIZEX/2*Scale + LastYOff * ( i>= (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , top: Math.floor( i / (Math.ceil(NumberOfCards)) ) * SpaceY + SpaceY - CARDSIZEY/2*Scale });
+      $("#"+name).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * ( i>= (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ) , top: Math.floor( i / (Math.ceil(NumberOfCards)) ) * SpaceY + SpaceY - 152 });
 
       //Create the actual class for the card, this will add logic to the object.
       var Current = $("#"+name)[0];
@@ -576,16 +576,13 @@ $(function(){
       });
     }
   }
-  
-  
-  $( window  ).resize(function() { Resized() });
+ 
+
   /**
    * Resizing Event
    */
   function Resized(){  
     //Calculates the screen ratio, so we can organize the deck in a manner that makes sense to the ratio.
-    PLAYGROUND_HEIGHT = $("#MemoryGamePlayground").height();
-    PLAYGROUND_WIDTH = $("#MemoryGamePlayground").width();
     Ratio = PLAYGROUND_WIDTH/PLAYGROUND_HEIGHT;
     Ratio = (Ratio+1)/2;
     
@@ -649,13 +646,10 @@ $(function(){
       var Card = $("#Card_"+i)
       
       if (Card.length>0 && Card[0].Cards){
-        Card[0].Cards.scale = Scale;
-        $(Card).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - CARDSIZEX/2*Scale + LastYOff * ( i>= (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ), top: Math.floor( i / (Math.ceil(NumberOfCards)) ) * SpaceY + SpaceY - CARDSIZEY/2*Scale})
-        $(Card[0]).width(Card[0].Cards.WIDTH * Card[0].Cards.scale);
-        $(Card[0]).height(Card[0].Cards.HEIGHT * Card[0].Cards.scale);
-        Card[0].Cards.image.width(Card[0].Cards.WIDTH * Card[0].Cards.scale);
-        Card[0].Cards.image.height(Card[0].Cards.HEIGHT * Card[0].Cards.scale);
-      }
+      Card[0].Cards.scale = Scale;
+      $(Card).css({left: (i%(Math.ceil(NumberOfCards))) *SpaceX + SpaceX - 104 + LastYOff * ( i>= (LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus) - ((LevelManagerObject.NumberOfCards + LevelManagerObject.NumberOfCardsBonus)%(Math.ceil(NumberOfCards))) ), top: Math.floor( i / (Math.ceil(NumberOfCards)) ) * SpaceY + SpaceY - 152})
+      $(Card).show();
+       }
     }
     
     //Calculate how much space is in between hte buttons.
@@ -786,10 +780,10 @@ $(function(){
           LineTextSize = 100;
         /*}*/
         if (i % 2 == 0){
-          Line+="<p id='Highscore0'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+" points</p>";
+          Line+="<p id='Highscore0'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         }
         else{
-          Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+" points</p>";
+          Line+="<p id='Highscore1'>"+(i+1)+". "+Scores[i].name+" - "+Scores[i].score+"</p>";
         }
       }
       $("#Lines").html(Line);
@@ -839,7 +833,6 @@ $(function(){
   
   Step = function(){
     //Calcualte how many miliseconds passed since last frame, to get smoother animations.
-    //Resized();
     Now = new Date().getTime();
     Delta = Now - Then;
     if (GameStart && !Paused && !ShowingMessage){

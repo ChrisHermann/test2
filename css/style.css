@@ -12,24 +12,33 @@
   USER-SELECT: NONE; /* CSS3 */
 }
 
-html {
+html, body {
   height: 100%;
 }
 
-body {
-  min-height: 100%;
-}
-
 #header {
-  height: 80px;
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  border-top: 1px solid #3e3e3e;
+  text-align: left;
+  border-bottom: 1px solid #111;
+  background: #252525;
+  color: #FFFFFF;
   width: 100%;
-  background-color: #00FF00;
+  z-index: 3;
 }
 
 #footer {
-  height: 80px;
+  display: block;
+  clear: both;
+  text-align: left;
+  margin: 0 auto;
+  background: #252525;
+  font: normal 14px/19px "helvetica neue",helvetica,arial,verdana,sans-serif;
+  color: #FFFFFF;
   width: 100%;
-  background-color: #00FF00;
+  z-index: 3;
 }
 
 .image{
@@ -93,6 +102,7 @@ body {
 
 #MemoryGamePlayground .ButtonStyle:hover {
   background-color: #ffd258;
+  cursor: pointer;
 }
 
 #MemoryGamePlayground .StartResumeScreen {
@@ -260,7 +270,10 @@ and (min-width: 1px)
 and (max-width: 999px){
   #MemoryGamePlayground {
     width: 100%;
+    min-width: 320px;
+    height: auto;
     height: 100%;
+    min-height: 480px;
   }
   
   #MemoryGamePlayground .GroupDiv {

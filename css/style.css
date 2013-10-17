@@ -94,6 +94,7 @@
   border: solid 4px #402a20;
   border-radius: 48px;
   margin: 0 auto;
+  outline: none;
 }
 
 #MemoryGamePlayground .ButtonStyle:hover {
